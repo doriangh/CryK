@@ -1,0 +1,2 @@
+# CryK
+Cryptocurrency Knowledge Manager
