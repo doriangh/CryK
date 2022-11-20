@@ -71,6 +71,11 @@
             </section>
             <section>
                 <h2>1.0 CRYK overview</h2>
+                <figure id="fig1">
+                    <img src="https://raw.githubusercontent.com/doriangh/CryK/main/technical_report/diagrams/cryk_overview.jpg">
+                        <figcaption>fig. 1</figcaption>
+                    </figure>
+                    <p>&nbsp;</p>
                 <section>
                     <h3>1.1 Service overview</h3>
                     The CRYK service handles requests over an http connection. Over this connection authenticated clients can view queried resources rendered in html format. The frontend service handles delivery of static assets (html, css, js) and forwarding the queries to the backend client service. The backend client service acts both as a control and data plane, performing both request redirecting and forwarding  to each coresponding microservice. The backend services will be resposible with providing data regarding RDF resources, a solution for price live updating on the frontend and price history data. In order to do so we distinguish the following microservies.
