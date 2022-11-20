@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="enlgish">
+<head>
+    <style type="text/css">
+        body {
+            width: 7in;
+            height: 9.25in;
+            margin: 27mm 16mm 27mm 16mm;
+        }
+    </style>
+    <meta charset="utf-8">
+    <title>Beverage Manager technical report</title>
+</head>
+
+<article>
+    <header>
+        <h1>Beverage Manager technical report</h1>
+        <div role="contentinfo">
+            <section typeof="sa:AuthorsList">
+                <h2>Contributors</h2>
+                <ul>
+                    <li typeof="sa:ContributorRole" property="schema:author">
+              <span typeof="schema:Person">
+                <meta property="schema:givenName" content="Adrian">
+                <meta property="schema:familyName" content="Hamod">
+                <span property="schema:name">Adrian Hamod</span>
+              </span>
+                        <ul>
+                            <li property="schema:roleContactPoint" typeof="schema:ContactPoint">
+                                <a href="mailto:adrianhamod@gmail.com" property="schema:email"> adrianhamod@gmail.com
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li typeof="sa:ContributorRole" property="schema:author">
+              <span typeof="schema:Person">
+                <meta property="schema:givenName" content="Dorian">
+                <meta property="schema:additionalName" content="Gheorghe">
+                <meta property="schema:familyName" content="Olărescu">
+                <span property="schema:name">Dorian Olărescu</span>
+              </span>
+                        <ul>
+                            <li property="schema:roleContactPoint" typeof="schema:ContactPoint">
+                                <a href="mailto:dorian.olarescu@gmail.com" property="schema:email"> dorian.olarescu@gmail.com
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h2>License and copyright</h2>
+                <h3>
+                    <a href="https://creativecommons.org/licenses/by/4.0/" property="schema:license" typeof="CreativeWork">License</a>
+                    </h3>
+                        <div property="schema:copyrightYear"></div>
+                        <h3>Copyright</h3>
+                        <ul>
+                            <li property="schema:copyrightYear">2021</li>
+                            <li property="schema:copyrightHolder" typeof="schema:Organization">
+                                Facultatea de Informatică - Universitatea Alexandru Ioan Cuza
+                            </li>
+                        </ul>
+            </section>
+            <section typeof="sa:Abstract">
+                <h2>Abstract</h2>
+                This report details the technical aspects of building a web application
+                on top of an ontological model describing the cryptocurrencies ecosystem.
+                The application is best described as a broker of cryptocurrency knowledge which will internally manage static metadata about electronic coins and blockchain and model said data using RDF format. The application aims to vend a cross between a classic broker service - which includes a user inteface displaying coins with their respective price updated frequently and search/filtering features - and a SPARQL service, thus resources described in the RDF model will have both a dedicated URI under the application domain behind the /resource path and a humad redable document accessed thorugh the /page path. On top of price live tracking and search features, the application will include charts consisting of price plots and other visualizations of interest.
+                The report showcases topics such as internal data structures, linked data principles, technologies used, cost of infrastructure, SLAs. For convinience, in the following sections we will reffer to the application as CRYK - abvreviation for Cryptocurrency Knowledge Manager, title of the project and application.
+            </section>
+            <section>
+                <h2>1.0 CRYK overview</h2>
+                <section>
+                    <h3>1.1 Service overview</h3>
+                    The CRYK service handles requests over an http connection. Over this connection authenticated clients can view queried resources rendered in html format. The frontend service handles delivery of static assets (html, css, js) and forwarding the queries to the backend client service. The backend client service acts both as a control and data plane, performing both request redirecting and forwarding  to each coresponding microservice. The backend services will be resposible with providing data regarding RDF resources, a solution for price live updating on the frontend and price history data. In order to do so we distinguish the following microservies.
+                    <section>
+                        <h4>1.1.1 Crypto metadata service</h4>
+                        The metadata service will consist in a GraphQL endpoint executing queries over a triple store. The triple store will use a solution such as Apache Jena to expose cryptocurrencies metadata expressed as triples over a SPARQL connection. This service will be based on <a href="https://www.hypergraphql.org/"> HyperGraphQL </a> which is a java implementation of a GraphQL interface used for querying and serving linked data. HyperGraphQL is a solution designed to use GraphQL query language and schema and offer support for federated querying which will enable the client service to call it directly. The response format served by HyperGraphQL is conviniently JSON-LD. The HyperGraphQL project vends an executable java jar which consumes a configuration consisting in a graphql schema for the to be queried data and additional metadata describing where the data can be found such as an address for the SPARQL endpoint which will serve the data. When executed, the jar spins up a GraphQL server that can be used for query delegation.   
+                    </section>
+                    <section>
+                        <h4>1.1.2 Crypto price catalog service</h4>
+                        Since the price of cryptocurrencies is frequently updated, the coin models will not express the value of the price in the RDF graph. A dedicated key value storage such as MongoDB or Redis will be used to store the prices of the coins described in the RDF model over a period of time. The period of time will be exactly the maximum length of time the charts interface will allow users to select when plotting data. A cron scheduled script will be tasked with updating the prices. The script will run periodically on the same host as the storage instance and will request data from a trusted data source service which vends it. A popular solution for serving crypto data such as prices is <a href="https://coinmarketcap.com/api/"> CoinMarketCap </a>, which offer a range of APIs and more or less flexible priced packages based on number of calls.
+                    </section>
+                    <section>
+                        <h4>1.1.3 Price catalog client service</h4>
+                        In order to fetch the data from the price storage a thin data access layer will be implemented on top of the catalog service. On top of query delegation, the price catalog client service will handle authentication and authorization and will act as a point of throughput control by adjusting TPS thresholds and providing application level caching of data. The auth and TPS control can be managed via API gateway like services such as <a href="https://aws.amazon.com/api-gateway/"> Amazon API Gateway </a> or any other solution. The implmentation of the service will be based on Springboot and Hibernate. Hibernate will act both as an ORM and a solution for providing L1 and L2 cache levels which will in turn provide additional backpressure, to the benefit of the storage instace. 
+                    </section>
+                    <section>
+                        <h4>1.1.4 Price notifier websocket service</h4>
+                        The price notifier service will consist in a websocket server which will vend the latest updated prices via websockets. The websockets will enable the frontend to display the latest prices without refreshing the page, to the benefit of the user. Several pub/sub solutions are documented on the web describing how to implement websocket servers that hook into systems suchs as MongoDB or Redis and act as a data plane for forwarding the data to a client via websockets. The intention is to find the most suitable solution for the final product.    
+                    </section>
+                </section>
+                <section>
+                    <h3>1.2 Internal data representation</h3>
+                    #### TO BE UPDATED
+                </section>
+                <section>
+                    <h3>1.3 Internal storage</h3>
+                    #### TO BE UPDATED
+                </section>
+                <section>
+                    <h3>1.4 Linked data principles</h3>
+                    We can outline several ideas mentioned above that describe the linked data feature of the application. Stored data is available on the web through the use of an HTTP connection. The ontology resources are described through unique URIs. The internal data is modelled in RDF triple format and the output is in JSON-LD representation. Outputted resources include links to other internal resources to which they describe relations. This linking is done through metadata links to those resources. This linking can be further improved through querying/merging external data available in other public stores such as DBPedia
+                </section>
+            </section>
+            <section>
+                <h2>2.0 Technologies used</h2>
+                <section>
+                    <h3 id="designAndArchitecture">2.1 Design and architecture</h3>
+                    A general architecture of the application and preliminary design considerations
+                    are available in the <a href="https://github.com/AdrianHamod/BeverageManager/tree/main/architecture">project repository</a>. This includes a diagram describing the service oriented architecture, preliminary UML representation of the backend service, GraphQL schema and descriptions of the application flow, query service and end client use cases.
+                </section>
+                <section>
+                    <section>
+                        <h4>2.1.1 Angular</h4>
+                        Angular was our choice as the platform for building the user interface of the application. It is a platform and framework for building single-page web applications using modern web platform capabilities delivering high performance, offline and zero-step installation.
+                        Single-Page Applications (or SPAs) refer to the application being dynamic, that is, when a user navigates the app, no page reloading is happening, but the data is received and sent back to the server, but the app itself does not load new pages from the server every time there is some action happening.
+                    </section>
+                    <section>
+                        Angular is considered by many a 'default' front-end tool and some of the reasons are because it is very versatile, has the ability of combining business logic and UI elements offering a lot of features that help to scale, optimize and speed up web applications.
+                        It includes numerous structural elements like Injectors, Components, Directives, Pipes, Services, etc. that raise the complexity of Angular as a platform, but creates high quality applications as a result.
+                        Some other benefits of using Angular are its very detailed documentation, two-way data binding that allows apps to update in real time if the binding source has changed (the backing value), differential loading that allow creating of two kinds of bundles, one for modern browsers that support ES2015+, and another one for older ones that support ES5 making the app more efficient and speedy by loading less code and polyfills.
+                        And finally, it was created by Google, so it has its support with small updates every 6 months, gradually improving the framework.
+                    </section>
+                    <section>
+                        For our use-case, Angular helps with providing a solid web application, that can easily support very large amounts of data, while being fast and responsive, with a minimal footprint.
+                        Using Angular with Spring was a very easy choice since the two form a powerful combination. One such benefit it has the controls necessary for displaying complex lists of data, with two way binding allowing for the UI to receive data from the API, but also send UI updates to the API, such as when you click to rate, the rate controller is already bound to a value that, when changed, updates it at API level.
+                    </section>
+                </section>
+                <section>
+                    <h4>2.1.2 Spring</h4>
+                    We have chosen to use Spring to develop a solid backend for our app. It is the most popular application framework for Java. It provides a comprehensive programming and configuration model as well as great support for a SOA architecture with microservices.
+                    Spring also offers spring-boot which is an easy solution to make stand-alone, production-grade Spring applications that can just be run with metrics, health checks and externalized configuration with no code generation and no XML configuration requirement.
+                    Spring uses servlets behind the scenes, which are based upon a low-level API for handling requests and responses. That means that every part of the web api flow is made much easier, from returning a JSON using @ResponseBody to RESTful URLs, input validation, form data binding to object and much much more.
+                    It is also multithreaded, supporting asynchronous request processing where, instead of returning a value, the controller method can return a Callable object and produce the return value from a separate thread, while the main Servlet container thread is released and ready to process other requests. It does so using the TaskExecutor and when the Callable object returns, the request is dispatched back to the Servlet container to resume processing with the value returned by the Callable.
+                    In our case, using Spring and Spring-Boot kickstarts our project by having ready-made project templates, easy Angular support, by exposing controllers through API Gateway and rich documentation for AWS integration. It is a strong foundation for any size the app could reach.
+                </section>
+                <section>
+                        <h4>2.2.3 API Gateway</h4>
+                        API Gateway is a service for managing API routing at service level as opposed to how popular web frameworks manage API routing at application domain level. What this means is requests are handled by central unit which resolves the service appropirate to delegate the request to. This is particularly useful in service oriented architectures where microservices are standalone applications and require an orchestration logic for the application flow to be implemented.
+                        API Gateway, being the application entry point, can conveniently handle authorization. We opt for using a 3rd party JWT authorizer which we directly integrate with API Gateway. Thus, once authenticated using the application internal logic, we can delegate authorization to API Gateway and authorize requests based on a speciffic header value.
+                        Lastly, we use API Gateway to manage throttling. Managing thortling at service level and delegating it to a trusted 3rd party such as AWS puts aside the operational burden of using intercepetor classes at the framework level with a proprietary implementation which must be maintained and tested.
+                </section>
+                <section>
+                        <h4>2.2.3 Elastic Container Service</h4>
+                        The mentioned load balancer front faces an ECS cluster. Amazon ECS is a fully managed container orchestration service with the purpose of easing deployment, service and resources management and scaling. What makes deployments easier is the fact that the ECS cluster is a hybrid enironment in regards to the runtimes and types of applications deployed. Elastic container registry is a service like feature integrated with ECS with the purpose of centralizing docker images used in deployment. We use ECS to deploy the frontend service, the authentication service and the query backend service in sepparate containers. ECS allows us to customize the host resources of each service, which helps with optimizing resource allocation. This also means that each type of service is scaled individually with respect to each container traffic load and each custom setting configured prior to deployment.
+                        In addition to the scaling feature, Amazon also provides it's own on demand serverless containers to use with ECS. ECS with Fargate is the managed AWS alternative to using Kubernetes. The main advantage for us in using Fargate is that there are no upfront expenses since it follows the pay for only what you use paradigm.
+                </section>
+            </section>
+        </div>
+    </header>
+</article>
+</html>
