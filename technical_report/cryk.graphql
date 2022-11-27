@@ -285,7 +285,7 @@ type Transaction {
     version: String
 }
 
-type Query{
+type Query {
 
     getBlock(hash: String): Block
 
@@ -302,7 +302,7 @@ type Query{
     getCryptocurrencies: [Cryptocurrency]
 }
 
-type Mutation{
+type Mutation {
     #Add a cryptocurrency
     addCryptocurrency(cryptocurrency: Cryptocurrency!): Cryptocurrency
     #Update a cryptocurrency
