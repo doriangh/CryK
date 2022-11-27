@@ -9,12 +9,12 @@
         }
     </style>
     <meta charset="utf-8">
-    <title>Beverage Manager technical report</title>
+    <title>Cryptocurrency Knowledge Manager technical report</title>
 </head>
 
 <article>
     <header>
-        <h1>Beverage Manager technical report</h1>
+        <h1>Cryptocurrency Knowledge Manager technical report</h1>
         <div role="contentinfo">
             <section typeof="sa:AuthorsList">
                 <h2>Contributors</h2>
@@ -78,7 +78,7 @@
                     <p>&nbsp;</p>
                 <section>
                     <h3>1.1 Service overview</h3>
-                    The CRYK service handles requests over an http connection. Over this connection authenticated clients can view queried resources rendered in html format. The frontend service handles delivery of static assets (html, css, js) and forwarding the queries to the backend client service. The backend client service acts both as a control and data plane, performing both request redirecting and forwarding  to each coresponding microservice. The backend services will be resposible with providing data regarding RDF resources, a solution for price live updating on the frontend and price history data. In order to do so we distinguish the following microservies.
+                    The CRYK service handles requests over an http connection. Over this connection clients can view queried resources rendered in html format. The frontend service handles delivery of static assets (html, css, js) and forwarding the queries to the backend client service. The backend client service acts both as a control and data plane, performing both request redirecting and forwarding  to each coresponding microservice. The backend services will be resposible with providing data regarding RDF resources, a solution for price live updating on the frontend and price history data. In order to do so we distinguish the following microservies.
                     <section>
                         <h4>1.1.1 Crypto metadata service</h4>
                         The metadata service will consist in a GraphQL endpoint executing queries over a triple store. The triple store will use a solution such as Apache Jena to expose cryptocurrencies metadata expressed as triples over a SPARQL connection. This service will be based on <a href="https://www.hypergraphql.org/"> HyperGraphQL </a> which is a java implementation of a GraphQL interface used for querying and serving linked data. HyperGraphQL is a solution designed to use GraphQL query language and schema and offer support for federated querying which will enable the client service to call it directly. The response format served by HyperGraphQL is conviniently JSON-LD. The HyperGraphQL project vends an executable java jar which consumes a configuration consisting in a graphql schema for the to be queried data and additional metadata describing where the data can be found such as an address for the SPARQL endpoint which will serve the data. When executed, the jar spins up a GraphQL server that can be used for query delegation.   
@@ -89,7 +89,7 @@
                     </section>
                     <section>
                         <h4>1.1.3 Price catalog client service</h4>
-                        In order to fetch the data from the price storage a thin data access layer will be implemented on top of the catalog service. On top of query delegation, the price catalog client service will handle authentication and authorization and will act as a point of throughput control by adjusting TPS thresholds and providing application level caching of data. The auth and TPS control can be managed via API gateway like services such as <a href="https://aws.amazon.com/api-gateway/"> Amazon API Gateway </a> or any other solution. The implmentation of the service will be based on Springboot and Hibernate. Hibernate will act both as an ORM and a solution for providing L1 and L2 cache levels which will in turn provide additional backpressure, to the benefit of the storage instace. 
+                        In order to fetch the data from the price storage a thin data access layer will be implemented on top of the catalog service. On top of query delegation, the price catalog client service will act as a point of throughput control by adjusting TPS thresholds and providing application level caching of data. The TPS control can be managed via API gateway like services such as <a href="https://aws.amazon.com/api-gateway/"> Amazon API Gateway </a> or any other solution. The implmentation of the service will be based on Springboot and Hibernate. Hibernate will act both as an ORM and a solution for providing L1 and L2 cache levels which will in turn provide additional backpressure, to the benefit of the storage instace. 
                     </section>
                     <section>
                         <h4>1.1.4 Price notifier websocket service</h4>
@@ -114,7 +114,7 @@
                 <section>
                     <h3 id="designAndArchitecture">2.1 Design and architecture</h3>
                     A general architecture of the application and preliminary design considerations
-                    are available in the <a href="https://github.com/AdrianHamod/BeverageManager/tree/main/architecture">project repository</a>. This includes a diagram describing the service oriented architecture, preliminary UML representation of the backend service, GraphQL schema and descriptions of the application flow, query service and end client use cases.
+                    are available in the <a href="https://github.com/doriangh/CryK/tree/main/technical_report">project repository</a>. This includes a diagram describing the service oriented architecture, preliminary UML representation of the backend service, GraphQL schema and descriptions of the application flow, query service and end client use cases.
                 </section>
                 <section>
                     <section>
@@ -144,12 +144,11 @@
                 <section>
                         <h4>2.2.3 API Gateway</h4>
                         API Gateway is a service for managing API routing at service level as opposed to how popular web frameworks manage API routing at application domain level. What this means is requests are handled by central unit which resolves the service appropirate to delegate the request to. This is particularly useful in service oriented architectures where microservices are standalone applications and require an orchestration logic for the application flow to be implemented.
-                        API Gateway, being the application entry point, can conveniently handle authorization. We opt for using a 3rd party JWT authorizer which we directly integrate with API Gateway. Thus, once authenticated using the application internal logic, we can delegate authorization to API Gateway and authorize requests based on a speciffic header value.
                         Lastly, we use API Gateway to manage throttling. Managing thortling at service level and delegating it to a trusted 3rd party such as AWS puts aside the operational burden of using intercepetor classes at the framework level with a proprietary implementation which must be maintained and tested.
                 </section>
                 <section>
                         <h4>2.2.3 Elastic Container Service</h4>
-                        The mentioned load balancer front faces an ECS cluster. Amazon ECS is a fully managed container orchestration service with the purpose of easing deployment, service and resources management and scaling. What makes deployments easier is the fact that the ECS cluster is a hybrid enironment in regards to the runtimes and types of applications deployed. Elastic container registry is a service like feature integrated with ECS with the purpose of centralizing docker images used in deployment. We use ECS to deploy the frontend service, the authentication service and the query backend service in sepparate containers. ECS allows us to customize the host resources of each service, which helps with optimizing resource allocation. This also means that each type of service is scaled individually with respect to each container traffic load and each custom setting configured prior to deployment.
+                        The mentioned load balancer front faces an ECS cluster. Amazon ECS is a fully managed container orchestration service with the purpose of easing deployment, service and resources management and scaling. What makes deployments easier is the fact that the ECS cluster is a hybrid enironment in regards to the runtimes and types of applications deployed. Elastic container registry is a service like feature integrated with ECS with the purpose of centralizing docker images used in deployment. We use ECS to deploy the frontend service and the query backend service in sepparate containers. ECS allows us to customize the host resources of each service, which helps with optimizing resource allocation. This also means that each type of service is scaled individually with respect to each container traffic load and each custom setting configured prior to deployment.
                         In addition to the scaling feature, Amazon also provides it's own on demand serverless containers to use with ECS. ECS with Fargate is the managed AWS alternative to using Kubernetes. The main advantage for us in using Fargate is that there are no upfront expenses since it follows the pay for only what you use paradigm.
                 </section>
             </section>

@@ -1,118 +1,118 @@
 type __Context {
-  Person:                                 _@href(iri: "http://xmlns.com/foaf/0.1/Person")
-  Organization:                           _@href(iri: "http://xmlns.com/foaf/0.1/Organization")
-  Cryptocurrency:                         _@href(iri: "http://purl.org/net/bel-epa/doacc/Cryptocurrency")
-  ElectronicCoin:                         _@href(iri: "http://purl.org/net/bel-epa/ccy/ElectronicCoin")
-  ProtectionScheme:                       _@href(iri: "http://purl.org/net/bel-epa/doacc/ProtectionScheme")
-  BlockChain:                             _@href(iri: "http://purl.org/net/bel-epa/ccy/BlockChain")
-  Block:                                  _@href(iri: "http://purl.org/net/bel-epa/ccy/Block")
-  Block:                                  _@href(iri: "http://purl.org/net/bel-epa/ccy/Transaction")
-  DistributionScheme:                     _@href(iri: "http://purl.org/net/bel-epa/doacc#DistributionScheme")
-  Version:                                _@href(iri: "http://purl.org/net/bel-epa/doacc#Version")
-  Repository:                             _@href(iri: "http://purl.org/net/bel-epa/doacc#Repository")
-  Protocol:                               _@href(iri: "http://purl.org/net/bel-epa/doacc#Protocol")
-  AnyUri:                                 _@href(iri: "http://www.w3.org/2001/XMLSchema#anyUri")
-  TransactionInput:                       _@href(iri: "http://purl.org/net/bel-epa/ccy#TransactionInput")
-  Address:                                _@href(iri: "http://purl.org/net/bel-epa/ccy#Address")
-  DigitalSignature:                       _@href(iri: "http://purl.org/net/bel-epa/ccy#DigitalSignature")
+    Person:                                 _@href(iri: "http://xmlns.com/foaf/0.1/Person")
+    Organization:                           _@href(iri: "http://xmlns.com/foaf/0.1/Organization")
+    Cryptocurrency:                         _@href(iri: "http://purl.org/net/bel-epa/doacc/Cryptocurrency")
+    ElectronicCoin:                         _@href(iri: "http://purl.org/net/bel-epa/ccy/ElectronicCoin")
+    ProtectionScheme:                       _@href(iri: "http://purl.org/net/bel-epa/doacc/ProtectionScheme")
+    BlockChain:                             _@href(iri: "http://purl.org/net/bel-epa/ccy/BlockChain")
+    Block:                                  _@href(iri: "http://purl.org/net/bel-epa/ccy/Block")
+    Block:                                  _@href(iri: "http://purl.org/net/bel-epa/ccy/Transaction")
+    DistributionScheme:                     _@href(iri: "http://purl.org/net/bel-epa/doacc#DistributionScheme")
+    Version:                                _@href(iri: "http://purl.org/net/bel-epa/doacc#Version")
+    Repository:                             _@href(iri: "http://purl.org/net/bel-epa/doacc#Repository")
+    Protocol:                               _@href(iri: "http://purl.org/net/bel-epa/doacc#Protocol")
+    AnyUri:                                 _@href(iri: "http://www.w3.org/2001/XMLSchema#anyUri")
+    TransactionInput:                       _@href(iri: "http://purl.org/net/bel-epa/ccy#TransactionInput")
+    Address:                                _@href(iri: "http://purl.org/net/bel-epa/ccy#Address")
+    DigitalSignature:                       _@href(iri: "http://purl.org/net/bel-epa/ccy#DigitalSignature")
 
-  coin:                                   _@href(iri: "http://purl.org/net/bel-epa/doacc#coin")
-  developer:                              _@href(iri: "http://purl.org/net/bel-epa/doacc#developer")
-  contributor:                            _@href(iri: "http://purl.org/net/bel-epa/doacc#helper")
-  maintainer:                             _@href(iri: "http://purl.org/net/bel-epa/doacc#maintainer")
-  protectionScheme:                       _@href(iri: "http://purl.org/net/bel-epa/doacc#protection-scheme")
-  distributionScheme:                     _@href(iri: "http://purl.org/net/bel-epa/doacc#distribution-scheme")
-  release:                                _@href(iri: "http://purl.org/net/bel-epa/doacc#release")
-  repository:                             _@href(iri: "http://purl.org/net/bel-epa/doacc#repository")
-  tester:                                 _@href(iri: "http://purl.org/net/bel-epa/doacc#tester")
-  translator:                             _@href(iri: "http://purl.org/net/bel-epa/doacc#translator")
-  vendor:                                 _@href(iri: "http://purl.org/net/bel-epa/doacc#vendor")
-  protocol:                               _@href(iri: "http://purl.org/net/bel-epa/doacc#protocol")
-  audience:                               _@href(iri: "http://purl.org/net/bel-epa/doacc#audience")
-  blockReward:                            _@href(iri: "http://purl.org/net/bel-epa/doacc#block-reward")
-  blockTime:                              _@href(iri: "http://purl.org/net/bel-epa/doacc#block-time")
-  confirmations:                          _@href(iri: "http://purl.org/net/bel-epa/doacc#confirmations")
-  dateFounded:                            _@href(iri: "http://purl.org/net/bel-epa/doacc#date-founded")
-  downloadMirror:                         _@href(iri: "http://purl.org/net/bel-epa/doacc#download-mirror")
-  downloadPage:                           _@href(iri: "http://purl.org/net/bel-epa/doacc#download-page")
-  expiration:                             _@href(iri: "http://purl.org/net/bel-epa/doacc#expiration")
-  fileRelease:                            _@href(iri: "http://purl.org/net/bel-epa/doacc#file-release")
-  forum:                                  _@href(iri: "http://purl.org/net/bel-epa/doacc#forum")
-  incept:                                 _@href(iri: "http://purl.org/net/bel-epa/doacc#incept")
-  license:                                _@href(iri: "http://purl.org/net/bel-epa/doacc#license")
-  maturation:                             _@href(iri: "http://purl.org/net/bel-epa/doacc#maturation")
-  premine:                                _@href(iri: "http://purl.org/net/bel-epa/doacc#premine")
-  retargetTime:                           _@href(iri: "http://purl.org/net/bel-epa/doacc#retarget-time")
-  rewardModifier:                         _@href(iri: "http://purl.org/net/bel-epa/doacc#reward-modifier")
-  revision:                               _@href(iri: "http://purl.org/net/bel-epa/doacc#revision")
-  serviceEndpoint:                        _@href(iri: "http://purl.org/net/bel-epa/doacc#service-endpoint")
-  slug:                                   _@href(iri: "http://purl.org/net/bel-epa/doacc#slug")
-  symbol:                                 _@href(iri: "http://purl.org/net/bel-epa/doacc#symbol")
-  totalCoins:                             _@href(iri: "http://purl.org/net/bel-epa/doacc#total-coins")
-  label:                                  _@href(iri: "http://www.w3.org/2000/01/rdf-schema#label")
+    coin:                                   _@href(iri: "http://purl.org/net/bel-epa/doacc#coin")
+    developer:                              _@href(iri: "http://purl.org/net/bel-epa/doacc#developer")
+    contributor:                            _@href(iri: "http://purl.org/net/bel-epa/doacc#helper")
+    maintainer:                             _@href(iri: "http://purl.org/net/bel-epa/doacc#maintainer")
+    protectionScheme:                       _@href(iri: "http://purl.org/net/bel-epa/doacc#protection-scheme")
+    distributionScheme:                     _@href(iri: "http://purl.org/net/bel-epa/doacc#distribution-scheme")
+    release:                                _@href(iri: "http://purl.org/net/bel-epa/doacc#release")
+    repository:                             _@href(iri: "http://purl.org/net/bel-epa/doacc#repository")
+    tester:                                 _@href(iri: "http://purl.org/net/bel-epa/doacc#tester")
+    translator:                             _@href(iri: "http://purl.org/net/bel-epa/doacc#translator")
+    vendor:                                 _@href(iri: "http://purl.org/net/bel-epa/doacc#vendor")
+    protocol:                               _@href(iri: "http://purl.org/net/bel-epa/doacc#protocol")
+    audience:                               _@href(iri: "http://purl.org/net/bel-epa/doacc#audience")
+    blockReward:                            _@href(iri: "http://purl.org/net/bel-epa/doacc#block-reward")
+    blockTime:                              _@href(iri: "http://purl.org/net/bel-epa/doacc#block-time")
+    confirmations:                          _@href(iri: "http://purl.org/net/bel-epa/doacc#confirmations")
+    dateFounded:                            _@href(iri: "http://purl.org/net/bel-epa/doacc#date-founded")
+    downloadMirror:                         _@href(iri: "http://purl.org/net/bel-epa/doacc#download-mirror")
+    downloadPage:                           _@href(iri: "http://purl.org/net/bel-epa/doacc#download-page")
+    expiration:                             _@href(iri: "http://purl.org/net/bel-epa/doacc#expiration")
+    fileRelease:                            _@href(iri: "http://purl.org/net/bel-epa/doacc#file-release")
+    forum:                                  _@href(iri: "http://purl.org/net/bel-epa/doacc#forum")
+    incept:                                 _@href(iri: "http://purl.org/net/bel-epa/doacc#incept")
+    license:                                _@href(iri: "http://purl.org/net/bel-epa/doacc#license")
+    maturation:                             _@href(iri: "http://purl.org/net/bel-epa/doacc#maturation")
+    premine:                                _@href(iri: "http://purl.org/net/bel-epa/doacc#premine")
+    retargetTime:                           _@href(iri: "http://purl.org/net/bel-epa/doacc#retarget-time")
+    rewardModifier:                         _@href(iri: "http://purl.org/net/bel-epa/doacc#reward-modifier")
+    revision:                               _@href(iri: "http://purl.org/net/bel-epa/doacc#revision")
+    serviceEndpoint:                        _@href(iri: "http://purl.org/net/bel-epa/doacc#service-endpoint")
+    slug:                                   _@href(iri: "http://purl.org/net/bel-epa/doacc#slug")
+    symbol:                                 _@href(iri: "http://purl.org/net/bel-epa/doacc#symbol")
+    totalCoins:                             _@href(iri: "http://purl.org/net/bel-epa/doacc#total-coins")
+    label:                                  _@href(iri: "http://www.w3.org/2000/01/rdf-schema#label")
 
-  blockchain:                             _@href(iri: "http://purl.org/net/bel-epa/ccy#blockchain")
-  coinURI:                                _@href(iri: "http://purl.org/net/bel-epa/ccy#coinURI")
-  cryptocurrency:                         _@href(iri: "http://purl.org/net/bel-epa/ccy#cryptocurrency")
-  height:                                 _@href(iri: "http://purl.org/net/bel-epa/ccy#height")
-  nbits:                                  _@href(iri: "http://purl.org/net/bel-epa/ccy#nbits")
-  protocolSpecification:                  _@href(iri: "http://purl.org/net/bel-epa/ccy#protocolSpecification")
-  testnet3:                               _@href(iri: "http://purl.org/net/bel-epa/ccy#testnet3")
-  addrprefix:                             _@href(iri: "http://purl.org/net/bel-epa/ccy#addrprefix")
-  alertPubkeyHex:                         _@href(iri: "http://purl.org/net/bel-epa/ccy#alert-pubkey-hex")
-  allowFree:                              _@href(iri: "http://purl.org/net/bel-epa/ccy#allow-free")
-  checkpointEstimatedTransactions:        _@href(iri: "http://purl.org/net/bel-epa/ccy#checkpoint-estimated-transactions")
-  checkpointTimestamp:                    _@href(iri: "http://purl.org/net/bel-epa/ccy#checkpoint-timestamp")
-  coinbaseMaturity:                       _@href(iri: "http://purl.org/net/bel-epa/ccy#coinbase-maturity")
-  jsonRpcport:                            _@href(iri: "http://purl.org/net/bel-epa/ccy#json-rpcport")
-  maxMoney:                               _@href(iri: "http://purl.org/net/bel-epa/ccy#max-money")
-  minRelayTxFee:                          _@href(iri: "http://purl.org/net/bel-epa/ccy#min-relay-tx-fee")
-  minTxFee:                               _@href(iri: "http://purl.org/net/bel-epa/ccy#min-tx-fee")
-  proofOfWorkLimit:                       _@href(iri: "http://purl.org/net/bel-epa/ccy#proof-of-work-limit")
-  psztimestamp:                           _@href(iri: "http://purl.org/net/bel-epa/ccy#psztimestamp")
-  regtestJsonRpcport:                     _@href(iri: "http://purl.org/net/bel-epa/ccy#regtest-json-rpcport")
-  regtestRpcport:                         _@href(iri: "http://purl.org/net/bel-epa/ccy#regtest-rpcport")
-  regtestSubsidyHalvingInterval:          _@href(iri: "http://purl.org/net/bel-epa/ccy#regtest-subsidy-halving-interval")
-  regtestTargetSpacing:                   _@href(iri: "http://purl.org/net/bel-epa/ccy#regtest-target-spacing")
-  regtestTargetTimespan:                  _@href(iri: "http://purl.org/net/bel-epa/ccy#regtest-target-timespan")
-  rpcport:                                _@href(iri: "http://purl.org/net/bel-epa/ccy#rpcport")
-  scriptAddress:                          _@href(iri: "http://purl.org/net/bel-epa/ccy#script-address")
-  secretKey:                              _@href(iri: "http://purl.org/net/bel-epa/ccy#secret-key")
-  subsidy:                                _@href(iri: "http://purl.org/net/bel-epa/ccy#subsidy")
-  testnetAlertPubkeyHex:                  _@href(iri: "http://purl.org/net/bel-epa/ccy#testnet-alert-pubkey-hex")
-  testnetCheckpointEstimatedTransactions: _@href(iri: "http://purl.org/net/bel-epa/ccy#testnet-checkpoint-estimated-transactions")
-  testnetCheckpointTimestamp:             _@href(iri: "http://purl.org/net/bel-epa/ccy#testnet-checkpoint-timestamp")
-  testnetJsonRpcport:                     _@href(iri: "http://purl.org/net/bel-epa/ccy#testnet-json-rpcport")
-  testnetPubkeyAddress:                   _@href(iri: "http://purl.org/net/bel-epa/ccy#testnet-pubkey-address")
-  testnetRpcport:                         _@href(iri: "http://purl.org/net/bel-epa/ccy#testnet-rpcport")
-  testnetScriptAddress:                   _@href(iri: "http://purl.org/net/bel-epa/ccy#testnet-script-address")
-  testnetSecretKey:                       _@href(iri: "http://purl.org/net/bel-epa/ccy#testnet-secret-key")
-  testnetTargetSpacing:                   _@href(iri: "http://purl.org/net/bel-epa/ccy#testnet-target-spacing")
-  testnetTargetTimespan:                  _@href(iri: "http://purl.org/net/bel-epa/ccy#testnet-target-timespan")
-  testnetTime:                            _@href(iri: "http://purl.org/net/bel-epa/ccy#testnet-time")
+    blockchain:                             _@href(iri: "http://purl.org/net/bel-epa/ccy#blockchain")
+    coinURI:                                _@href(iri: "http://purl.org/net/bel-epa/ccy#coinURI")
+    cryptocurrency:                         _@href(iri: "http://purl.org/net/bel-epa/ccy#cryptocurrency")
+    height:                                 _@href(iri: "http://purl.org/net/bel-epa/ccy#height")
+    nbits:                                  _@href(iri: "http://purl.org/net/bel-epa/ccy#nbits")
+    protocolSpecification:                  _@href(iri: "http://purl.org/net/bel-epa/ccy#protocolSpecification")
+    testnet3:                               _@href(iri: "http://purl.org/net/bel-epa/ccy#testnet3")
+    addrprefix:                             _@href(iri: "http://purl.org/net/bel-epa/ccy#addrprefix")
+    alertPubkeyHex:                         _@href(iri: "http://purl.org/net/bel-epa/ccy#alert-pubkey-hex")
+    allowFree:                              _@href(iri: "http://purl.org/net/bel-epa/ccy#allow-free")
+    checkpointEstimatedTransactions:        _@href(iri: "http://purl.org/net/bel-epa/ccy#checkpoint-estimated-transactions")
+    checkpointTimestamp:                    _@href(iri: "http://purl.org/net/bel-epa/ccy#checkpoint-timestamp")
+    coinbaseMaturity:                       _@href(iri: "http://purl.org/net/bel-epa/ccy#coinbase-maturity")
+    jsonRpcport:                            _@href(iri: "http://purl.org/net/bel-epa/ccy#json-rpcport")
+    maxMoney:                               _@href(iri: "http://purl.org/net/bel-epa/ccy#max-money")
+    minRelayTxFee:                          _@href(iri: "http://purl.org/net/bel-epa/ccy#min-relay-tx-fee")
+    minTxFee:                               _@href(iri: "http://purl.org/net/bel-epa/ccy#min-tx-fee")
+    proofOfWorkLimit:                       _@href(iri: "http://purl.org/net/bel-epa/ccy#proof-of-work-limit")
+    psztimestamp:                           _@href(iri: "http://purl.org/net/bel-epa/ccy#psztimestamp")
+    regtestJsonRpcport:                     _@href(iri: "http://purl.org/net/bel-epa/ccy#regtest-json-rpcport")
+    regtestRpcport:                         _@href(iri: "http://purl.org/net/bel-epa/ccy#regtest-rpcport")
+    regtestSubsidyHalvingInterval:          _@href(iri: "http://purl.org/net/bel-epa/ccy#regtest-subsidy-halving-interval")
+    regtestTargetSpacing:                   _@href(iri: "http://purl.org/net/bel-epa/ccy#regtest-target-spacing")
+    regtestTargetTimespan:                  _@href(iri: "http://purl.org/net/bel-epa/ccy#regtest-target-timespan")
+    rpcport:                                _@href(iri: "http://purl.org/net/bel-epa/ccy#rpcport")
+    scriptAddress:                          _@href(iri: "http://purl.org/net/bel-epa/ccy#script-address")
+    secretKey:                              _@href(iri: "http://purl.org/net/bel-epa/ccy#secret-key")
+    subsidy:                                _@href(iri: "http://purl.org/net/bel-epa/ccy#subsidy")
+    testnetAlertPubkeyHex:                  _@href(iri: "http://purl.org/net/bel-epa/ccy#testnet-alert-pubkey-hex")
+    testnetCheckpointEstimatedTransactions: _@href(iri: "http://purl.org/net/bel-epa/ccy#testnet-checkpoint-estimated-transactions")
+    testnetCheckpointTimestamp:             _@href(iri: "http://purl.org/net/bel-epa/ccy#testnet-checkpoint-timestamp")
+    testnetJsonRpcport:                     _@href(iri: "http://purl.org/net/bel-epa/ccy#testnet-json-rpcport")
+    testnetPubkeyAddress:                   _@href(iri: "http://purl.org/net/bel-epa/ccy#testnet-pubkey-address")
+    testnetRpcport:                         _@href(iri: "http://purl.org/net/bel-epa/ccy#testnet-rpcport")
+    testnetScriptAddress:                   _@href(iri: "http://purl.org/net/bel-epa/ccy#testnet-script-address")
+    testnetSecretKey:                       _@href(iri: "http://purl.org/net/bel-epa/ccy#testnet-secret-key")
+    testnetTargetSpacing:                   _@href(iri: "http://purl.org/net/bel-epa/ccy#testnet-target-spacing")
+    testnetTargetTimespan:                  _@href(iri: "http://purl.org/net/bel-epa/ccy#testnet-target-timespan")
+    testnetTime:                            _@href(iri: "http://purl.org/net/bel-epa/ccy#testnet-time")
 
-  linkin:                                 _@href(iri: "http://purl.org/net/bel-epa/ccy#linkin")
-  birthdayA:                              _@href(iri: "http://purl.org/net/bel-epa/ccy#BirthdayA")
-  birthdayB:                              _@href(iri: "http://purl.org/net/bel-epa/ccy#BirthdayB")
-  blocks:                                 _@href(iri: "http://purl.org/net/bel-epa/ccy#blocks")
-  blocktrust:                             _@href(iri: "http://purl.org/net/bel-epa/ccy#blocktrust")
-  chaintrust:                             _@href(iri: "http://purl.org/net/bel-epa/ccy#chaintrust")
-  chainwork:                              _@href(iri: "http://purl.org/net/bel-epa/ccy#chainwork")
-  entropybit:                             _@href(iri: "http://purl.org/net/bel-epa/ccy#entropybit")
-  flags:                                  _@href(iri: "http://purl.org/net/bel-epa/ccy#flags")
-  mint:                                   _@href(iri: "http://purl.org/net/bel-epa/ccy#mint")
-  modifier:                               _@href(iri: "http://purl.org/net/bel-epa/ccy#modifier")
-  modifierchecksum:                       _@href(iri: "http://purl.org/net/bel-epa/ccy#modifierchecksum")
-  proofhash:                              _@href(iri: "http://purl.org/net/bel-epa/ccy#proofhash")
-  protocolversion:                        _@href(iri: "http://purl.org/net/bel-epa/ccy#protocolversion")
-  signature:                              _@href(iri: "http://purl.org/net/bel-epa/ccy#signature")
-  testnet:                                _@href(iri: "http://purl.org/net/bel-epa/ccy#testnet")
-  hasTransaction:                         _@href(iri: "http://purl.org/net/bel-epa/ccy#hasTransaction")
-  latestBlockHeader:                      _@href(iri: "http://purl.org/net/bel-epa/ccy#latestBlockHeader")
-  previousBlockHeader:                    _@href(iri: "http://purl.org/net/bel-epa/ccy#previousBlockHeader")
-  sequence:                               _@href(iri: "http://purl.org/net/bel-epa/ccy#sequence")
-  timestamp:                              _@href(iri: "http://purl.org/net/bel-epa/ccy#timestamp")
-  difficulty:                             _@href(iri: "http://purl.org/net/bel-epa/ccy#difficulty")
+    linkin:                                 _@href(iri: "http://purl.org/net/bel-epa/ccy#linkin")
+    birthdayA:                              _@href(iri: "http://purl.org/net/bel-epa/ccy#BirthdayA")
+    birthdayB:                              _@href(iri: "http://purl.org/net/bel-epa/ccy#BirthdayB")
+    blocks:                                 _@href(iri: "http://purl.org/net/bel-epa/ccy#blocks")
+    blocktrust:                             _@href(iri: "http://purl.org/net/bel-epa/ccy#blocktrust")
+    chaintrust:                             _@href(iri: "http://purl.org/net/bel-epa/ccy#chaintrust")
+    chainwork:                              _@href(iri: "http://purl.org/net/bel-epa/ccy#chainwork")
+    entropybit:                             _@href(iri: "http://purl.org/net/bel-epa/ccy#entropybit")
+    flags:                                  _@href(iri: "http://purl.org/net/bel-epa/ccy#flags")
+    mint:                                   _@href(iri: "http://purl.org/net/bel-epa/ccy#mint")
+    modifier:                               _@href(iri: "http://purl.org/net/bel-epa/ccy#modifier")
+    modifierchecksum:                       _@href(iri: "http://purl.org/net/bel-epa/ccy#modifierchecksum")
+    proofhash:                              _@href(iri: "http://purl.org/net/bel-epa/ccy#proofhash")
+    protocolversion:                        _@href(iri: "http://purl.org/net/bel-epa/ccy#protocolversion")
+    signature:                              _@href(iri: "http://purl.org/net/bel-epa/ccy#signature")
+    testnet:                                _@href(iri: "http://purl.org/net/bel-epa/ccy#testnet")
+    hasTransaction:                         _@href(iri: "http://purl.org/net/bel-epa/ccy#hasTransaction")
+    latestBlockHeader:                      _@href(iri: "http://purl.org/net/bel-epa/ccy#latestBlockHeader")
+    previousBlockHeader:                    _@href(iri: "http://purl.org/net/bel-epa/ccy#previousBlockHeader")
+    sequence:                               _@href(iri: "http://purl.org/net/bel-epa/ccy#sequence")
+    timestamp:                              _@href(iri: "http://purl.org/net/bel-epa/ccy#timestamp")
+    difficulty:                             _@href(iri: "http://purl.org/net/bel-epa/ccy#difficulty")
 }
 
 type TransactionInput {
@@ -125,6 +125,7 @@ type TransactonOutput {
 }
 
 type Block {
+    iid: Int
     hasTransaction: Transaction
     latestBlockHeader: BlockHeader
     previousBlockHeader: BlockHeader
@@ -134,12 +135,14 @@ type Block {
 }
 
 type Address {
+    iid: Int
     tx: Transaction
     txtinput: TransactionInput
     txoutput: TransactionOutput
 }
 
 type BlockChain {
+    iid: Int
     linkin: Block
     birthdayA: String
     birthdayB: String
@@ -159,6 +162,7 @@ type BlockChain {
 }
 
 type ElectronicCoin {
+    iid: Int
     blockchain: BlockChain
     coinURI: String
     cryptocurrency: Cryptocurrency
@@ -222,6 +226,7 @@ type Protocol {
 }
 
 type Cryptocurrency {
+    iid: Int
     coin: ElectronicCoin
     developer: Person
     contributor: Person
@@ -258,6 +263,7 @@ type Cryptocurrency {
 }
 
 type Transaction {
+    iid: Int
     address: Address
     hasInput: TransactionInput
     hasOutput: TransactionOutput
@@ -277,6 +283,39 @@ type Transaction {
     txid: String
     txtime: DateTimeStamp
     version: String
+}
+
+type Query{
+
+    getBlock(hash: String): Block
+
+    getTransactionByTransactionId(transactionId: Int): Transaction
+
+    getTransactionsForAccount(accountId: Int): [Transaction]
+
+    getAddress(address: String): Address
+
+    getElectronicCoinsForBlockchain(blockchainId: Int): [ElectronicCoin]
+
+    getBlockChain(blockchainId: Int): BlockChain
+
+    getCryptocurrencies: [Cryptocurrency]
+}
+
+type Mutation{
+    #Add a cryptocurrency
+    addCryptocurrency(cryptocurrency: Cryptocurrency!): Cryptocurrency
+    #Update a cryptocurrency
+    updateCryptocurrency(cryptocurrency: Cryptocurrency!): Cryptocurrency
+    #Delete a cryptocurrency
+    deleteCryptocurrency(cryptocurrency: Cryptocurrency!): Cryptocurrency
+
+    #Add a transaction
+    addTransaction(transaction: Transaction!): Transaction
+    #Update a transaction
+    updateTransaction(transaction: Transaction!): Transaction
+    #Delete a transaction
+    deleteTransaction(transaction: Transaction!): Transaction
 }
 
 ### https://github.com/DOACC/doacc/blob/master/doacc.owl
