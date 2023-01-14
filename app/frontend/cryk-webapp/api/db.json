@@ -1,0 +1,85 @@
+{
+
+  "coins": [
+    {
+      "id": "bitcoin",
+      "name": "Bitcoin",
+      "symbol": "BTC",
+      "rank": 1,
+      "price_usd": 34234.23,
+      "price_btc": 1.0
+    },
+    {
+      "id": "ethereum",
+      "name": "Ethereum",
+      "symbol": "ETH",
+      "rank": 2,
+      "price_usd": 1434.23,
+      "price_btc": 0.04
+    },
+    {
+      "id": "cardano",
+      "name": "Cardano",
+      "symbol": "ADA",
+      "rank": 3,
+      "price_usd": 0.62,
+      "price_btc": 0.000018
+    },
+    {
+      "id": "tether",
+      "name": "Tether",
+      "symbol": "USDT",
+      "rank": 4,
+      "price_usd": 1.00,
+      "price_btc": 0.000029
+    },
+    {
+      "id": "polkadot",
+      "name": "Polkadot",
+      "symbol": "DOT",
+      "rank": 5,
+      "price_usd": 34.23,
+      "price_btc": 0.000001
+    },
+    {
+      "id": "dogecoin",
+      "name": "Dogecoin",
+      "symbol": "DOGE",
+      "rank": 6,
+      "price_usd": 0.34,
+      "price_btc": 0.0000009
+    },
+    {
+      "id": "binance-coin",
+      "name": "Binance Coin",
+      "symbol": "BNB",
+      "rank": 7,
+      "price_usd": 234.23,
+      "price_btc": 0.000068
+    },
+    {
+      "id": "solana",
+      "name": "Solana",
+      "symbol": "SOL",
+      "rank": 8,
+      "price_usd": 34.23,
+      "price_btc": 0.000001
+    },
+    {
+      "id": "xrp",
+      "name": "XRP",
+      "symbol": "XRP",
+      "rank": 9,
+      "price_usd": 0.34,
+      "price_btc": 0.0000009
+    },
+    {
+      "id": "uniswap",
+      "name": "Uniswap",
+      "symbol": "UNI",
+      "rank": 10,
+      "price_usd": 34.23,
+      "price_btc": 0.000001
+    }
+  ]
+}
