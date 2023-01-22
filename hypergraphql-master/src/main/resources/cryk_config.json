@@ -1,0 +1,17 @@
+{
+  "name": "hgql-example-with-sparql",
+  "schema": "gql/crykv2.graphql",
+  "server": {
+    "port": 8082,
+    "graphql": "/graphql",
+    "graphiql": "/graphiql"
+  },
+  "services": [
+    {
+      "id": "dbpedia-sparql",
+      "type": "LocalModelSPARQLService",
+      "filepath": "src/main/resources/crykv2.ttl",
+      "filetype": "TTL"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ns0: <http://purl.org/net/bel-epa/doacc#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core> .
+@prefix ccy: <http://purl.org/net/bel-epa/ccy/> .
+
+<http://example.org/#Satoshi_Nakamoto> a foaf:Person .
+<http://example.org/#Satoshi_Nakamoto> skos:prefLabel "Satoshi_Nakamoto" .
+
+<http://example.org/#Bitcoin_blockchain> a ccy:Blockchain .
+<http://example.org/#Bitcoin_blockchain> rdfs:label "Bitcoin blockchain" .
+
+<http://example.org/BitcoinOrg> a ns0:Organization .
+<http://example.org/BitcoinOrg> rdfs:label "BitcoinOrg" .
+
+<http://example.org/#Bitcoin_electronic_coin> a ns0:ElectronicCoin .
+<http://example.org/#Bitcoin_electronic_coin> ccy:Blockchain <http://example.org/#Bitcoin_blockchain> .
+
+<http://example.org/#Bitcoin> a <http://purl.org/net/bel-epa/doacc/Cryptocurrency> .
+<http://example.org/#Bitcoin> ns0:ElectronicCoin <http://example.org/#Bitcoin_electronic_coin> .
+<http://example.org/#Bitcoin> ns0:total-coins "1238721398" .
+<http://example.org/#Bitcoin> ns0:developer <http://example.org/#Satoshi_Nakamoto> .
+
+
+

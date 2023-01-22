@@ -1,0 +1,17 @@
+{
+  "name": "doacc-hgql",
+  "schema": "gql/Cryk.graphql",
+  "server": {
+    "port": 8081,
+    "graphql": "/graphql",
+    "graphiql": "/graphiql"
+  },
+  "services": [
+    {
+      "id": "dbpedia-sparql",
+      "type": "LocalModelSPARQLService",
+      "filepath": "src/main/resources/example2.ttl",
+      "filetype": "TTL"
+    }
+  ]
+}

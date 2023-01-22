@@ -1,0 +1,9 @@
+type __Context {
+    Crypto:         _@href(iri: "http://purl.org/net/bel-epa/doacc/Cryptocurrency")
+    label:          _@href(iri: "http://www.w3.org/2000/01/rdf-schema#label")
+    comment:        _@href(iri: "http://www.w3.org/2000/01/rdf-schema#comment")
+}
+
+type Crypto @service(id:"doacc-sparql") {
+    label: [String] @service(id:"doacc-sparql")
+}

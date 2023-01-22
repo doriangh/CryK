@@ -1,0 +1,11 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ns0: <http://purl.org/net/bel-epa/doacc#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+<http://example.org/#Adrian> rdfs:type foaf:Person .
+
+<http://example.org/#MyCoin>
+  rdfs:type <http://purl.org/net/bel-epa/doacc/Cryptocurrency> ;
+  ns0:developer <http://example.org/#Adrian> ;
+  ns0:totalCoins "1238721398" .

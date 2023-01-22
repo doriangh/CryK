@@ -1,0 +1,127 @@
+type __Context {
+    Cryptocurrency:                         _@href(iri: "http://purl.org/net/bel-epa/doacc#Cryptocurrency")
+    ProtectionScheme:                       _@href(iri: "http://purl.org/net/bel-epa/doacc#ProtectionScheme")
+    DistributionScheme:                     _@href(iri: "http://purl.org/net/bel-epa/doacc#DistributionScheme")
+    Protocol:                               _@href(iri: "http://purl.org/net/bel-epa/doacc#Protocol")
+    PosScheme:                              _@href(iri: "http://purl.org/net/bel-epa/doacc#PoSscheme")
+    PoWScheme:                              _@href(iri: "http://purl.org/net/bel-epa/doacc#PoWscheme")
+    AnyUri:                                 _@href(iri: "http://www.w3.org/2001/XMLSchema#anyUri")
+
+    coin:                                   _@href(iri: "http://purl.org/net/bel-epa/doacc#coin")
+    developer:                              _@href(iri: "http://purl.org/net/bel-epa/doacc#developer")
+    contributor:                            _@href(iri: "http://purl.org/net/bel-epa/doacc#helper")
+    maintainer:                             _@href(iri: "http://purl.org/net/bel-epa/doacc#maintainer")
+    protectionScheme:                       _@href(iri: "http://purl.org/net/bel-epa/doacc#protection-scheme")
+    # USED IN BASIC DATASET
+    distributionScheme:                     _@href(iri: "http://purl.org/net/bel-epa/doacc#distribution-scheme")
+    release:                                _@href(iri: "http://purl.org/net/bel-epa/doacc#release")
+    repository:                             _@href(iri: "http://purl.org/net/bel-epa/doacc#repository")
+    tester:                                 _@href(iri: "http://purl.org/net/bel-epa/doacc#tester")
+    translator:                             _@href(iri: "http://purl.org/net/bel-epa/doacc#translator")
+    vendor:                                 _@href(iri: "http://purl.org/net/bel-epa/doacc#vendor")
+    protocol:                               _@href(iri: "http://purl.org/net/bel-epa/doacc#protocol")
+    audience:                               _@href(iri: "http://purl.org/net/bel-epa/doacc#audience")
+    blockReward:                            _@href(iri: "http://purl.org/net/bel-epa/doacc#block-reward")
+    blockTime:                              _@href(iri: "http://purl.org/net/bel-epa/doacc#block-time")
+    confirmations:                          _@href(iri: "http://purl.org/net/bel-epa/doacc#confirmations")
+    dateFounded:                            _@href(iri: "http://purl.org/net/bel-epa/doacc#date-founded")
+    downloadMirror:                         _@href(iri: "http://purl.org/net/bel-epa/doacc#download-mirror")
+    downloadPage:                           _@href(iri: "http://purl.org/net/bel-epa/doacc#download-page")
+    expiration:                             _@href(iri: "http://purl.org/net/bel-epa/doacc#expiration")
+    fileRelease:                            _@href(iri: "http://purl.org/net/bel-epa/doacc#file-release")
+    forum:                                  _@href(iri: "http://purl.org/net/bel-epa/doacc#forum")
+    incept:                                 _@href(iri: "http://purl.org/net/bel-epa/doacc#incept")
+    license:                                _@href(iri: "http://purl.org/net/bel-epa/doacc#license")
+    maturation:                             _@href(iri: "http://purl.org/net/bel-epa/doacc#maturation")
+    premine:                                _@href(iri: "http://purl.org/net/bel-epa/doacc#premine")
+    retargetTime:                           _@href(iri: "http://purl.org/net/bel-epa/doacc#retarget-time")
+    rewardModifier:                         _@href(iri: "http://purl.org/net/bel-epa/doacc#reward-modifier")
+    revision:                               _@href(iri: "http://purl.org/net/bel-epa/doacc#revision")
+    serviceEndpoint:                        _@href(iri: "http://purl.org/net/bel-epa/doacc#service-endpoint")
+    slug:                                   _@href(iri: "http://purl.org/net/bel-epa/doacc#slug")
+    symbol:                                 _@href(iri: "http://purl.org/net/bel-epa/doacc#symbol")
+    totalCoins:                             _@href(iri: "http://purl.org/net/bel-epa/doacc#total-coins")
+    cloneOf:                                _@href(iri: "http://purl.org/net/bel-epa/doacc#cloneOf")
+    source:                                 _@href(iri:  "http://purl.org/net/bel-epa/doacc#source")
+    isDefinedBy:                            _@href(iri:  "http://www.w3.org/2000/01/rdf-schema#isDefinedBy")
+    pos:                                    _@href(iri:  "http://purl.org/net/bel-epa/doacc#pos")
+    pow:                                    _@href(iri:  "http://purl.org/net/bel-epa/doacc#pow")
+    image:                                  _@href(iri: "http://purl.org/net/bel-epa/doacc#image")
+    comment:                                _@href(iri: "http://purl.org/net/bel-epa/doacc#comment")
+    description:                            _@href(iri: "http://purl.org/dc/elements/1.1/description")
+    website:                                _@href(iri:"http://purl.org/net/bel-epa/doacc#website")
+
+    prefLabel:                              _@href(iri: "http://www.w3.org/2004/02/skos/core#prefLabel")
+    label:                                  _@href(iri: "http://www.w3.org/2000/01/rdf-schema#label")
+
+}
+
+
+# USED IN BASIC DATASET
+type Cryptocurrency @service(id:"dbpedia-sparql"){
+    symbol: [String] @service(id:"dbpedia-sparql")
+    totalCoins: [String] @service(id:"dbpedia-sparql")
+    pos: [PosScheme] @service(id:"dbpedia-sparql")
+    pow: [PoWScheme] @service(id:"dbpedia-sparql")
+    website: [String] @service(id:"dbpedia-sparql")
+    description: [String] @service(id:"dbpedia-sparql")
+    image: [String] @service(id:"dbpedia-sparql")
+    distributionScheme: [DistributionScheme] @service(id:"dbpedia-sparql") # found
+    comment: [String] @service(id:"dbpedia-sparql")
+    incept: [String] @service(id:"dbpedia-sparql")
+    blockTime: [String] @service(id:"dbpedia-sparql")
+    maturation: [String] @service(id:"dbpedia-sparql")
+    source: [String] @service(id:"dbpedia-sparql")
+    prefLabel: [String] @service(id:"dbpedia-sparql")
+    protectionScheme: [ProtectionScheme] @service(id:"dbpedia-sparql")
+    confirmations: [String] @service(id:"dbpedia-sparql")
+    blockReward: [String] @service(id:"dbpedia-sparql")
+    dateFounded: [String] @service(id:"dbpedia-sparql")
+    cloneOf: [Cryptocurrency] @service(id:"dbpedia-sparql")### Clone subjects don't have type property in dataset
+    rewardModifier: [String] @service(id:"dbpedia-sparql")
+    protocol: [Protocol] @service(id:"dbpedia-sparql")
+    retargetTime: [String] @service(id:"dbpedia-sparql")
+    premine: [String] @service(id:"dbpedia-sparql") # found
+}
+
+# USED IN BASIC DATASET
+type PosScheme @service(id:"dbpedia-sparql"){
+    description: [String] @service(id:"dbpedia-sparql")
+    isDefinedBy: [String] @service(id:"dbpedia-sparql")
+    prefLabel: [String] @service(id:"dbpedia-sparql")
+}
+# USED IN BASIC DATASET
+type PoWScheme @service(id:"dbpedia-sparql"){
+    description: [String] @service(id:"dbpedia-sparql")
+    isDefinedBy: [AnyUri] @service(id:"dbpedia-sparql")
+    prefLabel: [String] @service(id:"dbpedia-sparql")
+}
+# USED IN BASIC DATASET
+
+type ProtectionScheme @service(id:"dbpedia-sparql"){
+    description: [String] @service(id:"dbpedia-sparql")
+    isDefinedBy: [AnyUri] @service(id:"dbpedia-sparql")
+    prefLabel: [String] @service(id:"dbpedia-sparql")
+    #    pos: PosScheme
+    #    pow: PowScheme
+}
+# USED IN BASIC DATASET
+type DistributionScheme @service(id:"dbpedia-sparql"){
+    description: [String] @service(id:"dbpedia-sparql")
+    isDefinedBy: [AnyUri] @service(id:"dbpedia-sparql")
+    prefLabel: [String] @service(id:"dbpedia-sparql")
+}
+
+# USED IN BASIC DATASET
+type Protocol @service(id:"dbpedia-sparql"){
+    description: [String] @service(id:"dbpedia-sparql")
+    isDefinedBy: [AnyUri] @service(id:"dbpedia-sparql")
+    prefLabel: [String] @service(id:"dbpedia-sparql")
+}
+
+type AnyUri @service(id:"dbpedia-sparql")
+
+
+### https://github.com/DOACC/doacc/blob/master/doacc.owl
+###
+### https://github.com/DOACC/ccy/blob/master/ccy.owl

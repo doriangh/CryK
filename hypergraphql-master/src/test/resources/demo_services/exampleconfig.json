@@ -1,0 +1,17 @@
+{
+  "name": "doacc-hgql",
+  "schema": "Cryk.graphql",
+  "server": {
+    "port": 8081,
+    "graphql": "/graphql",
+    "graphiql": "/graphiql"
+  },
+  "services": [
+    {
+      "id": "doacc-sparql",
+      "type": "LocalModelSPARQLService",
+      "filepath": "D:/IdeaProjects/hypergraphql-master/src/test/resources/demo_services/example.ttl",
+      "filetype": "TTL"
+    }
+  ]
+}

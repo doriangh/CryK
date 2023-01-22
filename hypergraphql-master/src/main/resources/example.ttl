@@ -1,0 +1,29 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ns0: <http://purl.org/net/bel-epa/doacc#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+<http://example.org/#Satoshi_Nakamoto>
+  a foaf:Person ;
+  foaf:firstName "Satoshi_Nakamoto" .
+
+<http://example.org/#Bitcoin_blockchain>
+  a ns0:Blockchain ;
+  rdfs:label "Bitcoin blockchain" .
+
+<http://example.org/BitcoinOrg>
+  a ns0:Organization ;
+  rdfs:label "BitcoinOrg" .
+
+<http://example.org/#Bitcoin_electronic_coin>
+   a ns0:ElectronicCoin ;
+   ns0:Blockchain <http://example.org/#Bitcoin_blockchain> .
+
+<http://example.org/#Bitcoin>
+  a <http://purl.org/net/bel-epa/doacc/Cryptocurrency> ;
+  ns0:ElectronicCoin <http://example.org/#Bitcoin_electronic_coin> ;
+  ns0:total-coins "1238721398" .
+
+
+
+
+

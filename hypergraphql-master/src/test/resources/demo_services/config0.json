@@ -1,0 +1,19 @@
+{
+  "name": "doacc-hgql",
+  "schema": "schema0.graphql",
+  "server": {
+    "port": 8081,
+    "graphql": "/graphql",
+    "graphiql": "/graphiql"
+  },
+  "services": [
+    {
+      "id": "doacc-sparql",
+      "type": "SPARQLEndpointService",
+      "url": "http://minkiz.co/sparql/",
+      "graph": "http://minkiz.co",
+      "user": "",
+      "password": ""
+    }
+  ]
+}

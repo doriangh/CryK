@@ -1,0 +1,127 @@
+type __Context {
+    Person:                 _@href(iri: "http://xmlns.com/foaf/0.1/Person")
+    Organization:           _@href(iri: "http://xmlns.com/foaf/0.1/Organization")
+    Cryptocurrency:         _@href(iri: "http://purl.org/net/bel-epa/doacc/Cryptocurrency")
+    ElectronicCoin:         _@href(iri: "http://purl.org/net/bel-epa/doacc/ElectronicCoin")
+    ProtectionScheme:       _@href(iri: "http://purl.org/net/bel-epa/doacc/ProtectionScheme")
+    DistributionScheme:     _@href(iri: "http://purl.org/net/bel-epa/doacc#DistributionScheme")
+    Version:                _@href(iri: "http://purl.org/net/bel-epa/doacc#Version")
+    Repository:             _@href(iri: "http://purl.org/net/bel-epa/doacc#Repository")
+    Protocol:               _@href(iri: "http://purl.org/net/bel-epa/doacc#Protocol")
+    AnyUri:                 _@href(iri: "http://www.w3.org/2001/XMLSchema#anyUri")
+
+    coin:                   _@href(iri: "http://purl.org/net/bel-epa/doacc#coin")
+    developer:              _@href(iri: "http://purl.org/net/bel-epa/doacc#developer")
+    contributor:            _@href(iri: "http://purl.org/net/bel-epa/doacc#helper")
+    maintainer:             _@href(iri: "http://purl.org/net/bel-epa/doacc#maintainer")
+    protectionScheme:       _@href(iri: "http://purl.org/net/bel-epa/doacc#protection-scheme")
+    distributionScheme:     _@href(iri: "http://purl.org/net/bel-epa/doacc#distribution-scheme")
+    release:                _@href(iri: "http://purl.org/net/bel-epa/doacc#release")
+    repository:             _@href(iri: "http://purl.org/net/bel-epa/doacc#repository")
+    tester:                 _@href(iri: "http://purl.org/net/bel-epa/doacc#tester")
+    translator:             _@href(iri: "http://purl.org/net/bel-epa/doacc#translator")
+    vendor:                 _@href(iri: "http://purl.org/net/bel-epa/doacc#vendor")
+    protocol:               _@href(iri: "http://purl.org/net/bel-epa/doacc#protocol")
+    audience:               _@href(iri: "http://purl.org/net/bel-epa/doacc#audience")
+    blockReward:            _@href(iri: "http://purl.org/net/bel-epa/doacc#block-reward")
+    blockTime:              _@href(iri: "http://purl.org/net/bel-epa/doacc#block-time")
+    confirmations:          _@href(iri: "http://purl.org/net/bel-epa/doacc#confirmations")
+    dateFounded:            _@href(iri: "http://purl.org/net/bel-epa/doacc#date-founded")
+    downloadMirror:         _@href(iri: "http://purl.org/net/bel-epa/doacc#download-mirror")
+    downloadPage:           _@href(iri: "http://purl.org/net/bel-epa/doacc#download-page")
+    expiration:             _@href(iri: "http://purl.org/net/bel-epa/doacc#expiration")
+    fileRelease:            _@href(iri: "http://purl.org/net/bel-epa/doacc#file-release")
+    forum:                  _@href(iri: "http://purl.org/net/bel-epa/doacc#forum")
+    incept:                 _@href(iri: "http://purl.org/net/bel-epa/doacc#incept")
+    license:                _@href(iri: "http://purl.org/net/bel-epa/doacc#license")
+    maturation:             _@href(iri: "http://purl.org/net/bel-epa/doacc#maturation")
+    premine:                _@href(iri: "http://purl.org/net/bel-epa/doacc#premine")
+    retargetTime:           _@href(iri: "http://purl.org/net/bel-epa/doacc#retarget-time")
+    rewardModifier:         _@href(iri: "http://purl.org/net/bel-epa/doacc#reward-modifier")
+    revision:               _@href(iri: "http://purl.org/net/bel-epa/doacc#revision")
+    serviceEndpoint:        _@href(iri: "http://purl.org/net/bel-epa/doacc#service-endpoint")
+    slug:                   _@href(iri: "http://purl.org/net/bel-epa/doacc#slug")
+    symbol:                 _@href(iri: "http://purl.org/net/bel-epa/doacc#symbol")
+    totalCoins:             _@href(iri: "http://purl.org/net/bel-epa/doacc#total-coins")
+}
+
+type Person @service(id:"dbpedia-sparql") {
+    label: String @service(id:"dbpedia-sparql")
+}
+
+type Organization @service(id:"dbpedia-sparql") {
+    label: [String] @service(id:"dbpedia-sparql")
+}
+
+type AnyUri @service(id:"dbpedia-sparql") {
+    label: [String] @service(id:"dbpedia-sparql")
+}
+
+type ElectronicCoin @service(id:"dbpedia-sparql") {
+    label: [String] @service(id:"dbpedia-sparql")
+}
+
+type ProtectionScheme @service(id:"dbpedia-sparql") {
+    pos: [PosScheme] @service(id:"dbpedia-sparql")
+    pow: [PowScheme] @service(id:"dbpedia-sparql")
+}
+
+type DistributionScheme @service(id:"dbpedia-sparql") {
+    label: [String] @service(id:"dbpedia-sparql")
+}
+
+type Version @service(id:"dbpedia-sparql") {
+    label: [String] @service(id:"dbpedia-sparql")
+}
+
+type Repository @service(id:"dbpedia-sparql") {
+    label: [String] @service(id:"dbpedia-sparql")
+}
+
+type Protocol @service(id:"dbpedia-sparql") {
+    label: [String] @service(id:"dbpedia-sparql")
+}
+
+type ElectronicCoin {
+    blockchain: BlockChain @service(id:"dbpedia-sparql")
+}
+
+type BlockChain {
+    label: String @service(id:"dbpedia-sparql")
+}
+
+type Cryptocurrency @service(id:"dbpedia-sparql") {
+    coin: ElectronicCoin @service(id:"dbpedia-sparql")
+    developer: Person @service(id:"dbpedia-sparql")
+    contributor: Person @service(id:"dbpedia-sparql")
+    maintainer: Person @service(id:"dbpedia-sparql")
+    protectionScheme: ProtectionScheme @service(id:"dbpedia-sparql")
+    distributionScheme: DistributionScheme @service(id:"dbpedia-sparql")
+    release: Version @service(id:"dbpedia-sparql")
+    repository: Repository @service(id:"dbpedia-sparql")
+    tester: Person @service(id:"dbpedia-sparql")
+    translator: Person @service(id:"dbpedia-sparql")
+    vendor: Organization @service(id:"dbpedia-sparql")
+    protocol: Protocol @service(id:"dbpedia-sparql")
+    audience: [String] @service(id:"dbpedia-sparql")
+    blockReward: String @service(id:"dbpedia-sparql")
+    blockTime: String @service(id:"dbpedia-sparql")
+    confirmations: String @service(id:"dbpedia-sparql")
+    dateFounded: String @service(id:"dbpedia-sparql")
+    downloadMirror: String
+    downloadPage: String
+    expiration: String
+    fileRelease: String
+    forum: AnyUri
+    incept: String
+    license: String
+    maturation: String
+    premine: String
+    retargetTime: String
+    rewardModifier: String
+    revision: String
+    serviceEndpoint: AnyUri
+    slug: String
+    symbol: String
+    totalCoins: String
+}
