@@ -1,0 +1,124 @@
+mat-card{
+  margin: 30px;
+}
+
+p-table{
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  border-radius: 5px;
+  margin: 30px;
+}
+
+.center{
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+canvas{
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.coinDescription{
+  max-height: 500px;
+}
+
+.mat-card.scrollable-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.mat-card.scrollable-content mat-card-content{
+  overflow-y: auto;
+}
+
+.mat-card.scrollable-content mat-card-title{
+  display: block;
+}
+
+
+table {
+  width: 100%;
+}
+
+tr.example-detail-row {
+  height: 0;
+}
+
+tr.example-element-row:hover {
+  background: #fafafa;
+  cursor: pointer;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+  background: #efefef;
+  cursor: pointer;
+}
+
+.example-element-row td {
+  border-bottom-width: 0;
+}
+
+.example-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.example-element-diagram {
+  min-width: 80px;
+  border: 2px solid black;
+  padding: 8px;
+  font-weight: lighter;
+  margin: 8px 0;
+  height: 104px;
+}
+
+.example-element-symbol {
+  font-weight: bold;
+  font-size: 40px;
+  line-height: normal;
+}
+
+.example-element-description {
+  padding: 16px;
+}
+
+.example-element-description-attribution {
+  opacity: 0.5;
+}
+
+:host ::ng-deep .custom-spinner .p-progress-spinner-circle {
+  animation: custom-progress-spinner-dash 1.5s ease-in-out infinite, custom-progress-spinner-color 6s ease-in-out infinite;
+}
+
+@keyframes custom-progress-spinner-color {
+  100%,
+  0% {
+    stroke: #16697A;
+  }
+  40% {
+    stroke: #489FB5;
+  }
+  66% {
+    stroke: #82C0CC;
+  }
+  80%,
+  90% {
+    stroke: #FFA62B;
+  }
+}
+
+@keyframes custom-progress-spinner-dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -35px;
+  }
+  100% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -124px;
+  }
+}

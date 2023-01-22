@@ -1,5 +1,4 @@
 {
-
   "coins": [
     {
       "id": "bitcoin",
@@ -7,7 +6,8 @@
       "symbol": "BTC",
       "rank": 1,
       "price_usd": 34234.23,
-      "price_btc": 1.0
+      "price_btc": 1.0,
+      "description": "Bitcoin (abbreviation: BTC; sign: ₿) is a protocol which implements a highly available, public, and decentralized ledger. In order to update the ledger, a user must prove they control an entry in the ledger. The protocol specifies that the entry indicates an amount of a token, bitcoin with a miniscule b. The user can update the ledger, assigning some of their bitcoin to another entry in the ledger. Because the token has characteristics of money,[10][11] it can be thought of as a digital currency.\n\nBitcoin transactions are verified by network nodes through cryptography and recorded in a public distributed ledger called a blockchain. The cryptocurrency was invented in 2008 by an unknown person or group of people using the name Satoshi Nakamoto.[12] The currency began use in 2009,[13] when its implementation was released as open-source software.[7]: ch. 1  The word \"bitcoin\" was defined in a white paper published on October 31, 2008.[3][14] It is a compound of the words bit and coin.[15]\n\nBitcoin is legal in seven of the top ten world economies by GDP in 2022.[16][17] The Library of Congress reports that, as of November 2021, nine countries have fully banned bitcoin use, while a further forty-two have implicitly banned it.[18] A few governments have used bitcoin in some capacity. El Salvador has adopted Bitcoin as legal tender, although use by merchants remains low. Ukraine has accepted cryptocurrency donations to fund the resistance to the 2022 Russian invasion. Iran has used bitcoin to bypass sanctions. In the United States, there is \"no intention\" to ban Bitcoin.[19]\n\nBitcoin has been described as an economic bubble by at least eight recipients of the Nobel Memorial Prize in Economic Sciences.[20] The environmental impact of bitcoin is significant.[citation needed] Its proof-of-work algorithm for bitcoin mining is designed to be computationally difficult, which requires the consumption of increasing quantities of electricity, the generation of which has contributed to climate change.[21][22] According to the University of Cambridge, bitcoin has emitted an estimated 200 million metric tonnes of carbon dioxide since its launch.[23]"
     },
     {
       "id": "ethereum",
@@ -15,7 +15,8 @@
       "symbol": "ETH",
       "rank": 2,
       "price_usd": 1434.23,
-      "price_btc": 0.04
+      "price_btc": 0.04,
+      "description": "Ethereum is a decentralized, open-source blockchain with smart contract functionality. Ether (Abbreviation: ETH;[a] sign: Ξ) is the native cryptocurrency of the platform. Among cryptocurrencies, ether is second only to bitcoin in market capitalization.[3][4]\n\nEthereum was conceived in 2013 by programmer Vitalik Buterin.[5] Additional founders of Ethereum included Gavin Wood, Charles Hoskinson, Anthony Di Iorio and Joseph Lubin.[6] In 2014, development work began and was crowdfunded, and the network went live on 30 July 2015.[7] Ethereum allows anyone to deploy permanent and immutable decentralized applications onto it, with which users can interact.[8] Decentralized finance (DeFi) applications provide a broad array of financial services without the need for typical financial intermediaries like brokerages, exchanges, or banks, such as allowing cryptocurrency users to borrow against their holdings or lend them out for interest.[9][10] Ethereum also allows users to create and exchange NFTs, which are unique tokens representing ownership of an associated asset or privilege, as recognized by any number of institutions. Additionally, many other cryptocurrencies utilize the ERC-20 token standard on top of the Ethereum blockchain and have utilized the platform for initial coin offerings.\n\nOn 15 September 2022, Ethereum transitioned its consensus mechanism from proof-of-work (PoW) to proof-of-stake (PoS) in an upgrade process known as \"the Merge\". This has cut Ethereum's energy usage by 99%.[11]"
     },
     {
       "id": "cardano",
@@ -30,7 +31,7 @@
       "name": "Tether",
       "symbol": "USDT",
       "rank": 4,
-      "price_usd": 1.00,
+      "price_usd": 1.0,
       "price_btc": 0.000029
     },
     {

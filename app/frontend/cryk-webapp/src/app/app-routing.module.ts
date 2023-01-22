@@ -1,11 +1,15 @@
 import { NgModule } from '@angular/core';
-import {RouterModule, Routes} from "@angular/router";
-import {DashboardComponent} from "./crypto-browser/dashboard/dashboard.component";
-import {DetailsComponent} from "./crypto-browser/details/details.component";
+import { RouterModule, Routes } from '@angular/router';
+import { CryptoBrowserComponent } from './crypto/crypto-browser/crypto-browser.component';
+import { CryptoDashComponent } from './crypto/crypto-dash/crypto-dash.component';
+import { CryptoDetailsComponent } from './crypto/crypto-details/crypto-details.component';
+import {NotfoundComponent} from "./shared/notfound/notfound.component";
 
 const routes: Routes = [
-  {path: '', component: DashboardComponent},
-  {path: 'details', component: DetailsComponent},
+  {path: '', component: CryptoDashComponent},
+  {path: 'details/:coinId', component: CryptoDetailsComponent},
+  {path: 'browse', component: CryptoBrowserComponent},
+  {path: 'notfound', component: NotfoundComponent},
   {path: '**', redirectTo: ''}
 ];
 
