@@ -10,7 +10,7 @@
     {
       "id": "dbpedia-sparql",
       "type": "LocalModelSPARQLService",
-      "filepath": "crykv2.ttl",
+      "filepath": "crykv3.ttl",
       "filetype": "TTL"
     }
   ]
