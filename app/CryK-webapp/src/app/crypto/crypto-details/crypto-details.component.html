@@ -1,6 +1,123 @@
 <div>
   <div class="surface-card p-4 m-5 shadow-2 border-round">
     <div class="mb-3">
+      <div class="row mb-5">
+
+        <!-- Coin Icon and Title -->
+        <div class="col-lg-2" style="align-items: center; ">
+          <div class="text-center">
+            <img class="" style="height: 100px" src="assets/cryptocurrency-icons/{{coinId!.toLowerCase()}}.svg">
+            <h2 class="card-title text-center">{{coinId}}</h2>
+          </div>
+        </div>
+
+        <div class="p-panel-header col-lg-10 text-center"
+             style="height: 400px; ">
+
+          <button
+            (click)="updateOptions( '1m' )"
+            [class.active]="activeOptionButton=='1m'">
+            1M
+          </button>
+          <button
+            (click)="updateOptions( '6m' )"
+            [class.active]="activeOptionButton=='6m'">
+            6M
+          </button>
+          <button
+            (click)="updateOptions( '1y' )"
+            [class.active]="activeOptionButton=='1y'">
+            1Y
+          </button>
+          <button
+            (click)="updateOptions( '1yd' )"
+            [class.active]="activeOptionButton=='1yd'">
+            1YD
+          </button>
+          <button
+            (click)="updateOptions( 'all' )"
+            [class.active]="activeOptionButton=='all'">
+            All
+          </button>
+          <apx-chart
+            #chart
+            [series]="chartOptions.series"
+            [chart]="chartOptions.chart"
+            [colors]="chartOptions.colors"
+            [yaxis]="chartOptions.yaxis"
+            [dataLabels]="chartOptions.dataLabels"
+            [markers]="chartOptions.markers"
+            [stroke]="chartOptions.stroke"
+            [grid]="chartOptions.grid"
+            [xaxis]="chartOptions.xaxis"
+            [tooltip]="chartOptions.tooltip"
+            [annotations]="chartOptions.annotations"
+          ></apx-chart>
+          <button class="active">
+            <span class="material-symbols-outlined">show_chart</span>
+          </button>
+          <button >
+            <span class="material-symbols-outlined">candlestick_chart</span>
+          </button>
+        </div>
+      </div>
+      <div class="container">
+
+        <div class="line">
+          <mat-divider></mat-divider>
+        </div>
+        <div class="text mat-typography">Facts</div>
+        <div class="line">
+          <mat-divider></mat-divider>
+        </div>
+      </div>
+
+      <div class="main-content mt-5 mb-5 ">
+        <div class="row">
+          <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="card card-chart">
+              <div class="card-header">
+                <h5 class="card-category text-center">
+                <span class="fa-stack fa-2x">
+                  <i class="fa-solid fa-circle fa-stack-2x" style="color: limegreen"></i>
+                  <i class="fa-solid fa-dollar-sign fa-stack-1x fa-inverse"></i>
+                </span>
+                </h5>
+                <div>
+                  <h2 class="card-title text-center">125.323,42$ <i class="fa fa-arrow-down" style="color: red"></i>
+                  </h2>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="text-center">
+                <span class="fa-stack fa-2x">
+                  <i class="fa-solid fa-circle fa-stack-2x"></i>
+                  <i class="fa-solid fa-calendar fa-stack-1x fa-inverse"></i>
+                </span>
+                </h5>
+                <div>
+                  <h2 class="card-title text-center">Launched in 2019</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="line">
+          <mat-divider></mat-divider>
+        </div>
+        <div class="text mat-typography">Description</div>
+        <div class="line">
+          <mat-divider></mat-divider>
+        </div>
+      </div>
 
     </div>
   </div>

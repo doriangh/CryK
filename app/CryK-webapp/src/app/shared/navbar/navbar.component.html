@@ -1,48 +1,46 @@
-<div class="bg-light">
-  <p-menubar [model]="items">
-    <ng-template pTemplate="start">
-      <a routerLink="">
-        <img src="/assets/logos/crypto_coins.svg" height="50" class="mr-2" alt="CryK Logo">
-      </a>
-    </ng-template>
-    <ng-template pTemplate="end">
-      <p-autoComplete
-        type="text"
-        emptyMessage="No results found"
-        [showEmptyMessage]="true"
-        [minLength]="1"
-        placeholder="Search..."/>
-    </ng-template>
-  </p-menubar>
-</div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-lg-5">
+  <div class="container-fluid">
+    <a class="navbar-brand" [routerLink]="['']">
+      <img src="/assets/logos/crypto_coins.svg" height="50" class="mr-2" alt="CryK Logo">
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      (click)="crykNavbar.toggle()"
+      data-mdb-toggle="collapse"
+      data-mdb-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation">
+      <i class="pi pi-bars"></i>
+    </button>
+    <div
+      class="collapse navbar-collapse"
+      id="navbarSupportedContent"
+      mdbCollapse
+      #crykNavbar="mdbCollapse">
+      <ul class="nav nav-pills me-auto mb-2 mb-lg-0">
+        <li class="nav nav-item">
+          <a class="nav-link" aria-current="page" [routerLink]="['']" routerLinkActive="active"
+             [routerLinkActiveOptions]="{exact: true}">
+            <i class="pi pi-home mr-2"></i>Dashboard</a>
+        </li>
+        <li class="nav nav-item">
+          <a class="nav-link" aria-current="page" [routerLink]="['/browse']" routerLinkActive="active"
+             [routerLinkActiveOptions]="{exact: true}">
+            <i class="pi pi-globe mr-2"></i>Browse</a>
+        </li>
+      </ul>
 
-<!--<nav class="navbar navbar-expand-lg navbar-light bg-light">-->
-<!--  <div class="container-fluid">-->
-<!--    <button-->
-<!--      class="navbar-toggler"-->
-<!--      type="button"-->
-<!--      data-mdb-toggle="collapse"-->
-<!--      data-mdb-target="#navbarSupportedContent"-->
-<!--      aria-controls="navbarSupportedContent"-->
-<!--      aria-expanded="false"-->
-<!--      aria-label="Toggle navigation">-->
-<!--      <i class="fas fa-bars"></i>-->
-<!--    </button>-->
-<!--    <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
-<!--      <a class="navbar-brand mt-2 mt-lg-0" href="">-->
-<!--        <img src="/assets/logos/mining.svg" height="40" class="mr-6" alt="CryK Logo">-->
-<!--      </a>-->
-<!--      <ul class="navbar-nav me-auto mb-2 mb-lg-0">-->
-<!--        <li class="nav-item ">-->
-<!--          <div>-->
-<!--          <i class="pi pi-home"></i>-->
-<!--          <a class="nav-link active" href="">Dashboard</a>-->
-<!--          </div>-->
-<!--        </li>-->
-<!--        <li class="nav-item">-->
-<!--          <a class="nav-link" href="/browse">Browse</a>-->
-<!--        </li>-->
-<!--      </ul>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</nav>-->
+      <div class="d-flex align-items-center">
+        <p-autoComplete
+          type="text"
+          emptyMessage="No results found"
+          (onKeyUp)="beginTypeSearch($event)"
+          [showEmptyMessage]="true"
+          [minLength]="1"
+          placeholder="Search..."/>
+      </div>
+    </div>
+  </div>
+</nav>

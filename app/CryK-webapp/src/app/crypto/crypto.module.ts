@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CryptoDetailsComponent } from './crypto-details/crypto-details.component';
-import { CryptoDashComponent } from './crypto-dash/crypto-dash.component';
-import { CryptoBrowserComponent } from './crypto-browser/crypto-browser.component';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {CryptoDetailsComponent} from './crypto-details/crypto-details.component';
+import {CryptoDashComponent} from './crypto-dash/crypto-dash.component';
+import {CryptoBrowserComponent} from './crypto-browser/crypto-browser.component';
 import {AutoCompleteModule} from "primeng/autocomplete";
 import {FormsModule} from "@angular/forms";
 import {MatCardModule} from "@angular/material/card";
@@ -28,9 +28,9 @@ import {SpinnerModule} from "primeng/spinner";
 import {MatSortModule} from "@angular/material/sort";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatInputModule} from "@angular/material/input";
-import {MatFormFieldModule} from "@angular/material/form-field";
-
-
+import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import {MatDividerModule} from "@angular/material/divider";
+import {NgApexchartsModule} from "ng-apexcharts";
 
 @NgModule({
   declarations: [
@@ -65,6 +65,10 @@ import {MatFormFieldModule} from "@angular/material/form-field";
     MatSortModule,
     MatPaginatorModule,
     MatInputModule,
+    FontAwesomeModule,
+    MatDividerModule,
+    NgApexchartsModule,
   ]
 })
-export class CryptoModule { }
+export class CryptoModule {
+}

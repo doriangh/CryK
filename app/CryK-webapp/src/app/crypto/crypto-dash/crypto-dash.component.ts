@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {ChartConfiguration, ChartOptions} from "chart.js";
 import {CryptoService} from "../crypto.service";
-import {Coin} from "../../models/coin";
+import {Cryptocurrency} from "../../models/cryptocurrency";
 
 @Component({
   selector: 'app-crypto-dash',
@@ -36,9 +36,12 @@ import {Coin} from "../../models/coin";
     ])
   ]
 })
-export class CryptoDashComponent implements OnInit {
-  // @ts-ignore
-  chart: Chart;
+export class CryptoDashComponent implements OnInit, AfterViewInit {
+  @ViewChild('header', {static: false}) header: ElementRef;
+  @ViewChild('content', {static: false}) content: ElementRef;
+
+  headerIsAboveContent: boolean;
+
   columns = ["expand", "rank", "name", "symbol", "price_usd", "price_btc"];
 
   public lineChartData: ChartConfiguration<'line'>['data'] = {
@@ -63,15 +66,16 @@ export class CryptoDashComponent implements OnInit {
   isChartVisible = false;
   chartState = 'hidden';
 
-  coins: Coin[] = [];
+  coins: Cryptocurrency[] = [];
   // @ts-ignore
-  expandedElement: Coin | null;
+  expandedElement: Cryptocurrency | null;
 
   chartData: any;
   private selectedCoin: any;
 
   constructor(
-    private dashboardService: CryptoService
+    private dashboardService: CryptoService,
+    private renderer: Renderer2
   ) { }
 
   ngOnInit(): void {
@@ -99,9 +103,20 @@ export class CryptoDashComponent implements OnInit {
     }
   }
 
-  hideChart() {
-    this.isChartVisible = false;
-    this.chartState = 'hidden';
+  ngAfterViewInit() {
+    window.addEventListener("scroll", () => {
+      this.checkPosition();
+    });
+
+    window.addEventListener("resize", () => {
+      this.checkPosition();
+    });
   }
 
+  checkPosition() {
+    const headerRect = this.header.nativeElement.getBoundingClientRect();
+    const contentRect = this.content.nativeElement.getBoundingClientRect();
+
+    this.headerIsAboveContent = headerRect.bottom > contentRect.top;
+  }
 }

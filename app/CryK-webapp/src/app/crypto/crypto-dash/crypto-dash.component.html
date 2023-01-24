@@ -10,100 +10,100 @@
       </div>
     </mat-card-subtitle>
   </mat-card-header>
-  <mat-card-content>
-    <!--    <p-table-->
-    <!--      #table-->
-    <!--      [value]="coins"-->
-    <!--      dataKey="name"-->
-    <!--      selectionMode="single"-->
-    <!--      rowExpandMode="single">-->
-    <!--      <ng-template pTemplate="header">-->
-    <!--        <tr>-->
-    <!--          <th></th>-->
-    <!--          <th pSortableColumn="rank">-->
-    <!--            <div class="flex justify-content-between align-items-center">-->
-    <!--              Rank-->
-    <!--            </div>-->
-    <!--          </th>-->
-    <!--          <th>-->
-    <!--            <div class="flex justify-content-center align-items-center">-->
-    <!--              Name-->
-    <!--            </div>-->
-    <!--          </th>-->
-    <!--          <th>Symbol</th>-->
-    <!--          <th>Price USD</th>-->
-    <!--          <th>Price BTC</th>-->
-    <!--        </tr>-->
-    <!--      </ng-template>-->
-    <!--      <ng-template pTemplate="body" let-coin let-expanded="expanded">-->
-    <!--        <tr (click)="table.toggleRow(coin)">-->
-    <!--          <td>-->
-    <!--            <button type="button" pButton pRipple [pRowToggler]="coin"-->
-    <!--                    class="p-button-text p-button-rounded p-button-plain"-->
-    <!--                    [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>-->
-    <!--          </td>-->
-    <!--          <td>{{coin.rank}}</td>-->
-    <!--          <td>-->
-    <!--            <span class="p-column-title">Name</span>-->
-    <!--            <img [src]="coin.icon" width="32" style="vertical-align: middle; margin-right: 10px" alt="Coin Icon"/>-->
-    <!--            <span class="image-text" style="vertical-align: center">{{coin.name}}</span>-->
-    <!--          </td>-->
-    <!--          <td>-->
-    <!--            <span style="horiz-align: center">{{coin.symbol}}</span>-->
-    <!--          </td>-->
-    <!--          <td>{{coin.price_usd}}</td>-->
-    <!--          <td>{{coin.price_btc}}</td>-->
-    <!--        </tr>-->
-    <!--      </ng-template>-->
+  <!--    <p-table-->
+  <!--      #table-->
+  <!--      [value]="coins"-->
+  <!--      dataKey="name"-->
+  <!--      selectionMode="single"-->
+  <!--      rowExpandMode="single">-->
+  <!--      <ng-template pTemplate="header">-->
+  <!--        <tr>-->
+  <!--          <th></th>-->
+  <!--          <th pSortableColumn="rank">-->
+  <!--            <div class="flex justify-content-between align-items-center">-->
+  <!--              Rank-->
+  <!--            </div>-->
+  <!--          </th>-->
+  <!--          <th>-->
+  <!--            <div class="flex justify-content-center align-items-center">-->
+  <!--              Name-->
+  <!--            </div>-->
+  <!--          </th>-->
+  <!--          <th>Symbol</th>-->
+  <!--          <th>Price USD</th>-->
+  <!--          <th>Price BTC</th>-->
+  <!--        </tr>-->
+  <!--      </ng-template>-->
+  <!--      <ng-template pTemplate="body" let-coin let-expanded="expanded">-->
+  <!--        <tr (click)="table.toggleRow(coin)">-->
+  <!--          <td>-->
+  <!--            <button type="button" pButton pRipple [pRowToggler]="coin"-->
+  <!--                    class="p-button-text p-button-rounded p-button-plain"-->
+  <!--                    [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>-->
+  <!--          </td>-->
+  <!--          <td>{{coin.rank}}</td>-->
+  <!--          <td>-->
+  <!--            <span class="p-column-title">Name</span>-->
+  <!--            <img [src]="coin.icon" width="32" style="vertical-align: middle; margin-right: 10px" alt="Coin Icon"/>-->
+  <!--            <span class="image-text" style="vertical-align: center">{{coin.name}}</span>-->
+  <!--          </td>-->
+  <!--          <td>-->
+  <!--            <span style="horiz-align: center">{{coin.symbol}}</span>-->
+  <!--          </td>-->
+  <!--          <td>{{coin.price_usd}}</td>-->
+  <!--          <td>{{coin.price_btc}}</td>-->
+  <!--        </tr>-->
+  <!--      </ng-template>-->
 
-    <!--      <ng-template pTemplate="rowexpansion" let-coin>-->
-    <!--        <tr>-->
-    <!--          <td colspan="6"-->
-    <!--              style="height: 500px;">-->
-    <!--            <div class="card-container blue-container grid w-full">-->
-    <!--              <div class="align-items-center justify-content-center p-2 col-6">-->
-    <!--                <div class="lineGraph"-->
-    <!--                     style="height: 500px; width: 100%">-->
-    <!--                  <canvas-->
-    <!--                    baseChart-->
-    <!--                    [type]="'line'"-->
-    <!--                    [data]="lineChartData"-->
-    <!--                    [options]="lineChartOptions">-->
-    <!--                  </canvas>-->
-    <!--                </div>-->
-    <!--              </div>-->
-    <!--              <div class="col-6">-->
-    <!--                <div class="grid w-full">-->
-    <!--                  <div class="coinDescription align-items-center justify-content-center pb-6 col-12">-->
-    <!--                    <mat-card-->
-    <!--                      class="scrollable-content"-->
-    <!--                      style="width: 100%; height: 100%; padding: 10px; overflow: auto;">-->
-    <!--                      <mat-card-header>-->
-    <!--                        <div mat-card-avatar [ngStyle]="{'background-image': 'url(' + coin.icon + ')'}"-->
-    <!--                             style="background-size: cover"></div>-->
-    <!--                        <mat-card-title>{{coin.name}}</mat-card-title>-->
-    <!--                        <mat-card-subtitle>{{coin.symbol}}</mat-card-subtitle>-->
-    <!--                      </mat-card-header>-->
-    <!--                      <mat-card-content>-->
-    <!--                        <p>-->
-    <!--                          {{coin.description}}-->
-    <!--                        </p>-->
-    <!--                      </mat-card-content>-->
-    <!--                    </mat-card>-->
-    <!--                  </div>-->
-    <!--                  <div class="col-12">-->
-    <!--                    <div class="align-items-center justify-content-center "-->
-    <!--                         style="text-align: center">-->
-    <!--                      <p-button label="Learn More" class="ui-buton-info" routerLink="/details/{{coin.id}}"></p-button>-->
-    <!--                    </div>-->
-    <!--                  </div>-->
-    <!--                </div>-->
-    <!--              </div>-->
-    <!--            </div>-->
-    <!--          </td>-->
-    <!--        </tr>-->
-    <!--      </ng-template>-->
-    <!--    </p-table>-->
+  <!--      <ng-template pTemplate="rowexpansion" let-coin>-->
+  <!--        <tr>-->
+  <!--          <td colspan="6"-->
+  <!--              style="height: 500px;">-->
+  <!--            <div class="card-container blue-container grid w-full">-->
+  <!--              <div class="align-items-center justify-content-center p-2 col-6">-->
+  <!--                <div class="lineGraph"-->
+  <!--                     style="height: 500px; width: 100%">-->
+  <!--                  <canvas-->
+  <!--                    baseChart-->
+  <!--                    [type]="'line'"-->
+  <!--                    [data]="lineChartData"-->
+  <!--                    [options]="lineChartOptions">-->
+  <!--                  </canvas>-->
+  <!--                </div>-->
+  <!--              </div>-->
+  <!--              <div class="col-6">-->
+  <!--                <div class="grid w-full">-->
+  <!--                  <div class="coinDescription align-items-center justify-content-center pb-6 col-12">-->
+  <!--                    <mat-card-->
+  <!--                      class="scrollable-content"-->
+  <!--                      style="width: 100%; height: 100%; padding: 10px; overflow: auto;">-->
+  <!--                      <mat-card-header>-->
+  <!--                        <div mat-card-avatar [ngStyle]="{'background-image': 'url(' + coin.icon + ')'}"-->
+  <!--                             style="background-size: cover"></div>-->
+  <!--                        <mat-card-title>{{coin.name}}</mat-card-title>-->
+  <!--                        <mat-card-subtitle>{{coin.symbol}}</mat-card-subtitle>-->
+  <!--                      </mat-card-header>-->
+  <!--                      <mat-card-content>-->
+  <!--                        <p>-->
+  <!--                          {{coin.description}}-->
+  <!--                        </p>-->
+  <!--                      </mat-card-content>-->
+  <!--                    </mat-card>-->
+  <!--                  </div>-->
+  <!--                  <div class="col-12">-->
+  <!--                    <div class="align-items-center justify-content-center "-->
+  <!--                         style="text-align: center">-->
+  <!--                      <p-button label="Learn More" class="ui-buton-info" routerLink="/details/{{coin.id}}"></p-button>-->
+  <!--                    </div>-->
+  <!--                  </div>-->
+  <!--                </div>-->
+  <!--              </div>-->
+  <!--            </div>-->
+  <!--          </td>-->
+  <!--        </tr>-->
+  <!--      </ng-template>-->
+  <!--    </p-table>-->
+  <mat-card-content>
 
     <table
       mat-table
@@ -175,24 +175,33 @@
                 <div class="coinDescription align-items-center justify-content-center pb-6 col-12">
                   <mat-card
                     class="scrollable-content"
-                    style="width: 100%; height: 100%; padding: 10px; overflow: auto;">
-                    <mat-card-header>
-                      <div mat-card-avatar [ngStyle]="{'background-image': 'url(' + coin.icon + ')'}"
-                           style="background-size: cover"></div>
-                      <mat-card-title>{{coin.name}}</mat-card-title>
-                      <mat-card-subtitle>{{coin.symbol}}</mat-card-subtitle>
-                    </mat-card-header>
-                    <mat-card-content>
-                      <p>
-                        {{coin.description}}
-                      </p>
-                    </mat-card-content>
+                    style="width: 100%; height: 100%; padding: 0;overflow: auto;">
+                    <ng-container>
+                      <div
+                        class="header-shadow"
+                        style="margin-bottom: 5px; top: 0; position: sticky; z-index: 1; background-color: inherit; border-bottom: 1px;border-bottom-color: red">
+                        <mat-card-header>
+                          <div mat-card-avatar [ngStyle]="{'background-image': 'url(' + coin.icon + ')'}"
+                               style="background-size: cover"></div>
+                          <mat-card-title>{{coin.name}}</mat-card-title>
+                          <mat-card-subtitle>{{coin.symbol}}</mat-card-subtitle>
+                        </mat-card-header>
+                      </div>
+                    </ng-container>
+                    <ng-container
+                    style="padding: 0 10px 10px;">
+                      <mat-card-content class="hide-scrollbar">
+                        <p class="hide-scrollbar" >
+                          {{coin.description}}
+                        </p>
+                      </mat-card-content>
+                    </ng-container>
                   </mat-card>
                 </div>
                 <div class="col-12">
                   <div class="align-items-center justify-content-center "
                        style="text-align: center">
-                    <p-button label="Learn More" class="ui-buton-info" routerLink="/details/{{coin.id}}"></p-button>
+                    <p-button label="Learn More" class="ui-buton-info" routerLink="/details/{{coin.symbol}}"></p-button>
                   </div>
                 </div>
               </div>

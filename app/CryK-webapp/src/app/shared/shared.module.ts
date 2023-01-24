@@ -6,6 +6,7 @@ import {AutoCompleteModule} from "primeng/autocomplete";
 import {MatInputModule} from "@angular/material/input";
 import { FooterComponent } from './footer/footer.component';
 import { NotfoundComponent } from './notfound/notfound.component';
+import {MdbCollapseModule} from "mdb-angular-ui-kit/collapse";
 
 
 
@@ -23,7 +24,8 @@ import { NotfoundComponent } from './notfound/notfound.component';
     CommonModule,
     MenubarModule,
     AutoCompleteModule,
-    MatInputModule
+    MatInputModule,
+    MdbCollapseModule
   ]
 })
 export class SharedModule { }

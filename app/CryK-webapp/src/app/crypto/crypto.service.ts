@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {MessageService} from "primeng/api";
 import {catchError, Observable, of, tap} from "rxjs";
-import {Coin} from "../models/coin";
+import {Cryptocurrency} from "../models/cryptocurrency";
 
 @Injectable({
   providedIn: 'root'
@@ -24,11 +24,11 @@ export class CryptoService {
     private messageService: MessageService
   ) { }
 
-  getCoins() : Observable<Coin[]>{
-    return this.http.get<Coin[]>('http://localhost:3000/coins', this.httpOptions)
+  getCoins() : Observable<Cryptocurrency[]>{
+    return this.http.get<Cryptocurrency[]>('http://localhost:3000/coins', this.httpOptions)
       .pipe(
         tap(_ => this.log('fetched coins')),
-        catchError(this.handleError<Coin[]>('getCoins', []))
+        catchError(this.handleError<Cryptocurrency[]>('getCoins', []))
       );
   }
 

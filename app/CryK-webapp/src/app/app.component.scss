@@ -19,3 +19,22 @@
   max-height: 100%;
   overflow: auto;
 }
+
+router-outlet{
+  height: 100%;
+}
+
+.hide-scrollbar::-webkit-scrollbar{
+  display: none;
+}
+
+.hide-scrollbar{
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.main-content{
+  padding: 0 30px 30px;
+  min-height: calc(100vh - 123px);
+  margin-top: -30px;
+}

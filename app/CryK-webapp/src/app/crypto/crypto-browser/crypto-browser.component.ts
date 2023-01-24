@@ -3,7 +3,7 @@ import {CryptoService} from "../crypto.service";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {MatTableDataSource} from "@angular/material/table";
-import {Coin} from "../../models/coin";
+import {Cryptocurrency} from "../../models/cryptocurrency";
 import {Event} from "@angular/router";
 
 @Component({
@@ -17,7 +17,7 @@ export class CryptoBrowserComponent implements OnInit{
   @ViewChild(MatSort) sort: MatSort = new MatSort();
   selectedCoin: any = null;
   // @ts-ignore
-  coins: MatTableDataSource<Coin>;
+  coins: MatTableDataSource<Cryptocurrency>;
   filteredCoins: any[] = [];
   displayedColumns: string[] = ['rank', 'name', 'symbol', 'price_usd', 'price_btc'];
 
