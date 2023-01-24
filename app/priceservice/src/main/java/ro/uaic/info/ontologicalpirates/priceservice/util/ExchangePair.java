@@ -22,6 +22,9 @@ public class ExchangePair {
         }
         this.fromSymbol = symbolsPair.get(0);
         this.toSymbol = symbolsPair.get(1);
+        if (fromSymbol == null || toSymbol == null) {
+            throw new IllegalArgumentException("Symbols must be valid values not nulls");
+        }
     }
 
     public String getBinanceExchangeSymbol() {
