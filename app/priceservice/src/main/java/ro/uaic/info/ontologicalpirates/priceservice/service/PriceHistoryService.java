@@ -54,7 +54,7 @@ public class PriceHistoryService {
         }
 
         if (startTime == null && endTime == null) {
-            return  getPriceHistory(symbol, interval);
+            return getPriceHistory(symbol, interval);
         }
 
         LinkedHashMap<String, Object> params = new LinkedHashMap<>();
@@ -74,7 +74,7 @@ public class PriceHistoryService {
 
     private List<String> getDailyDates(Long startTime, Long endTime) {
         List<String> dates = new ArrayList<>();
-        for (long timestamp = startTime + ONE_DAY; timestamp <= endTime; timestamp += ONE_DAY) {
+        for (long timestamp = startTime; timestamp <= endTime; timestamp += ONE_DAY) {
             dates.add(DAILY_DATE_FORMAT.format(new Date(timestamp)));
         }
         return dates;
