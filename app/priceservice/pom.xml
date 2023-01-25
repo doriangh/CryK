@@ -48,6 +48,12 @@
 			<version>2.14.0</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.apache.jena/jena-arq -->
+		<dependency>
+			<groupId>org.apache.jena</groupId>
+			<artifactId>jena-arq</artifactId>
+			<version>4.7.0</version>
+		</dependency>
 
 		<!--		TEST-->
 		<dependency>
