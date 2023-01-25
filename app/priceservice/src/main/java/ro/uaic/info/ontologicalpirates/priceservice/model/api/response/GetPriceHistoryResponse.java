@@ -14,6 +14,6 @@ public class GetPriceHistoryResponse {
     private String serverUtcDate;
     private List<BinanceKLineData> kline;
     private List<Double> prices;
-    private List<String> dates;
+    private List<Long> dates;
     private String errorMessage;
 }
