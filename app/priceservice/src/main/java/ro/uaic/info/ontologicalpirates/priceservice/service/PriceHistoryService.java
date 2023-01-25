@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 @Service
@@ -49,8 +50,9 @@ public class PriceHistoryService {
             throw new IllegalArgumentException("Unknown interval");
         }
         long currentTime = Instant.now().toEpochMilli();
+        long offset = !Objects.equals(interval, "12h") ? INTERVAL_EPOCHS.get(interval) * 60 : 30 * ONE_DAY * 12;
         long endTime = currentTime - currentTime % ONE_HOUR;
-        long startTime = endTime - ONE_DAY * 60;
+        long startTime = endTime - offset;
         return getPriceHistory(symbol, interval, startTime, endTime);
     }
 
