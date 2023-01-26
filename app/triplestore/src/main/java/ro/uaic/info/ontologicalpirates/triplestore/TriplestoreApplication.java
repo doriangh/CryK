@@ -42,7 +42,7 @@ public class TriplestoreApplication  {
 		}
 		server = FusekiServer.create()
 						.port(3332)
-						.add("/ds", ds)
+						.add("/ds", ds, true)
 						.build();
 		server.start();
 

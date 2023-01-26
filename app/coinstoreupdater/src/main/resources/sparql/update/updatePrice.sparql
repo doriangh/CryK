@@ -1,0 +1,13 @@
+DELETE WHERE {
+    <COIN_TO_UPDATE_IRI> <http://www.ontologicalpirates.ro/property#price> ?o
+} ;
+DELETE WHERE {
+    <COIN_PRICE_IRI> ?p ?o
+} ;
+INSERT DATA {
+  <COIN_PRICE_IRI> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.ontologicalpirates.ro/resource#Price> .
+  <COIN_PRICE_IRI> <http://www.ontologicalpirates.ro/property#value> "PRICE_VALUE_LITERAL"@en .
+  <COIN_PRICE_IRI> <http://www.ontologicalpirates.ro/property#updatedAt> "UPDATE_DATE_LITERAL"@en .
+  <COIN_PRICE_IRI> <http://www.ontologicalpirates.ro/property#exchange> <COIN_EXCHANGE_IRI> .
+  <COIN_TO_UPDATE_IRI> <http://www.ontologicalpirates.ro/property#price> <COIN_PRICE_IRI> .
+} ;

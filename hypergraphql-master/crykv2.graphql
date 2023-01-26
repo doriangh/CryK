@@ -6,6 +6,12 @@ type __Context {
     PosScheme:                              _@href(iri: "http://purl.org/net/bel-epa/doacc#PoSscheme")
     PoWScheme:                              _@href(iri: "http://purl.org/net/bel-epa/doacc#PoWscheme")
     AnyUri:                                 _@href(iri: "http://www.w3.org/2001/XMLSchema#anyUri")
+    Price:                                  _@href(iri: "http://www.ontologicalpirates.ro/resource#Price")
+
+    exchange:                               _@href(iri: "http://www.ontologicalpirates.ro/property#exchange")
+    updatedAt:                              _@href(iri: "http://www.ontologicalpirates.ro/property#updatedAt")
+    value:                                  _@href(iri: "http://www.ontologicalpirates.ro/property#value")
+    price:                                  _@href(iri: "http://www.ontologicalpirates.ro/property#price")
 
     coin:                                   _@href(iri: "http://purl.org/net/bel-epa/doacc#coin")
     developer:                              _@href(iri: "http://purl.org/net/bel-epa/doacc#developer")
@@ -56,6 +62,11 @@ type __Context {
 
 }
 
+type Price @service(id:"dbpedia-sparql") {
+    value: [String] @service(id:"dbpedia-sparql")
+    updatedAt: [String] @service(id:"dbpedia-sparql")
+    exchange: [Cryptocurrency] @service(id:"dbpedia-sparql")
+}
 
 # USED IN BASIC DATASET
 type Cryptocurrency @service(id:"dbpedia-sparql"){
@@ -82,6 +93,7 @@ type Cryptocurrency @service(id:"dbpedia-sparql"){
     protocol: [Protocol] @service(id:"dbpedia-sparql")
     retargetTime: [String] @service(id:"dbpedia-sparql")
     premine: [String] @service(id:"dbpedia-sparql") # found
+    price: [Price] @service(id:"dbpedia-sparql")
 }
 
 # USED IN BASIC DATASET

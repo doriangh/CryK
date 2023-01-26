@@ -1,7 +1,6 @@
 package ro.uaic.info.ontologicalpirates.priceservice.model;
 
 public enum CoinSymbol {
-    //    BTC, ETH, BTCUSDT, DOGEUSDT, DOGEBTC, BTCDOGE, DOGE, 123123A
     USDT, ADA, GBIT, EVENT, DSB, SNCX, SMURF, FLOW, DBT, SFPC, LVC, IVC, LND, MZC, LISK, OO, PR, ENRG, ICASH, SLT, SLG,
     KOZ, DROP,
     WSTL, FRP, YAY, KILR, HRC, SWAG, MINI, HORS, OZC, DCYP, MBL, DINO, NEOC, RW, TOUCH, EUP, FCN, STEM, NET, STY, HSP,
