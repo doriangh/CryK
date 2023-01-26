@@ -16,4 +16,7 @@ is released under Apache License 2.0. See [LICENSE.TXT](https://github.com/hyper
 ### Run (Java 17+, gradle 7+)
 
 gradle clean build shadowJar -x test    
-java -jar build/libs/hypergraphql-3.0.1-exe.jar --config cryk_config.json
+java -jar build/libs/hypergraphql-3.0.1-exe.jar --config cryk_config.json (in memory triple store)
+
+java -jar build/libs/hypergraphql-3.0.1-exe.jar --config cryk_config_remote.json (remote triple store, requires 
+triplestore service)
