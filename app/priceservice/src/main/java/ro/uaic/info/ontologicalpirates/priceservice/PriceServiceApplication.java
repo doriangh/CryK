@@ -11,7 +11,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @SpringBootApplication
 @EnableWebMvc
-@EnableAutoConfiguration
 @Slf4j
 public class PriceServiceApplication {
 

@@ -63,102 +63,595 @@
                         <div property="schema:copyrightYear"></div>
                         <h3>Copyright</h3>
                         <ul>
-                            <li property="schema:copyrightYear">2021</li>
+                            <li property="schema:copyrightYear">2023</li>
                             <li property="schema:copyrightHolder" typeof="schema:Organization">
                                 Facultatea de Informatică - Universitatea Alexandru Ioan Cuza
                             </li>
                         </ul>
             </section>
-            <section typeof="sa:Abstract">
+            <section role="doc-abstract" aria-label="Abstract" typeof="sa:Abstract">
                 <h2>Abstract</h2>
-                This report details the technical aspects of building a web application
-                on top of an ontological model describing the cryptocurrencies ecosystem.
-                The application is best described as a broker of cryptocurrency knowledge which will internally manage static metadata about electronic coins and blockchain and model said data using RDF format. The application aims to vend a cross between a classic broker service - which includes a user inteface displaying coins with their respective price updated frequently and search/filtering features - and a SPARQL service, thus resources described in the RDF model will have both a dedicated URI under the application domain behind the /resource path and a humad redable document accessed thorugh the /page path. On top of price live tracking and search features, the application will include charts consisting of price plots and other visualizations of interest.
-                The report showcases topics such as internal data structures, linked data principles, technologies used, cost of infrastructure, SLAs. For convinience, in the following sections we will reffer to the application as CRYK - abvreviation for Cryptocurrency Knowledge Manager, title of the project and application.
+                <p> This report details the technical aspects of building a web application that describes the cryptocurrencies ecosystem. The application will built upon DOACC - Description Of A CryptoCurrency - a project which defines a vast vocabulary expressing metadata about cryptocurrencies along with various datasets using said vocabulary. </p>
+                <p> The application is best described as a broker of cryptocurrency knowledge, capable to vend and manage knowledge about various cryptocurrencies. Static data describing cryptocurrencies will be stored in triple format and fetched in RDF format, making use of DOACC vocabulary, while other data of interest such a price, current amount of mined coins or other information which frequently updates will be collected from popular exchanges that vend information via REST APIs. The application aims to vend a cross between a classic broker service, displaying coins and their prices in various exchanges through a user interface and a catalogue of valuable metadata vended through SPARQL and GraphQL endpoints in either human or machine readable fromat. The cryptocurrency broker theme of the application will be further highlighted through charts consisting of price plots and other visualizations of interest. </p>
+                <p> This report showcases topics such as internal data structures, linked data principles, microservice infrastructure and technologies used. For convinience, in the following sections we will reffer to the application as CRYK - abvreviation for Cryptocurrency Knowledge Manager, title of the project and application. </p>
+            </section>
+            <section role="doc-preface">
+            	<h2>Note on DOACC</h2>
+            	<p> Description Of A CryptoCurrency is a collection of publicly available data about alternative digital currencies (to Bitcoin), including information about their names, trading symbols, total coin supply, target time for mining blocks, encryption technique, launch date, and the URL of their source code repository, among other things. </p>
+            	<p> For our purpose, DOACC provides the following resources.  </p>
+            	<ul>
+            		<li> A main vocabulary describing cryptocurrencies and a vast collection of properties of interest </li>
+            		<li> An extension to the main vocabulary focussing specifically on blockchain </li>
+            		<li> A dataset in triple format describing altcoins focussing on a selection of properties defined in the main vocabulary</li>
+            	</ul>
+            	<p>The vocabularies provide meaningful data models for our application. That being said, in order to prove the concept of the application, we found the dataset provided by DOACC, using a subset of the main vocabulary, more suitable in terms of populating the application triple store, the size of the data the storage will persist, and models the application will define. </p>
+            	<p> The Data section of the document thoroughly describes the format and the vocabulary the final solution is implementing and using. <p>   
+            	//mentions links
             </section>
             <section>
-                <h2>1. CRYK overview</h2>
+                <h2>1. Architecture overview</h2>
                 <figure id="fig1">
-                    <img src="https://raw.githubusercontent.com/doriangh/CryK/main/technical_report/diagrams/cryk_overview.jpg">
+                    <img src="diagrams/cryk_overview_v2.jpg">
                         <figcaption>fig. 1</figcaption>
                     </figure>
                     <p>&nbsp;</p>
+                The application follows a standard microservice oriented architecture, ensuring separation of concerns and modularity. Each of the following components (showcased in the diagram) handle a specific business issue and are thoroughly described in the implementation section.
+                // anchor to implementation
+                <ul>
+                	<li><b>Frontend</b> refers to the component tasked with reading and rendering data for the end user.</li>
+                	<li><b>Price fetcher REST API</b> provides, as the name suggests, REST APIs implementing price data reading leveraging the Binance API.</li>
+                	<li><b>Triple store</b> represents the persistence layer, also exposing access to the data stored in triple format via a SPARQL endpoint.</li>
+                	<li><b>GraphQL</b> component represents the data access layer, tasked with fetching data from the triple store and converting GraphQL queries to SPARQL.</li>
+                	<li><b>Price updater scheduled task</b> handles reading price data periodically and updating the triple store with latest data.</li>
+                </ul>
+                <h2>2. Data model </h2>
+                <section>CRYK works with multiple types of data. In the persistence layer, data is stored in triple format, while data access layers define either GraphQL schemas or data transfer objects. As mentioned in the report introduction, a subset of the DOACC vocabulary is used as a means of describing the data model. The next section describes the resources and properties defined in the vocabulary, along with their domain and range.</section>
+                <h3>2.1 Vocabulary</h3>
+                <h4>2.1.1 Cryptocurrency - <i>iri</i>: <code>doacc#Cryptocurrency</code> </h4>
+                <section> As the name suggests, <code>Cryptocurrency</code> is the main resource defined as encapsulating all knowledge related to electronic coins. Although the extended vocabulary defines 34 properties in the domain of <code>Cryptocurrency</code>, the subset used in the DOACC-provided dataset uses only 21 properties.</section>
+                <ul>
+                	<li><code>doacc#symbol</code> represents the abbreviation used to identify a <code>Cryptocurrency</code>; symbols are represented through string literals (e.g., BTC, ETH, DOGE, etc.).</li>
+                	<li><code>doacc#total-coins</code> represent the count of coins produced so far through specific procedures such as mining; <code>total-coins</code> are represented through literals.</li>
+                	<li><code>doacc#pos</code> indicates what proof of stake scheme a <code>Cryptocurrency</code> is using; the range of pos is defined over <code>PoSscheme</code> resources</li>
+                	<li><code>doacc#pow</code> indicates what proof of work scheme a <code>Cryptocurrency</code> is using; the range of <code>pow</code> is defined over <code>PoWscheme</code> resources</li>
+                	<li><code>doacc#website</code> refers to the web domain owned by the organization developing the  <code>Cryptocurrency</code>; <code>website</code> ranges over <code>http://www.w3.org/2001/XMLSchema#anyURI</code> resources</li>
+                	<li><code>doacc#image</code> is indicating the <code>http://www.w3.org/2001/XMLSchema#anyURI</code> referencing the <code>.svg</code> file used to visually represent the <code>Cryptocurrency</code></li>
+                	<li><code>doacc#distribution-scheme</code> describes the <code>Cryptocurrency</code> means of dissemination; <code>distribution-scheme</code> ranges over <code>DistributionScheme</code> resources </li>
+                	<li><code>doacc#comment</code> can be used by the author to append additional information, such as a text note. </li>
+                	<li><code>doacc#incept</code> represents the launch date expressed in literals and YYYY-MM format. </li>
+                	<li><code>doacc#block-time</code> represents the targetted time set for a block to be mined; <code>block-time</code> is represented through a string literal.
+                	<li><code>doacc#maturation</code> represents the additional depth of chain required for mined blocks to mature; <code>maturation</code> is represented through a string literal.</li>
+                	<li><code>doacc#source</code> indicates a <code>http://www.w3.org/2001/XMLSchema#anyURI</code> referencing the source code for open-source solutions</li>
+                	<li><code>doacc#protection-scheme</code> represents the record of the transaction security model; the range of <code>protection-scheme</code> is defined over <code>ProtectionScheme</code> resources. </li>
+                	<li><code>doacc#confirmations</code> represents the number of blocks required to confirm a transaction and is expressed through a literal</li>
+                	<li><code>doacc#block-reward</code> indicates, as the name suggests, the rewards scheme used to recompense a mined block and is expressed through a literal</li>
+                	<li><code>doacc#date-founded</code> represents either the coin launch or the announcement date expressed through a string literal in YYYY-MM-DD format.</li>
+                	<li><code>doacc#clone-of</code> indicates that the given coin is a fork of another  <code>Cryptocurrency</code></li>
+                	<li><code>doacc#reward-modifier</code> represents a programmed modification to the reward scheme, such as halving the schedule or planned bonuses; <code>reward-modifier</code> ranges over literals.</li>
+                	<li><code>doacc#protocol</code> is a way of distinguishing cryptocurrency transaction records that spans over <code>Protocol</code> resources</li>
+                	<li><code>doacc#retarget-time</code> indicates when the mining difficulty should update and ranges over literals.</li>
+                	<li><code>doacc#premine</code> indicates, where applicable, information related to coins created before the launch of the <code>Cryptocurrency</code></li>
+                </ul>
+                <section>In order to adhere to CRYK application requirements and features, the <code>ontologicalpirates#price</code> property is used to describe the price information, spanning over <code>Price</code> resources.</section>
+                <h4>2.1.2 Proof of stake scheme - <i>iri</i>: <code>doacc#PoSscheme</code></h4>
+                <section>Proof of stake is a cryptocurrency convention used to describe transaction processing and block creation via a process similar to voting. Each cryptocurrency can have a unique implementation of proof of stake. An author can use this resource to detail the mechanism or the implementation specifics of a given proof-of-stake scheme. The dataset briefly describes six flavors of <code>PoScheme</code> resources without using technically established terms or documentation: endorsement, faucet, kind, dividend, demurrage, and interest. </section>
+                <h4>2.1.3 Proof of work scheme - <i>iri</i>: <code>doacc#PoWscheme</code></h4>
+                <section>Proof of work is a cryptocurrency convention used to describe transaction processing and block creation via a defined measurement of the computational work put in. Similar to proof of stake schemes, proof of work schemes can differ from one cryptocurrency to another. Since proof of work is vastly more adopted and popular and is defined through a mathematical measurement, a larger array of schemes are defined in the dataset. </section>
+                <h4>2.1.4 Distribution scheme - <i>iri</i>: <code>doacc#DistributionScheme</code></h4>
+                <section> A distribution scheme defines how coins are distributed among contributors to the transaction processing, such as miners or stake holders. Distribution schemes are mainly driven by the proof of transaction schemes mentioned earlier and mainly differ in flavor. E.g., "pow": dissemination via proof of work and by purchase; "poq": dissemination via performing in-game quests; "clubbed": communication with the membership. </section>
+                <h4>2.1.5 Protection scheme - <i>iri</i>: <code>doacc#ProtectionScheme</code></h4>
+                A protection scheme defines how the transaction record is protected on the blockchain. Traditionally, protection is achieved through cryptographic algorithms and consensus mechanisms. Popular solutions to transaction record protection include the use of hash functions, digital signatures, distributed ledgers, and consensus algorithms.
+                <h4>2.1.6 Protocol - <i>iri</i>: <code>doacc#Protocol</code></h4>
+                <section> A protocol strictly details how transactions are distinguished on the chain. Traditionally, transactions are distinguished through a unique identifier called a transaction hash or ID. This is a string of characters that is generated from the details of the transaction, such as the sender and recipient addresses, the amount of the transfer, and other data. Protocols are specific to the blockchain. </section>
+                <h4>2.1.7 Price - <i>iri</i>: <code>ontologicalpirates#Price</code></h4>
+                The <code>Price</code> resource is defined by CRYK developers in order to show information related to price. The following properties are defined in the domain of the <code>Price</code> resource
+                <ul>
+                	<li><code>ontologicalpirates#value</code> represents the price value of the <code>Cryptocurrency</code> and is expressed through a literal</li>
+                	<li><code>ontologicalpirates#updatedAt</code> represents the date in timestamp epoch format at which the price was queried and is expressed as a literal</li>
+                	<li><code>ontologicalpirates#exchange</code> represents the <code>Cryptocurrency</code> used to compute the value</li>
+                </ul>
+                <section>Additionally, DOACC defined resources use <i>Dublin Core</i> <code>description</code> in order to describe information of interest related to each resource and <i>Simple Knowledge Organization System</i> <code>prefLabel</code> to indicate a common way of referring to the given resource other than the iri.</section>
+                <h3>2.2 Data access layer data models</h3>
+                <section> As mentioned in the introduction, though the data following the defined vocabulary is publicly available through a SPARQL endpoint, for accessing data from the triple store CRYK uses a GraphQL layer (more specifically, HyperGraphQL; see implementation details). As for the price data that we use to extend the existing vocabulary, CRYK implements a REST service to resolve requests to the Binance API endpoints. For describing the data in transit defined by these two services, CRYK defines the following GraphQL schema and OpenAPI specification. </section>
+                <h4 style="margin-bottom:0px">2.2.1 GraphQL schema</h4>
+                <pre><code>
+type Cryptocurrency {                           type PosScheme {
+    _id: String                                     _id: String
+    _type: String                                   _type: String
+    symbol: [String]                                description: [String] 
+    totalCoins: [String]                            prefLabel: [String] 
+    pos: [PosScheme]                            }
+    pow: [PoWScheme]
+    website: [String]                           type PoWScheme { 
+    description: [String]                           _id: String 
+    image: [String]                                 _type: String
+    distributionScheme: [DistributionScheme]        description: [String]
+    comment: [String]                               prefLabel: [String]
+    incept: [String]                            }
+    blockTime: [String]    
+    maturation: [String]                        type ProtectionScheme {
+    source: [String]                                _id: String
+    prefLabel: [String]                             _type: String 
+    protectionScheme: [ProtectionScheme]            description: [String]
+    confirmations: [String]                         prefLabel: [String]
+    blockReward: [String]                       }
+    dateFounded: [String]
+    cloneOf: [Cryptocurrency]                   type DistributionScheme {
+    rewardModifier: [String]                        _id: String
+    protocol: [Protocol]                            _type: String
+    retargetTime: [String]                          description: [String]
+    premine: [String]                               prefLabel: [String]
+    price: [Price]                              }
+}
+
+type Price {                                    type Protocol {
+    _id: String                                     _id: String
+    _type: String                                   _type: String             
+    value: [String]                                 description: [String]             
+    updatedAt: [String]                             prefLabel: [String]
+    exchange: [Cryptocurrency]                  }
+}
+
+type Query {
+    Cryptocurrency_GET(limit: Int, offset: Int): [Cryptocurrency]
+    PosScheme_GET(limit: Int, offset: Int): [PosScheme]
+    PoWScheme_GET(limit: Int, offset: Int): [PoWScheme]
+    ProtectionScheme_GET(limit: Int, offset: Int): [ProtectionScheme]
+    DistributionScheme_GET(limit: Int, offset: Int): [DistributionScheme]
+    Protocol_GET(limit: Int, offset: Int): [Protocol]
+    Price_GET(limit: Int, offset: Int): [Price]
+    Cryptocurrency_GET_BY_ID(uris: [String]): [Cryptocurrency]
+    PosScheme_GET_BY_ID(uris: [String]): [PosScheme]
+    PoWScheme_GET_BY_ID(uris: [String]): [PoWScheme]
+    ProtectionScheme_GET_BY_ID(uris: [String]): [ProtectionScheme]
+    DistributionScheme_GET_BY_ID(uris: [String]): [DistributionScheme]
+}
+                </code>
+            	</pre>
+            	<h4 style="margin-bottom:0px">2.2.2 OpenAPI specification</h4>
+            	<pre><code>
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Api Documentation",
+        "version": "1.0",
+        "title": "Api Documentation",
+        "termsOfService": "urn:tos",
+        "contact": {},
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0"
+        }
+    },
+    "host": "localhost:8081",
+    "basePath": "/",
+    "tags": [{
+        "name": "basic-error-controller",
+        "description": "Basic Error Controller"
+    }, {
+        "name": "coin-exchange-controller",
+        "description": "Coin Exchange Controller"
+    }, {
+        "name": "price-history-controller",
+        "description": "Price History Controller"
+    }],
+    "paths": {
+        "/error": {
+            "get": {
+                "tags": ["basic-error-controller"],
+                "summary": "errorHtml",
+                "operationId": "errorHtmlUsingGET",
+                "produces": ["text/html"],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ModelAndView"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/exchange": {
+            "get": {
+                "tags": ["coin-exchange-controller"],
+                "summary": "getCoinExchange",
+                "operationId": "getCoinExchangeUsingGET",
+                "produces": ["*/*"],
+                "parameters": [{
+                    "name": "from",
+                    "in": "query",
+                    "description": "from",
+                    "required": false,
+                    "type": "string",
+                    "enum": []
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/GetPriceHistoryResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "BinanceExchangeData": {
+            "type": "object",
+            "properties": {
+                "price": {
+                    "type": "string"
+                },
+                "symbol": {
+                    "type": "string"
+                }
+            },
+            "title": "BinanceExchangeData"
+        },
+        "BinanceKLineData": {
+            "type": "object",
+            "properties": {
+                "closePrice": {
+                    "type": "number",
+                    "format": "double"
+                },
+                "highPrice": {
+                    "type": "number",
+                    "format": "double"
+                },
+                "lowPrice": {
+                    "type": "number",
+                    "format": "double"
+                },
+                "openPrice": {
+                    "type": "number",
+                    "format": "double"
+                }
+            },
+            "title": "BinanceKLineData"
+        },
+        "GetCoinExchangeResponse": {
+            "type": "object",
+            "properties": {
+                "errorMessage": {
+                    "type": "string"
+                },
+                "exchangeData": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/BinanceExchangeData"
+                    }
+                },
+                "serverUtcDate": {
+                    "type": "string"
+                }
+            },
+            "title": "GetCoinExchangeResponse"
+        },
+        "GetPriceHistoryResponse": {
+            "type": "object",
+            "properties": {
+                "dates": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                },
+                "errorMessage": {
+                    "type": "string"
+                },
+                "kline": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/BinanceKLineData"
+                    }
+                },
+                "prices": {
+                    "type": "array",
+                    "items": {
+                        "type": "number",
+                        "format": "double"
+                    }
+                },
+                "serverUtcDate": {
+                    "type": "string"
+                }
+            },
+            "title": "GetPriceHistoryResponse"
+        }
+    }
+}
+            	</code></pre>
+                <h2>3. Implementation </h2> 
                 <section>
-                    <h3>1.1 Service overview</h3>
-                    The CRYK service handles requests over an http connection. Over this connection clients can view queried resources rendered in html format. The frontend service handles delivery of static assets (html, css, js) and forwarding the queries to the backend client service. The backend client service acts both as a control and data plane, performing both request redirecting and forwarding  to each coresponding microservice. The backend services will be resposible with providing data regarding RDF resources, a solution for price live updating on the frontend and price history data. In order to do so we distinguish the following microservies.
-                    <section>
-                        <h4>1.1.1 Crypto metadata service</h4>
-                        The metadata service will consist in a GraphQL endpoint executing queries over a triple store. The triple store will use a solution such as Apache Jena to expose cryptocurrencies metadata expressed as triples over a SPARQL connection. This service will be based on <a href="https://www.hypergraphql.org/"> HyperGraphQL </a> which is a java implementation of a GraphQL interface used for querying and serving linked data. HyperGraphQL is a solution designed to use GraphQL query language and schema and offer support for federated querying which will enable the client service to call it directly. The response format served by HyperGraphQL is conviniently JSON-LD. The HyperGraphQL project vends an executable java jar which consumes a configuration consisting in a graphql schema for the to be queried data and additional metadata describing where the data can be found such as an address for the SPARQL endpoint which will serve the data. When executed, the jar spins up a GraphQL server that can be used for query delegation.   
-                    </section>
-                    <section>
-                        <h4>1.1.2 Crypto price catalog service</h4>
-                        Since the price of cryptocurrencies is frequently updated, the coin models will not express the value of the price in the RDF graph. A dedicated key value storage such as MongoDB or Redis will be used to store the prices of the coins described in the RDF model over a period of time. The period of time will be exactly the maximum length of time the charts interface will allow users to select when plotting data. A cron scheduled script will be tasked with updating the prices. The script will run periodically on the same host as the storage instance and will request data from a trusted data source service which vends it. A popular solution for serving crypto data such as prices is <a href="https://coinmarketcap.com/api/"> CoinMarketCap </a>, which offer a range of APIs and more or less flexible priced packages based on number of calls.
-                    </section>
-                    <section>
-                        <h4>1.1.3 Price catalog client service</h4>
-                        In order to fetch the data from the price storage a thin data access layer will be implemented on top of the catalog service. On top of query delegation, the price catalog client service will act as a point of throughput control by adjusting TPS thresholds and providing application level caching of data. The TPS control can be managed via API gateway like services such as <a href="https://aws.amazon.com/api-gateway/"> Amazon API Gateway </a> or any other solution. The implmentation of the service will be based on Springboot and Hibernate. Hibernate will act both as an ORM and a solution for providing L1 and L2 cache levels which will in turn provide additional backpressure, to the benefit of the storage instace. 
-                    </section>
-                    <section>
-                        <h4>1.1.4 Price notifier websocket service</h4>
-                        The price notifier service will consist in a websocket server which will vend the latest updated prices via websockets. The websockets will enable the frontend to display the latest prices without refreshing the page, to the benefit of the user. Several pub/sub solutions are documented on the web describing how to implement websocket servers that hook into systems suchs as MongoDB or Redis and act as a data plane for forwarding the data to a client via websockets. The intention is to find the most suitable solution for the final product.    
-                    </section>
-                </section>
-                <section>
-                    <h3>1.2 Internal data representation</h3>
-                    #### TO BE UPDATED
-                </section>
-                <section>
-                    <h3>1.3 Internal storage</h3>
-                    #### TO BE UPDATED
-                </section>
-                <section>
-                    <h3>1.4 Linked data principles</h3>
-                    We can outline several ideas mentioned above that describe the linked data feature of the application. Stored data is available on the web through the use of an HTTP connection. The ontology resources are described through unique URIs. The internal data is modelled in RDF triple format and the output is in JSON-LD representation. Outputted resources include links to other internal resources to which they describe relations. This linking is done through metadata links to those resources. This linking can be further improved through querying/merging external data available in other public stores such as DBPedia
-                </section>
-            </section>
-            <section>
-                <h2>2.0 Technologies used</h2>
-                <section>
-                    <h3 id="designAndArchitecture">2.1 Design and architecture</h3>
-                    A general architecture of the application and preliminary design considerations
-                    are available in the <a href="https://github.com/doriangh/CryK/tree/main/technical_report">project repository</a>. This includes a diagram describing the service oriented architecture, preliminary UML representation of the backend service, GraphQL schema and descriptions of the application flow, query service and end client use cases.
-                </section>
-                <section>
-                    <section>
-                        <h4>2.1.1 Angular</h4>
-                        Angular was our choice as the platform for building the user interface of the application. It is a platform and framework for building single-page web applications using modern web platform capabilities delivering high performance, offline and zero-step installation.
-                        Single-Page Applications (or SPAs) refer to the application being dynamic, that is, when a user navigates the app, no page reloading is happening, but the data is received and sent back to the server, but the app itself does not load new pages from the server every time there is some action happening.
-                    </section>
-                    <section>
-                        Angular is considered by many a 'default' front-end tool and some of the reasons are because it is very versatile, has the ability of combining business logic and UI elements offering a lot of features that help to scale, optimize and speed up web applications.
-                        It includes numerous structural elements like Injectors, Components, Directives, Pipes, Services, etc. that raise the complexity of Angular as a platform, but creates high quality applications as a result.
-                        Some other benefits of using Angular are its very detailed documentation, two-way data binding that allows apps to update in real time if the binding source has changed (the backing value), differential loading that allow creating of two kinds of bundles, one for modern browsers that support ES2015+, and another one for older ones that support ES5 making the app more efficient and speedy by loading less code and polyfills.
-                        And finally, it was created by Google, so it has its support with small updates every 6 months, gradually improving the framework.
-                    </section>
-                    <section>
-                        For our use-case, Angular helps with providing a solid web application, that can easily support very large amounts of data, while being fast and responsive, with a minimal footprint.
-                        Using Angular with Spring was a very easy choice since the two form a powerful combination. One such benefit it has the controls necessary for displaying complex lists of data, with two way binding allowing for the UI to receive data from the API, but also send UI updates to the API, such as when you click to rate, the rate controller is already bound to a value that, when changed, updates it at API level.
-                    </section>
-                </section>
-                <section>
-                    <h4>2.1.2 Spring</h4>
-                    We have chosen to use Spring to develop a solid backend for our app. It is the most popular application framework for Java. It provides a comprehensive programming and configuration model as well as great support for a SOA architecture with microservices.
-                    Spring also offers spring-boot which is an easy solution to make stand-alone, production-grade Spring applications that can just be run with metrics, health checks and externalized configuration with no code generation and no XML configuration requirement.
-                    Spring uses servlets behind the scenes, which are based upon a low-level API for handling requests and responses. That means that every part of the web api flow is made much easier, from returning a JSON using @ResponseBody to RESTful URLs, input validation, form data binding to object and much much more.
-                    It is also multithreaded, supporting asynchronous request processing where, instead of returning a value, the controller method can return a Callable object and produce the return value from a separate thread, while the main Servlet container thread is released and ready to process other requests. It does so using the TaskExecutor and when the Callable object returns, the request is dispatched back to the Servlet container to resume processing with the value returned by the Callable.
-                    In our case, using Spring and Spring-Boot kickstarts our project by having ready-made project templates, easy Angular support, by exposing controllers through API Gateway and rich documentation for AWS integration. It is a strong foundation for any size the app could reach.
-                </section>
-                <section>
-                        <h4>2.2.3 API Gateway</h4>
-                        API Gateway is a service for managing API routing at service level as opposed to how popular web frameworks manage API routing at application domain level. What this means is requests are handled by central unit which resolves the service appropirate to delegate the request to. This is particularly useful in service oriented architectures where microservices are standalone applications and require an orchestration logic for the application flow to be implemented.
-                        Lastly, we use API Gateway to manage throttling. Managing thortling at service level and delegating it to a trusted 3rd party such as AWS puts aside the operational burden of using intercepetor classes at the framework level with a proprietary implementation which must be maintained and tested.
-                </section>
-                <section>
-                        <h4>2.2.3 Elastic Container Service</h4>
-                        The mentioned load balancer front faces an ECS cluster. Amazon ECS is a fully managed container orchestration service with the purpose of easing deployment, service and resources management and scaling. What makes deployments easier is the fact that the ECS cluster is a hybrid enironment in regards to the runtimes and types of applications deployed. Elastic container registry is a service like feature integrated with ECS with the purpose of centralizing docker images used in deployment. We use ECS to deploy the frontend service and the query backend service in sepparate containers. ECS allows us to customize the host resources of each service, which helps with optimizing resource allocation. This also means that each type of service is scaled individually with respect to each container traffic load and each custom setting configured prior to deployment.
-                        In addition to the scaling feature, Amazon also provides it's own on demand serverless containers to use with ECS. ECS with Fargate is the managed AWS alternative to using Kubernetes. The main advantage for us in using Fargate is that there are no upfront expenses since it follows the pay for only what you use paradigm.
-                </section>
-            </section>
+                	<h3>1.1 Frontend</h3>
+                	<h3>1.2 Apache Jena Persistence Layer</h3>
+                	Apache Jena is a staple for developing semantic web and linked data applications in the Java ecosystem. Besides providing rich libraries implementing APIs for working with RDF data, ontology models, and inference engines, the framework is oriented for developing network-intensive architectures, which suits CRYK requirements. CRYK uses multiple components from the Jena bundle, such as the ARQ SDK, as an HTTP client layer for executing requests over the network to remote SPARQL endpoints. As for the persistence layer, the following section describes how CRYK is using the Apache Jena framework.
+                	<h4>1.2.1 SPARQL endpoint</h4>
+                	A critical requirement for CRYK is to vend data through a SPARQL endpoint. The TripleStore service leverages the Apache Jena Fuseki server solution by embedding the server in a SpringBoot container. The TripleStore is thus run as a SpringBoot executable that consumes the embedded Fuseki server dependency sourced through the public Maven repository. On application launch, the Fuseki server is spun up through the Java API provided by the dependency on port <code>3332</code>, which exposes a SPARQL endpoint ready to listen for HTTP connections and resolve SPARQL queries.
+                	<h4>1.2.2 Triple store</h4>
+                	The SPARQL endpoint is the connection layer to the in-memory TDB triple store loaded on application launch. Out of the Jena bundle, TDB is used as the storage component. The TripleStore loads the base <code>cryk.ttl</code> file containing the augmented DOACC triple dataset using the TDB API. The artifact is loaded as an in-memory database that is bound to the previously mentioned SPARQL endpoint. Thus, read and write operations consumed through the SPARQL endpoint are performed directly on the <i>CRYK data</i> backed database.
+                	<h3>1.3 HyperGraphQL Service</h3>
+                	For the GraphQL data access layer, CRYK uses an RDF data-oriented wrapper called HyperGraphQL. HyperGraphQL is an open source solution that implements a thin interface for querying linked data on top of GraphQL. 
+					<p>                	
+                	At a glance, the service works by connecting to a local or remote SPARQL endpoint—in our case, the Apache Jena Fuseki server host—and spinning up a GraphQL endpoint for consuming GraphQL queries. At runtime, HyperGraphQL implements logic for converting a small bundle of predefined GraphQL queries to SPARQL queries. Although predefined, the built-in queries are dynamically created according to the user-defined GraphQL schema. The benefits of using HyperGraphQL extend beyond query conversion. For CRYK's purposes, these benefits include the following.
+                	</p>
+                	<ul>                
+                		<li>A GraphQL endpoint that can be made public for CRYK users as an additional method for fetching data other than the SPARQL endpoint </li>
+                		<li>GraphQL schema-oriented data modeling provides strong types reflecting the DOACC vocabulary</li>
+                		<li>Out of the box implemented queries for all GraphQL schema resource types, including listing resources with limit and offset parameters for pagination and getting by ID reads, where id conveniently reflects a resource's <i>iri</i></li>
+                		<li>Json-ld output format</li>
+                	</ul>
+                	<h4>1.3.1 Examples</h4>
+                	For the purpose of the example, we execute the GraphQL query as a POST request using curl. 
+                	<pre style="margin-bottom: 0px"><code>
+curl --location --request POST 'http://localhost:8082/graphql' \
+--header 'Content-Type: text/plain' \
+--data-raw                		
+{
+  "query": "{
+    Cryptocurrency_GET_BY_ID(uris: [
+        \"http://purl.org/net/bel-epa/doacc#BTC\",
+        \"http://purl.org/net/bel-epa/doacc#ETH\",
+        \"http://purl.org/net/bel-epa/doacc#XRP\"
+        ]) { 
+	    _id 
+	    symbol 
+	    price {
+	      value 
+	      updatedAt 
+	      exchange {
+	        symbol
+	      }
+	    }
+	  } 
+    }"
+}
+                	</code></pre>
+                	The output of the request in json-ld format.
+                	<pre style="margin-bottom: 0px"><code>
+{
+    "data": {
+        "Cryptocurrency_GET_BY_ID": [
+            {
+                "_id": "http://purl.org/net/bel-epa/doacc#XRP",
+                "symbol": ["XRP"],
+                "price": [
+                    {
+                        "value": ["0.39380000"],
+                        "updatedAt": ["2023-01-30T21:58:14.319139800Z"],
+                        "exchange": [{"symbol": ["USDT"]}]
+                    }
+                ]
+            },
+            {
+                "_id": "http://purl.org/net/bel-epa/doacc#BTC",
+                "symbol": ["BTC"],
+                "price": [
+                    {
+                        "value": ["22744.22000000"],
+                        "updatedAt": ["2023-01-30T21:58:14.317139500Z"],
+                        "exchange": [{"symbol": ["USDT"]}]
+                    }
+                ]
+            },
+            {
+                "_id": "http://purl.org/net/bel-epa/doacc#ETH",
+                "symbol": ["ETH"],
+                "price": [
+                    {
+                        "value": ["1556.86000000"],
+                        "updatedAt": ["2023-01-30T21:58:14.318139700Z"],
+                        "exchange": [{"symbol": ["USDT"]}]
+                    }
+                ]
+            }
+        ],
+        "@context": {
+            "symbol": "http://purl.org/net/bel-epa/doacc#symbol",
+            "price": "http://www.ontologicalpirates.ro/property#price",
+            "_type": "@type",
+            "Cryptocurrency_GET_BY_ID": 
+            "http://hypergraphql.org/query/Cryptocurrency_GET_BY_ID",
+            "exchange": "http://www.ontologicalpirates.ro/property#exchange",
+            "_id": "@id",
+            "value": "http://www.ontologicalpirates.ro/property#value",
+            "updatedAt": "http://www.ontologicalpirates.ro/property#updatedAt"
+        }
+    }
+}
+                	</code></pre>
+                	The GraphQL query converted into a SPARQL query at runtime by the HyperGraphQL layer.
+                	<pre>
+SELECT * WHERE { 
+  VALUES ?x_1 { &lthttp://purl.org/net/bel-epa/doacc#XRP&gt 
+  &lthttp://purl.org/net/bel-epa/doacc#BTC&gt 
+  &lthttp://purl.org/net/bel-epa/doacc#ETH&gt 
+  }
+
+  ?x_1 &lthttp://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt 
+  &lthttp://purl.org/net/bel-epa/doacc#Cryptocurrency&gt . 
+
+  OPTIONAL { ?x_1 &lthttp://purl.org/net/bel-epa/doacc#symbol&gt ?x_1_1 . }  
+  OPTIONAL { ?x_1 &lthttp://www.ontologicalpirates.ro/property#price&gt ?x_1_2 .
+  ?x_1_2 &lthttp://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt 
+  &lthttp://www.ontologicalpirates.ro/resource#Price&gt . 
+  }
+  OPTIONAL { ?x_1_2 &lthttp://www.ontologicalpirates.ro/property#value&gt ?x_1_2_1 . 
+  }  
+  OPTIONAL { ?x_1_2 &lthttp://www.ontologicalpirates.ro/property#updatedAt&gt ?x_1_2_2 . 
+  }  
+  OPTIONAL { ?x_1_2 &lthttp://www.ontologicalpirates.ro/property#exchange&gt ?x_1_2_3 .
+  ?x_1_2_3 &lthttp://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt 
+  &lthttp://purl.org/net/bel-epa/doacc#Cryptocurrency&gt . 
+  }
+  OPTIONAL { ?x_1_2_3 &lthttp://purl.org/net/bel-epa/doacc#symbol&gt ?x_1_2_3_1 . }  
+}  
+                	</pre>
+                	<h3>1.4 Price Fetcher Service</h3>
+                	The Price Fetcher component is a microservice built with Java and SpringBoot. It provides an <code>/exchange</code> REST endpoint for serving price related data. Since in the cryptocurrency ecosystem prices update frequently CRYK requires periodical updates in order to provide valid data. The OpenAPI speciffication provides all necessary details for consuming the Price Fetcher API.
+                	<h4>1.4.1 UML diagram</h4>
+                	<figure id="fig1">
+                    <img src="diagrams/priceservice.jpg">
+                        <figcaption>fig. 2</figcaption>
+                    </figure>
+                    <p>&nbsp;</p>
+                	<h4>1.4.2 Binance API</h4>
+                	The Price Fetcher service uses the Binance API, which provides a suite of APIs available through the multiple REST endpoints deployed under the Binance domain. The main benefits of using the Binance API are that it's free and provides up to 20 TPM for most endpoints. The integration with the Binance API is really easy, only requiring an account and a Fiat deposit on the SPOT Fiat Market, which enables API key creation. The Binance SDK is available in multiple languages and provides factory methods for creating HTTP wrapper clients that resolve authentication and authorization through the provided secret key pair.
+                	<h5>1.4.2.1 Symbol Price Ticker</h5>
+                	Open for <code>GET</code> requests, the <code>/api/v3/ticker/price</code> endpoint returns the market value exchange between two supported listed cryptocurrencies (on the Binance market book). The symbol pair is read through the "symbol" query parameter as the concatenation of the given symbols. That being said, not all combinations of exchanges are supported by the Binance API (e.g., "ETHBTC" and many others). The combinations are quite limited, but all support the USDT exchange, which is a stable coin with a market value of 1 USD. This allows for computing any exchange between two coins, even if the pair is not directly supported by the API.
+                	<h5>1.4.2.2 Kline/Candlestick Data</h5>
+                	Similar to the price ticker service, the <code>/api/v3/klines</code> endpoint accepts GET requests and provides price details necessary for rendering time-partitioned charts such as line or candlestick plots. On top of the symbol pair, the following parameters are necessary:
+                	<ul>
+                		<li>an iterval determining the granularity of the data points</li>
+                		<li>a start and end time determining the time interval from which data should be fetched</li>
+                	</ul>
+                	<h4>1.4.3 Examples</h4>
+                	For example, the following query parameters are not URL encoded on purpose.
+                	<h5 style="margin-bottom: 0px">1.4.3.1 Get coin exchange</h5>                	               	
+                	                	<pre style="margin-top: 0px"><code>
+Requesting price current exchange between Litecoin and Stellar Lumens and between 
+Bitcoin Cash Polkadot.          	                	
+curl -X GET \
+"http://localhost:8081/exchange?symbols=[["LTC","XLM"],["BCH","DOT"]]" \
+-H  "accept: */*"</code></pre>
+<pre style="margin-top: 0px"><code>
+Response.                		
+{
+  "serverUtcDate": "2023-01-31T19:00:30.030245700Z",
+  "exchangeData": [
+    {
+      "symbol": "LTCXLM",
+      "price": "1038.157894736842"
+    },
+    {
+      "symbol": "BCHDOT",
+      "price": "21.346886912325285"
+    }
+  ]
+}                		
+                	</code></pre>
+                	<h5 style="margin-bottom: 0px">1.4.3.2 Get price history</h5>
+                	<pre style="margin-top: 0px"><code>
+Requesting price history for Binance Coin between 2023-01-29T16:00:00.000Z and 
+2023-01-31T16:00:00.000Z with a granularity of 12h.
+curl -X GET "http://localhost:8081 \
+/historic?endTimeUTC=1675180800000&interval=12h&startTimeUTC=1675008000000&symbol=BNB" \
+-H  "accept: */*"</code></pre>
+<pre style="margin-top: 0px"><code>
+Response.                		
+{
+  "serverUtcDate": "2023-01-31T19:18:00.573536100Z",
+  "kline": [
+    {"openPrice": 317.1, "highPrice": 320.8, "lowPrice": 304.4, "closePrice": 306.8},
+    {"openPrice": 306.8, "highPrice": 311.3, "lowPrice": 302, "closePrice": 307.2},
+    {"openPrice": 307.2, "highPrice": 314.4, "lowPrice": 305.3, "closePrice": 309.8},
+    {"openPrice": 309.8, "highPrice": 313.7, "lowPrice": 309.6, "closePrice": 312.8}
+  ],
+  "prices": [320.8, 311.3, 314.4, 313.7],
+  "dates": [
+    1675051200000, //2023-01-30T04:00:00.000Z
+    1675094400000, //2023-01-30T16:00:00.000Z
+    1675137600000, //2023-01-31T04:00:00.000Z
+    1675180800000  //2023-01-31T16:00:00.000Z
+  ]
+}             		
+                	</code></pre> 
+                	    
+                	<h3>1.5 Price Updater Service</h3>
+                	The Price Updater Service is a component responsible for periodically updating the TDB triple store with up-to-date information about the coins' exchange price to USDT, the stable coin reflecting USD fiat 1 to 1. The Price Updater service is also an example showcasing how any metadata can be updated given a source of information such as the Binance market.
+                	<h4>1.5.1 UML diagram</h4>
+                	<figure id="fig1">
+                    <img src="diagrams/coinstoreupdater.jpg">
+                        <figcaption>fig. 2</figcaption>
+                    </figure>
+                    <p>&nbsp;</p>
+                    <h4>1.5.2 SPARQL Update</h4>
+                    <p>The Price Updater is a SpringBoot microservice running a periodic task that fetches price data from the Price Fetcher Service and performs a SPARQL UPDATE request onto the remote SPARQL endpoint exposed through the Triple Store service, leveraging the Apache Jena ARQ API. </p>
+                    <p style="margin-bottom: 0px">Per World Wide Web Consortium (W3C) documentation, a SPARQL UPDATE consists of a series of DELETE and INSERT statements with the purpose of replacing old data with new data. Thus, the SPARQL logic for updating boils down to removing currently existing <code>ontologicalpirates#price</code> statements on any <code>doacc#Cryptocurrency</code> subject, removing all existing <code>ontologicalpirates#Price</code> subjects, and finally inserting the new statements referencing the new price information. The mentioned operations can be generalized for all coins and expressed through the following SPARQL query template.</p>
+                    <pre style="margin-top: 0px"><code style="margin-top: 0px">
+DELETE WHERE {
+    &ltCOIN_TO_UPDATE_IRI&gt &lthttp://www.ontologicalpirates.ro/property#price&gt ?o
+} ;
+DELETE WHERE {
+    &ltCOIN_PRICE_IRI&gt ?p ?o
+} ;
+INSERT DATA {
+  &ltCOIN_PRICE_IRI&gt &lthttp://www.w3.org/1999/02/22-rdf-syntax-ns#type&gt 
+    &lthttp://www.ontologicalpirates.ro/resource#Price&gt .
+  &ltCOIN_PRICE_IRI&gt &lthttp://www.ontologicalpirates.ro/property#value&gt 
+    "PRICE_VALUE_LITERAL"@en .
+  &ltCOIN_PRICE_IRI&gt &lthttp://www.ontologicalpirates.ro/property#updatedAt&gt 
+    "UPDATE_DATE_LITERAL"@en .
+  &ltCOIN_PRICE_IRI&gt &lthttp://www.ontologicalpirates.ro/property#exchange&gt 
+    &ltCOIN_EXCHANGE_IRI&gt .
+  &ltCOIN_TO_UPDATE_IRI&gt &lthttp://www.ontologicalpirates.ro/property#price&gt 
+    &ltCOIN_PRICE_IRI&gt .
+} ;                    	
+                    </code></pre>
+                    <p style="margin-bottom: 0px">At runtime, the placeholders are replaced with the actual data. We use the ARQ API to create a batch update request in order to reduce network round trips.</p>
+                    	<pre style="margin-bottom: 0px"><code style="margin-bottom: 0px">
+                    		...
+for (BinanceExchangeData exchangeDataItem : exchangeDataBulkRead.getExchangeData()) {
+    String symbol = exchangeDataItem.getSymbol().split(EXCHANGE_COIN_DEFAULT_SYMBOL)[0];
+    updateRequest.add(updateCoinPriceQuery(symbol, exchangeDataItem.getPrice()));
+}
+
+UpdateExecutionHTTP.service("http://localhost:3332/ds/update")
+    .update(updateRequest).build().execute();
+                    		...                  		
+                    	</code>	
+                    	</pre>
+
+                    <h5 style="margin-top: 0px">1.5.2.1 Example</h5>
+                    The following snippet showcases the previous template applied for updating the price of the Aptos coin. For convienience we use the output the prefixes for <code>ontologicalpirates</code> and <code>DOACC</code> iris.
+                    <pre><code>
+DELETE WHERE 
+{
+  doacc#APT &lthttp://www.ontologicalpirates.ro/property#price ?o .
+} ;
+DELETE WHERE 
+{
+  ontologicalpirates#APT_PRICE ?p ?o .
+} ;
+INSERT DATA {
+  ontologicalpirates#APT_PRICE &lthttp://www.w3.org/1999/02/22-rdf-syntax-ns#type 
+    ontologicalpirates#Price .
+
+  ontologicalpirates#APT_PRICE &lthttp://www.ontologicalpirates.ro/property#value 
+    "17.31610000"@en .
+
+  ontologicalpirates#APT_PRICE &lthttp://www.ontologicalpirates.ro/property#updatedAt 
+    "2023-01-30T21:58:44.380513900Z"@en .
+
+  ontologicalpirates#APT_PRICE &lthttp://www.ontologicalpirates.ro/property#exchange 
+    doacc#USDT .
+
+  doacc#APT &lthttp://www.ontologicalpirates.ro/property#price 
+    ontologicalpirates#APT_PRICE .
+} ;                  	
+                    </code></pre>
         </div>
     </header>
 </article>
