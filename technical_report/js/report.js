@@ -96,7 +96,9 @@ let query = `
       }
     }
   `;
-function introspectionProvider(query) {
+
+
+function introspectionProvider() {
     return fetch('http://localhost:8082/graphql', {
         method: 'post',
         headers: {
@@ -109,6 +111,7 @@ function introspectionProvider(query) {
         return response.text();
     }).then(function (responseBody) {
         try {
+          document.getElementById('voyager').style.display = 'block';
             return JSON.parse(responseBody);
         } catch (error) {
             return responseBody;
@@ -116,13 +119,18 @@ function introspectionProvider(query) {
     });
 }
 
-GraphQLVoyager.init(document.getElementById('voyager'), {
-    introspection: introspectionProvider,
-    displayOptions: {
-        skipRelay: false,
-        skipDeprecated: false,
-        showLeafFields: true,
-    },
-    hideDocs: true,
-    hideSettings: true
-});
+let introspection = introspectionProvider;
+
+if (introspection !== null) {
+  GraphQLVoyager.init(document.getElementById('voyager'), {
+      introspection: introspection,
+      displayOptions: {
+          skipRelay: false,
+          skipDeprecated: false,
+          showLeafFields: true,
+      },
+      hideDocs: true,
+      hideSettings: true,
+      hideLoadingBox: true,
+  });
+}
