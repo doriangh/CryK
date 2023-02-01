@@ -397,14 +397,19 @@ type Query {
             	</code></pre>
                 <h2>3. Implementation </h2> 
                 <section>
-                	<h3>3.1 Frontend</h3>
-                	<h3>3.2 Apache Jena Persistence Layer</h3>
+                	<h3>3.1 Data flow diagram</h3>
+                	<figure id="fig2">
+                    <img src="diagrams/data_flow.jpg">
+                        <figcaption>fig. 2</figcaption>
+                    </figure>
+                	<h3>3.2 Frontend</h3>
+                	<h3>3.3 Apache Jena Persistence Layer</h3>
                 	Apache Jena is a staple for developing semantic web and linked data applications in the Java ecosystem. Besides providing rich libraries implementing APIs for working with RDF data, ontology models, and inference engines, the framework is oriented for developing network-intensive architectures, which suits CRYK requirements. CRYK uses multiple components from the Jena bundle, such as the ARQ SDK, as an HTTP client layer for executing requests over the network to remote SPARQL endpoints. As for the persistence layer, the following section describes how CRYK is using the Apache Jena framework.
-                	<h4>3.2.1 SPARQL endpoint</h4>
+                	<h4>3.3.1 SPARQL endpoint</h4>
                 	A critical requirement for CRYK is to vend data through a SPARQL endpoint. The TripleStore service leverages the Apache Jena Fuseki server solution by embedding the server in a SpringBoot container. The TripleStore is thus run as a SpringBoot executable that consumes the embedded Fuseki server dependency sourced through the public Maven repository. On application launch, the Fuseki server is spun up through the Java API provided by the dependency on port <code>3332</code>, which exposes a SPARQL endpoint ready to listen for HTTP connections and resolve SPARQL queries.
-                	<h4>3.2.2 Triple store</h4>
+                	<h4>3.3.2 Triple store</h4>
                 	The SPARQL endpoint is the connection layer to the in-memory TDB triple store loaded on application launch. Out of the Jena bundle, TDB is used as the storage component. The TripleStore loads the base <code>cryk.ttl</code> file containing the augmented DOACC triple dataset using the TDB API. The artifact is loaded as an in-memory database that is bound to the previously mentioned SPARQL endpoint. Thus, read and write operations consumed through the SPARQL endpoint are performed directly on the <i>CRYK data</i> backed database.
-                	<h3>3.3 HyperGraphQL Service</h3>
+                	<h3>3.4 HyperGraphQL Service</h3>
                 	For the GraphQL data access layer, CRYK uses an RDF data-oriented wrapper called HyperGraphQL. HyperGraphQL is an open source solution that implements a thin interface for querying linked data on top of GraphQL. 
 					<p>                	
                 	At a glance, the service works by connecting to a local or remote SPARQL endpoint—in our case, the Apache Jena Fuseki server host—and spinning up a GraphQL endpoint for consuming GraphQL queries. At runtime, HyperGraphQL implements logic for converting a small bundle of predefined GraphQL queries to SPARQL queries. Although predefined, the built-in queries are dynamically created according to the user-defined GraphQL schema. The benefits of using HyperGraphQL extend beyond query conversion. For CRYK's purposes, these benefits include the following.
@@ -415,7 +420,7 @@ type Query {
                 		<li>Out of the box implemented queries for all GraphQL schema resource types, including listing resources with limit and offset parameters for pagination and getting by ID reads, where id conveniently reflects a resource's <i>iri</i></li>
                 		<li>Json-ld output format</li>
                 	</ul>
-                	<h4>3.3.1 Examples</h4>
+                	<h4>3.4.1 Examples</h4>
                 	For the purpose of the example, we execute the GraphQL query as a POST request using curl. 
                 	<pre style="margin-bottom: 0px"><code>
 curl --location --request POST 'http://localhost:8082/graphql' \
@@ -521,25 +526,25 @@ SELECT * WHERE {
   OPTIONAL { ?x_1_2_3 &lthttp://purl.org/net/bel-epa/doacc#symbol&gt ?x_1_2_3_1 . }  
 }  
                 	</pre>
-                	<h3>3.4 Price Fetcher Service</h3>
+                	<h3>3.5 Price Fetcher Service</h3>
                 	The Price Fetcher component is a microservice built with Java and SpringBoot. It provides an <code>/exchange</code> REST endpoint for serving price related data. Since in the cryptocurrency ecosystem prices update frequently CRYK requires periodical updates in order to provide valid data. The OpenAPI speciffication provides all necessary details for consuming the Price Fetcher API.
-                	<h4>3.4.1 UML diagram</h4>
-                	<figure id="fig1">
+                	<h4>3.5.1 UML diagram</h4>
+                	<figure id="fig3">
                     <img src="diagrams/priceservice.jpg">
-                        <figcaption>fig. 2</figcaption>
+                        <figcaption>fig. 3</figcaption>
                     </figure>
                     <p>&nbsp;</p>
-                	<h4>3.4.2 Binance API</h4>
+                	<h4>3.5.2 Binance API</h4>
                 	The Price Fetcher service uses the Binance API, which provides a suite of APIs available through the multiple REST endpoints deployed under the Binance domain. The main benefits of using the Binance API are that it's free and provides up to 20 TPM for most endpoints. The integration with the Binance API is really easy, only requiring an account and a Fiat deposit on the SPOT Fiat Market, which enables API key creation. The Binance SDK is available in multiple languages and provides factory methods for creating HTTP wrapper clients that resolve authentication and authorization through the provided secret key pair.
-                	<h5>3.4.2.1 Symbol Price Ticker</h5>
+                	<h5>3.5.2.1 Symbol Price Ticker</h5>
                 	Open for <code>GET</code> requests, the <code>/api/v3/ticker/price</code> endpoint returns the market value exchange between two supported listed cryptocurrencies (on the Binance market book). The symbol pair is read through the "symbol" query parameter as the concatenation of the given symbols. That being said, not all combinations of exchanges are supported by the Binance API (e.g., "ETHBTC" and many others). The combinations are quite limited, but all support the USDT exchange, which is a stable coin with a market value of 1 USD. This allows for computing any exchange between two coins, even if the pair is not directly supported by the API.
-                	<h5>3.4.2.2 Kline/Candlestick Data</h5>
+                	<h5>3.5.2.2 Kline/Candlestick Data</h5>
                 	Similar to the price ticker service, the <code>/api/v3/klines</code> endpoint accepts GET requests and provides price details necessary for rendering time-partitioned charts such as line or candlestick plots. On top of the symbol pair, the following parameters are necessary:
                 	<ul>
                 		<li>an iterval determining the granularity of the data points</li>
                 		<li>a start and end time determining the time interval from which data should be fetched</li>
                 	</ul>
-                	<h4>3.4.3 Examples</h4>
+                	<h4>3.5.3 Examples</h4>
                 	For example, the following query parameters are not URL encoded on purpose.
                 	<h5 style="margin-bottom: 0px">3.4.3.1 Get coin exchange</h5>                	               	
                 	                	<pre style="margin-top: 0px"><code>
@@ -591,15 +596,15 @@ Response.
 }             		
                 	</code></pre> 
                 	    
-                	<h3>3.5 Price Updater Service</h3>
+                	<h3>3.6 Price Updater Service</h3>
                 	The Price Updater Service is a component responsible for periodically updating the TDB triple store with up-to-date information about the coins' exchange price to USDT, the stable coin reflecting USD fiat 1 to 1. The Price Updater service is also an example showcasing how any metadata can be updated given a source of information such as the Binance market.
-                	<h4>3.5.1 UML diagram</h4>
-                	<figure id="fig1">
+                	<h4>3.6.1 UML diagram</h4>
+                	<figure id="fig4">
                     <img src="diagrams/coinstoreupdater.jpg">
-                        <figcaption>fig. 2</figcaption>
+                        <figcaption>fig. 4</figcaption>
                     </figure>
                     <p>&nbsp;</p>
-                    <h4>3.5.2 SPARQL Update</h4>
+                    <h4>3.6.2 SPARQL Update</h4>
                     <p>The Price Updater is a SpringBoot microservice running a periodic task that fetches price data from the Price Fetcher Service and performs a SPARQL UPDATE request onto the remote SPARQL endpoint exposed through the Triple Store service, leveraging the Apache Jena ARQ API. </p>
                     <p style="margin-bottom: 0px">Per World Wide Web Consortium (W3C) documentation, a SPARQL UPDATE consists of a series of DELETE and INSERT statements with the purpose of replacing old data with new data. Thus, the SPARQL logic for updating boils down to removing currently existing <code>ontologicalpirates#price</code> statements on any <code>doacc#Cryptocurrency</code> subject, removing all existing <code>ontologicalpirates#Price</code> subjects, and finally inserting the new statements referencing the new price information. The mentioned operations can be generalized for all coins and expressed through the following SPARQL query template.</p>
                     <pre style="margin-top: 0px"><code style="margin-top: 0px">
@@ -636,7 +641,7 @@ UpdateExecutionHTTP.service("http://localhost:3332/ds/update")
                     	</code>	
                     	</pre>
 
-                    <h5 style="margin-top: 0px">3.5.2.1 Example</h5>
+                    <h5 style="margin-top: 0px">3.6.2.1 Example</h5>
                     The following snippet showcases the previous template applied for updating the price of the Aptos coin. For convienience we use the output the prefixes for <code>ontologicalpirates</code> and <code>DOACC</code> iris.
                     <pre><code>
 DELETE WHERE 
