@@ -115,7 +115,7 @@ export class CryptoDetailsComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.pricePoll = interval(10000).subscribe(() => {
+    this.pricePoll = interval(3000).subscribe(() => {
 
       this.cryptoService.getCoinExchangeData([this.coinId!], this.selectedPair).subscribe({
         next: value => {

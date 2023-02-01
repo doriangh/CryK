@@ -4,7 +4,7 @@
     <mat-card-title>Top coins</mat-card-title>
     <mat-card-subtitle>
       <div class="align-content-center">
-        Last 24h
+        Last updated {{dateNow | date: 'h:mm:ss a'}}
         <p-progressSpinner class="ml-2" [style]="{width: '15px', height: '15px'}" styleClass="custom-spinner"
                            strokeWidth="6" fill="var(--surface-ground)" animationDuration="2s"></p-progressSpinner>
       </div>

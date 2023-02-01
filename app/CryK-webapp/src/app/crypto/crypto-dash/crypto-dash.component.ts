@@ -1,10 +1,9 @@
-import {AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {CryptoService} from "../services/crypto.service";
 import {Cryptocurrency} from "../../models/cryptocurrency";
-import {ExchangeDataResponse} from "../../models/exchange-data-response";
 import {FilterInterval} from "../../models/filter-interval";
-import {GlobalConstants} from "../../shared/global-constants";
+import {interval, Subscription} from "rxjs";
 
 
 @Component({
@@ -39,13 +38,12 @@ import {GlobalConstants} from "../../shared/global-constants";
     ])
   ]
 })
-export class CryptoDashComponent implements OnInit, AfterViewInit {
+export class CryptoDashComponent implements OnInit, OnDestroy {
   @ViewChild('header', {static: false}) header: ElementRef;
   @ViewChild('content', {static: false}) content: ElementRef;
-  exchangeData: ExchangeDataResponse;
 
-  headerIsAboveContent: boolean;
-
+  private pricePoll: Subscription;
+  dateNow = new Date();
   columns = ["expand", "name", "symbol", "price_usdt", "price_other"];
   selectedPair = 'BTC';
   coins: Cryptocurrency[] = [];
@@ -53,6 +51,10 @@ export class CryptoDashComponent implements OnInit, AfterViewInit {
   constructor(
     private dashboardService: CryptoService
   ) {
+  }
+
+  ngOnDestroy(): void {
+    this.pricePoll.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -108,33 +110,33 @@ export class CryptoDashComponent implements OnInit, AfterViewInit {
           });
         });
 
-        this.coins.forEach(coin => {
-          this.dashboardService.getCoinExchangeData([coin.symbol[0]], "USDT").subscribe({
-            next: value => {
-              console.log(value);
-              coin.price_usdt = Number(value.exchangeData[0].price);
-            }
-          });
-        });
+        this.getCoinsPriceHistory();
 
-        this.coins.forEach(coin => {
-          this.dashboardService.getCoinExchangeData([coin.symbol[0]], this.selectedPair).subscribe({
-            next: value => {
-              console.log(value);
-              coin.price_other = Number(value.exchangeData[0].price);
-            }
-          });
+        this.pricePoll = interval(3000).subscribe(() => {
+          this.getCoinsPriceHistory();
         });
       }
     });
   }
 
-  ngAfterViewInit() {
+  getCoinsPriceHistory() {
+
+    this.dateNow = new Date();
+
+    this.coins.forEach(coin => {
+      this.dashboardService.getCoinExchangeData([coin.symbol[0]], "USDT").subscribe({
+        next: value => {
+          console.log(value);
+          coin.price_usdt = Number(value.exchangeData[0].price);
+        }
+      });
+    });
+
     this.coins.forEach(coin => {
       this.dashboardService.getCoinExchangeData([coin.symbol[0]], this.selectedPair).subscribe({
         next: value => {
           console.log(value);
-          coin.price_usdt = Number(value.exchangeData[0].price);
+          coin.price_other = Number(value.exchangeData[0].price);
         }
       });
     });
