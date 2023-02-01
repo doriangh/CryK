@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="enlgish">
+<head>
+    <style type="text/css">
+        body {
+            width: 7in;
+            height: 9.25in;
+            margin: 27mm 16mm 27mm 16mm;
+        }
+    </style>
+    <meta charset="utf-8">
+    <title>Cryptocurrency Knowledge Manager User Guide</title>
+</head>
+
+<article>
+    <header>
+    <h1>Cryptocurrency Knowledge Manager User Guide</h1>
+        <div role="contentinfo">
+            <section typeof="sa:AuthorsList">
+                <h2>Contributors</h2>
+                <ul>
+                    <li typeof="sa:ContributorRole" property="schema:author">
+              <span typeof="schema:Person">
+                <meta property="schema:givenName" content="Adrian">
+                <meta property="schema:familyName" content="Hamod">
+                <span property="schema:name">Adrian Hamod</span>
+              </span>
+                        <ul>
+                            <li property="schema:roleContactPoint" typeof="schema:ContactPoint">
+                                <a href="mailto:adrianhamod@gmail.com" property="schema:email"> adrianhamod@gmail.com
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li typeof="sa:ContributorRole" property="schema:author">
+              <span typeof="schema:Person">
+                <meta property="schema:givenName" content="Dorian">
+                <meta property="schema:additionalName" content="Gheorghe">
+                <meta property="schema:familyName" content="Olărescu">
+                <span property="schema:name">Dorian Olărescu</span>
+              </span>
+                        <ul>
+                            <li property="schema:roleContactPoint" typeof="schema:ContactPoint">
+                                <a href="mailto:dorian.olarescu@gmail.com" property="schema:email"> dorian.olarescu@gmail.com
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <h2>License and copyright</h2>
+                <h3>
+                    <a href="https://creativecommons.org/licenses/by/4.0/" property="schema:license" typeof="CreativeWork">License</a>
+                    </h3>
+                        <div property="schema:copyrightYear"></div>
+                        <h3>Copyright</h3>
+                        <ul>
+                            <li property="schema:copyrightYear">2023</li>
+                            <li property="schema:copyrightHolder" typeof="schema:Organization">
+                                Facultatea de Informatică - Universitatea Alexandru Ioan Cuza
+                            </li>
+                        </ul>
+            </section>
+            <section typeof="sa:Abstract">
+                <h2>Abstract - What is CryK</h2>
+                This report serves as a user-guide for the Cryptocurrency Knowledge Manager Web Application,
+                showcasing three use-cases of the service.
+                The purpose of the application is to provide users with a platform where they can learn about
+                cryptocurrencies, as well as to provide them with a platform where they can follow their favorite
+                cryptocurrencies and view the real-time price of their favorite cryptocurrencies as well as others.
+            </section>
+
+            <section>
+                <h2>Startup</h2>
+                When accessing the web application for the first time, you land on the Dashboard Page. This page
+                contains a list of the most popular cryptocurrencies, each with its price in USDT, as well as the price in BTC.
+                The Dashboard Page is the default page for the application.
+                <figure id="fig1">
+                    <img
+                        src="./assets/Dashboard.png"
+                        alt="DashboardPage"
+                        style="width: 100%;">
+                    <figcaption>Dashboard page</figcaption>
+                </figure>
+            </section>
+            <section>
+                <h2>Dashboard Page</h2>
+                Besides showing the most popular cryptocurrencies, each item in the list is expandable, and when expanded,
+                it shows a chart with the price of the cryptocurrency filtered by 30 minutes, as well as a short description
+                of the cryptocurrency. The chart is interactive, and you can zoom in and out of the chart, as well as move
+                the chart to the left and right. All the prices on this page are real-time prices, and they are updated every
+                3 seconds.
+                <figure id="fig2">
+                    <img
+                        src="./assets/Dashboard-expand.png"
+                        alt="Dashboard-expand"
+                        style="width: 100%;">
+                    <figcaption>Dashboard page expanded</figcaption>
+                </figure>
+
+            </section>
+            <section>
+                <h2>Browse Page</h2>
+                The Browse Page is the page where you can find all the cryptocurrencies available on the application. You can
+                search for a cryptocurrency by name, or by symbol. The search is case-insensitive, and it is done in real-time.
+                The search results are shown in a suggestion box below the search bar. The search results are clickable, and
+                when clicked, they redirect you to the cryptocurrency's page. The list is also filtered by the search results,
+                so you can see only the cryptocurrencies that match your search. The list is also paginated, and you can
+                navigate through the pages using the pagination buttons at the bottom of the list as well as change the
+                number of items per page.
+                <figure id="fig3">
+                    <img
+                        src="./assets/Browse.png"
+                        alt="BrowsePage"
+                        style="width: 100%;">
+                    <figcaption>Browse page</figcaption>
+                </figure>
+            </section>
+            <section>
+                <h2>Details Page</h2>
+                The Details Page is the page where you can find all the details about a cryptocurrency. You can access this page
+                by clicking on a cryptocurrency from the Browse Page, or by clicking on a cryptocurrency from the Dashboard Page.
+                The Details Page contains a chart with the price of the cryptocurrency, as well as a short description of the cryptocurrency. 
+                The chart is interactive, and you can zoom in and out of the chart, as well as
+                move the chart to the left and right. All the prices on this page are real-time prices, and they are updated every
+                3 seconds.
+                Under the chart, there are four cards with some quick facts, the first one being the most interesting because it shows
+                the current live  price of the cryptocurrency.
+                <figure id="fig4">
+                    <img
+                        src="./assets/Details.png"
+                        alt="DetailsPage"
+                        style="width: 100%;">
+                    <figcaption>Details Page</figcaption>
+                </figure>
+            </section>
+            <section>
+                <h2>Chart</h2>
+                The chart is the main feature of the Details Page. It shows the price of the cryptocurrency in USDT and it is
+                interactive. You can zoom in and out of the chart, as well as move the chart to the left and right.
+                There are also buttons on the chart that allow you to change the time period of the chart. The buttons are:
+                <ul>
+                    <li>1m - 1 minute</li>
+                    <li>3m - 3 minutes</li>
+                    <li>5m - 5 minutes</li>
+                    <li>30m - 30 minutes</li>
+                    <li>1H - 1 hour</li>
+                    <li>6H - 6 hours</li>
+                    <li>12H - 12 hours</li>
+                    <li>1D - 1 day</li>
+                    <li>1W - 1 week</li>
+                    <li>1M - 1 monh</li>
+                    </ul>
+                    <figure id="fig5">
+                        <img
+                            src="./assets/Area.png"
+                            alt="AreaChart"
+                            style="width: 100%;">
+                        <figcaption>Area Chart</figcaption>
+                    </figure>
+                    The chart is also available in two different modes: Area and Candlestick. You can switch between the two modes by
+                    clicking on the "Area" button. The Area mode shows the price of the cryptocurrency in a line chart, while the
+                    Candlestick mode shows the price of the cryptocurrency in a candlestick chart.
+                    <figure id="fig6">
+                        <img
+                            src="./assets/Candlestick.png"
+                            alt="CandlestickChart"
+                            style="width: 100%;">
+                        <figcaption>Candlestick Chart</figcaption>
+                    </figure>
+            </section>
+            <section>
+                <h2>Live Price</h2>
+                The Live Price is a feature that allows you to see the real-time price of a cryptocurrency. This feature is available
+                on the Details Page. The Live Price is a card that shows the current price of the cryptocurrency in USDT by default, 
+                but you can change the currency by selecting a different cryptocurrency on the "Choose a currency" button. 
+                The price is updated every 3 seconds. Next to the price and symbol of the exchange rate is an arrow that shows
+                if the price is going up or down. If the price is going up, the arrow is green, and if the price is going down, the
+                arrow is red. 
+                <figure id="fig7">
+                    <img
+                        src="./assets/LivePrice.jpg"
+                        alt="LivePrice"
+                        style="width: 100%;">
+                    <figcaption>Live Price</figcaption>
+                </figure>
+            </section>
+            <section>
+                <h2>Info about the cryptocurrency</h2>
+                The Details Page also contains a card with some information about the cryptocurrency. This card contains some useful information about the cryptocurrency, such as the
+                name, the symbol, the block reward, and more. What stands apart is that if you hover over any of the information, a tooltip appears with a short description of the information.
+                This is extremely useful because it allows you to learn more about the cryptocurrency without having to leave the page.
+                <figure id="fig8">
+                    <img
+                        src="./assets/Details-info.png"
+                        alt="DashboardPageInfo"
+                        style="width: 100%;">
+                    <figcaption>Dashboard Page information</figcaption>
+                </figure>
+            </section>
+            <section>
+                <h2>Use Cases</h2>
+                The CryK application provides multiple use cases. We'll take a look at four of them
+                <section>
+                    <h4>Cryptocoin Discovery</h4>
+                    The app can be used to simply discover new cryptocurrencies. You can browse through the list of cryptocurrencies
+                    and see what's out there. You can also use the search feature to find a specific cryptocurrency.
+                </section>
+                <section>
+                    <h4>Price Following</h4>
+                    The app can be used to follow the price of a cryptocurrency. You can use the Live Price feature to see the price
+                    of a cryptocurrency in real-time. You can also use the chart to see the price of a cryptocurrency over time.
+                </section>
+                <section>
+                    <h4>Cryptocoin Filtering</h4>
+                    The app can be used to filter cryptocurrencies by name or symbol. You can use the search feature to find a specific
+                    cryptocurrency.
+                </section>
+            </section>
+        </div>
+    </header>
+</article>
+</html>
