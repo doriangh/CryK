@@ -414,6 +414,31 @@ type Query {
                     PrimeNG is a UI component library for Angular. It provides a set of components that can be used to build a user interface. It is based on Google's Material Design, which is a design language that aims to unify the user experience across platforms and devices. PrimeNG is a great choice for this project, since it provides a lot of components that can be used to build a user interface. It also provides a lot of features that are useful for building a web application, such as a responsive layout, a grid system, and a theme system. 
                     <h4>3.2.5 GraphQL Queries</h4>
                     We've used GraphQL to fetch data from the HyperGraphQL backend using queries as POST requests directly from the Angular webb application. We've used it to fetch data such as the price history of a coin, the exchange data of a coin, and the details of a coin.
+                    Here's an example of a GraphQL query that we've used to fetch the coins for the Browse page:
+                    <pre><code class="language-graphql">
+return this.http.post<any>(environment.graphqlUri, {
+    query: `
+    {
+        Cryptocurrency_GET${"(limit: " + limit + ", offset: " + offset + ")"}
+        {
+            _id
+            _type
+            symbol
+            image
+            prefLabel (lang: "en")
+            price
+            {
+                value
+                updatedAt
+                exchange
+                {
+                    symbol
+                }
+            }
+        }
+    }`
+});
+                    </code></pre>
                 	<h3>3.3 Apache Jena Persistence Layer</h3>
                 	Apache Jena is a staple for developing semantic web and linked data applications in the Java ecosystem. Besides providing rich libraries implementing APIs for working with RDF data, ontology models, and inference engines, the framework is oriented for developing network-intensive architectures, which suits CRYK requirements. CRYK uses multiple components from the Jena bundle, such as the ARQ SDK, as an HTTP client layer for executing requests over the network to remote SPARQL endpoints. As for the persistence layer, the following section describes how CRYK is using the Apache Jena framework.
                 	<h4>3.3.1 SPARQL endpoint</h4>

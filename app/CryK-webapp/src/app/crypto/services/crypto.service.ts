@@ -136,7 +136,8 @@ export class CryptoService {
   getCryptoCoins(limit?: number, offset?: number): Observable<Cryptocurrency[]>{
     return this.http.post<any>(environment.graphqlUri, {
       query: `
-      { Cryptocurrency_GET${limit != undefined && offset != undefined ? "(limit: " + limit + ", offset: " + offset + ")" : ""}
+      {
+        Cryptocurrency_GET${limit != undefined && offset != undefined ? "(limit: " + limit + ", offset: " + offset + ")" : ""}
         {
           _id
           _type
@@ -156,7 +157,6 @@ export class CryptoService {
       }`
     }).pipe(
       map(result => {
-        // return result.data.Cryptocurrency_GET.filter((coin: Cryptocurrency) => coin.price.length > 0)
         return result.data.Cryptocurrency_GET;
       }),
       catchError(this.handleError('getCoins', []))
