@@ -1,6 +1,13 @@
 <!doctype html>
 <html lang="enlgish">
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/react@16/umd/react.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@16/umd/react-dom.production.min.js"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.min.js"></script>
     <style>
         body {
             width: 595px;
@@ -73,7 +80,8 @@
                 <h2>Abstract</h2>
                 <p> This report details the technical aspects of building a web application that describes the cryptocurrencies ecosystem. The application will built upon DOACC - Description Of A CryptoCurrency - a project which defines a vast vocabulary expressing metadata about cryptocurrencies along with various datasets using said vocabulary. </p>
                 <p> The application is best described as a broker of cryptocurrency knowledge, capable to vend and manage knowledge about various cryptocurrencies. Static data describing cryptocurrencies will be stored in triple format and fetched in RDF format, making use of DOACC vocabulary, while other data of interest such a price, current amount of mined coins or other information which frequently updates will be collected from popular exchanges that vend information via REST APIs. The application aims to vend a cross between a classic broker service, displaying coins and their prices in various exchanges through a user interface and a catalogue of valuable metadata vended through SPARQL and GraphQL endpoints in either human or machine readable fromat. The cryptocurrency broker theme of the application will be further highlighted through charts consisting of price plots and other visualizations of interest. </p>
-                <p> This report showcases topics such as internal data structures, linked data principles, microservice infrastructure and technologies used. For convinience, in the following sections we will reffer to the application as CRYK - abvreviation for Cryptocurrency Knowledge Manager, title of the project and application. </p>
+                <p> This report showcases topics such as internal data structures, linked data principles, microservice infrastructure and technologies used. For convinience, in the following sections we will reffer to the application as CRYK - abvreviation for Cryptocurrency Knowledge Manager, title of the project and application. </p
+
             </section>
             <section role="doc-preface">
             	<h2>Note on DOACC</h2>
@@ -208,6 +216,10 @@ type Query {
 }
                 </code>
             	</pre>
+
+                <div id="voyager"></div>
+                <script src="./js/report.js"></script>
+
             	<h4 style="margin-bottom:0px">2.2.2 OpenAPI specification</h4>
             	<pre><code>
 {
