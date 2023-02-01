@@ -1,7 +1,7 @@
 # Application flow
 
 ## Introduction
-CRYK is a statless service vending access to a cryptocurrency RDF data representation. It's main application is for viewing cryptocurrency data in a web browser. The service is designed to be used by a web browser, but can be used by any application that can make HTTP requests, with the appropriate response being delivered.
+CRYK is a stateless service vending access to a cryptocurrency RDF data representation. It's main application is for viewing cryptocurrency data in a web browser. The service is designed to be used by a web browser, but can be used by any application that can make HTTP requests, with the appropriate response being delivered.
 
 
 ## Request handling
