@@ -705,6 +705,16 @@ INSERT DATA {
     ontologicalpirates#APT_PRICE .
 } ;                  	
                     </code></pre>
+                    <h2>4. The linked data principle</h2>
+                    CRYK follows the linked data principles, checking all characteristics according to Tim Berners-Lee's five open data principles.
+                    <ol>
+                        <li>CRYK exposes data over the network via HTTP connections to a variety of endpoints (Frontend, GraphQL, and SPARQL).</li>
+                        <li>At each level of the application, data is available in a well-defined, structured format. </li>
+                        <li>CRYK exposes the data to users using only non-proprietary formats such as RDF when accessing the SPARQL endpoint or json-ld when accessing the GraphQL endpoint.</li>
+                        <li>CRYK uses the DOACC vocabulary in order to describe the data and enables access to the data through URIs.</li>
+                        <li>On top of the data being accessible through the web, CRYK collects information of interest, such as price data, from trusted sources and links it to the existing metadata in order to provide more context.</li>
+                    </ol>
+
         </div>
     </header>
 </article>
