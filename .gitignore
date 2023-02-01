@@ -1,0 +1,5 @@
+app/triplestore/target/*
+app/priceservice/target/*
+app/priceservice/logs/*
+app/priceservice/.vscode/*
+app/coinstoreupdater/target/*

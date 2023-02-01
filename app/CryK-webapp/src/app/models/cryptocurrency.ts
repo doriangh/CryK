@@ -1,86 +1,67 @@
-export interface Cryptocurrency {
-  id: string;
-  name: string;
-  symbol: string;
-  icon: string;
-  rank: number;
-  price_usd: number;
-  price_btc: number;
-  description: string;
+import {PoWScheme} from "./po-wscheme";
+import {PosScheme} from "./pos-scheme";
+import {DistributionScheme} from "./distribution-scheme";
+import {Protocol} from "./protocol";
+import {ProtectionScheme} from "./protection-scheme";
+import {Price} from "./price";
+import {CryptoDetails} from "./crypto-details";
+import {
+  ApexAnnotations,
+  ApexAxisChartSeries,
+  ApexChart,
+  ApexDataLabels,
+  ApexFill,
+  ApexMarkers, ApexStroke,
+  ApexTitleSubtitle, ApexTooltip, ApexXAxis,
+  ApexYAxis
+} from "ng-apexcharts";
+
+export type ChartOptions = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  dataLabels: ApexDataLabels;
+  markers: ApexMarkers;
+  title: ApexTitleSubtitle;
+  fill: ApexFill;
+  yaxis: ApexYAxis;
+  xaxis: ApexXAxis;
+  tooltip: ApexTooltip;
+  stroke: ApexStroke;
+  annotations: ApexAnnotations;
+  colors: any;
+  toolbar: any;
 }
 
+export interface Cryptocurrency extends CryptoDetails{
+  symbol: string[];
+  totalCoins: string[];
+  prefLabel: string[];
+  pow: PoWScheme[];
+  pos: PosScheme[];
+  website: string[];
+  description: string[];
+  image: string[];
+  distributionScheme: DistributionScheme[];
+  comment: string[];
+  incept: string[];
+  blockTime: string[];
+  maturation: string[];
+  source: string[];
+  protocol: Protocol[];
+  confirmations: string[];
+  blockReward: string[];
+  dateFounded: string[];
+  cloneOf: Cryptocurrency[];
+  rewardModifier: string[];
+  retargetTime: string[];
+  premine: string[];
+  protectionScheme: ProtectionScheme[];
+  price: Price[];
+  updatedAt: string[];
 
-// {
-//   Cryptocurrency_GET_BY_ID(uris: ["http://purl.org/net/bel-epa/doacc#Df625a2c6-3455-43b8-b2b1-83d5be6aa671"]) {
-//   _type
-//   _id
-//   symbol
-//   totalCoins
-//   prefLabel
-//   pow {
-//     _id
-//     _type
-//     description
-//     isDefinedBy {
-//       _id
-//       _type
-//     }
-//     prefLabel
-//   }
-//   pos {
-//     _id
-//     _type
-//     description
-//     isDefinedBy
-//     prefLabel
-//   }
-//   website
-//   description
-//   image
-//   distributionScheme {
-//     _id
-//     _type
-//     description
-//     isDefinedBy {
-//       _id
-//       _type
-//     }
-//     prefLabel
-//   }
-//   comment
-//   incept
-//   blockTime
-//   maturation
-//   source
-//   protocol {
-//     _id
-//     _type
-//     description
-//     isDefinedBy {
-//       _id
-//       _type
-//     }
-//     prefLabel
-//   }
-//   confirmations
-//   blockReward
-//   dateFounded
-//   cloneOf {
-//     _id
-//     _type
-//   }
-//   rewardModifier
-//   retargetTime
-//   premine
-//   protectionScheme {
-//     _id
-//     _type
-//     description
-//     isDefinedBy {
-//       _id
-//       _type
-//     }
-//     prefLabel
-//   }
-// }
-// }
+  //Local properties
+  lineChartOptions: Partial<ChartOptions> | any;
+  price_usdt: number;
+  price_other: number;
+
+}

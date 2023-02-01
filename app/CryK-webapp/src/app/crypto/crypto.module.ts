@@ -31,6 +31,12 @@ import {MatInputModule} from "@angular/material/input";
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {MatDividerModule} from "@angular/material/divider";
 import {NgApexchartsModule} from "ng-apexcharts";
+import {MatListModule} from "@angular/material/list";
+import {MdbDropdownModule} from "mdb-angular-ui-kit/dropdown";
+import {DropdownModule} from "primeng/dropdown";
+import {MatSelectModule} from "@angular/material/select";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {JsonLdModule} from "ngx-seo";
 
 @NgModule({
   declarations: [
@@ -68,6 +74,12 @@ import {NgApexchartsModule} from "ng-apexcharts";
     FontAwesomeModule,
     MatDividerModule,
     NgApexchartsModule,
+    MatListModule,
+    MdbDropdownModule,
+    DropdownModule,
+    MatSelectModule,
+    MatTooltipModule,
+    JsonLdModule
   ]
 })
 export class CryptoModule {

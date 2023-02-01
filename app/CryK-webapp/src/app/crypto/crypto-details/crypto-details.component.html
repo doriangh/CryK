@@ -6,57 +6,96 @@
         <!-- Coin Icon and Title -->
         <div class="col-lg-2" style="align-items: center; ">
           <div class="text-center">
-            <img class="" style="height: 100px" src="assets/cryptocurrency-icons/{{coinId!.toLowerCase()}}.svg">
+            <img class="" style="height: 100px" src="https://minkiz.co/img/coins/{{cryptocurrency.image[0]}}" (error)="fallbackImage($event)" >
             <h2 class="card-title text-center">{{coinId}}</h2>
+            <h4 class="card-title text-center fw-bold m-0 p-0" style="color: lightgray; font-style: italic">aka</h4>
+            <mat-list
+            class="m-0 p-0">
+              <mat-list-item class="p-0 m-0" style="height: 30px" *ngFor="let alias of cryptocurrency.prefLabel">
+                <span style="color: lightgray">{{alias}}</span>
+              </mat-list-item>
+            </mat-list>
           </div>
         </div>
 
         <div class="p-panel-header col-lg-10 text-center"
-             style="height: 400px; ">
-
+             style="height: 400px; "
+             *ngIf="coinPriceHistory">
           <button
             (click)="updateOptions( '1m' )"
             [class.active]="activeOptionButton=='1m'">
+            1m
+          </button>
+          <button
+            (click)="updateOptions('3m')"
+            [class.active]="activeOptionButton=='3m'">
+            3m
+          </button>
+          <button
+            (click)="updateOptions('5m')"
+            [class.active]="activeOptionButton=='5m'">
+            5m
+          </button>
+          <button
+            (click)="updateOptions('30m')"
+            [class.active]="activeOptionButton=='30m'">
+            30m
+          </button>
+          <button
+            (click)="updateOptions('1h')"
+            [class.active]="activeOptionButton=='1h'">
+            1H
+          </button>
+          <button
+            (click)="updateOptions('6h')"
+            [class.active]="activeOptionButton=='6h'">
+            6H
+          </button>
+          <button
+            (click)="updateOptions('12h')"
+            [class.active]="activeOptionButton=='12h'">
+            12H
+          </button>
+          <button
+            (click)="updateOptions('1d')"
+            [class.active]="activeOptionButton=='1d'">
+            1D
+          </button>
+          <button
+            (click)="updateOptions('1w')"
+            [class.active]="activeOptionButton=='1w'">
+            1W
+          </button>
+          <button
+            (click)="updateOptions('1M')"
+            [class.active]="activeOptionButton=='1M'">
             1M
           </button>
-          <button
-            (click)="updateOptions( '6m' )"
-            [class.active]="activeOptionButton=='6m'">
-            6M
-          </button>
-          <button
-            (click)="updateOptions( '1y' )"
-            [class.active]="activeOptionButton=='1y'">
-            1Y
-          </button>
-          <button
-            (click)="updateOptions( '1yd' )"
-            [class.active]="activeOptionButton=='1yd'">
-            1YD
-          </button>
-          <button
-            (click)="updateOptions( 'all' )"
-            [class.active]="activeOptionButton=='all'">
-            All
-          </button>
           <apx-chart
-            #chart
-            [series]="chartOptions.series"
-            [chart]="chartOptions.chart"
-            [colors]="chartOptions.colors"
-            [yaxis]="chartOptions.yaxis"
-            [dataLabels]="chartOptions.dataLabels"
-            [markers]="chartOptions.markers"
-            [stroke]="chartOptions.stroke"
-            [grid]="chartOptions.grid"
-            [xaxis]="chartOptions.xaxis"
-            [tooltip]="chartOptions.tooltip"
-            [annotations]="chartOptions.annotations"
-          ></apx-chart>
-          <button class="active">
+            #lineChart
+            *ngIf="!isCandlestick"
+            [chart]="lineChartOptions.chart"
+            [series]="lineChartOptions.series"
+            [xaxis]="lineChartOptions.xaxis"
+            [noData]="lineChartOptions.noData"
+            [dataLabels]="lineChartOptions.dataLabels"></apx-chart>
+
+          <apx-chart
+            #candlestickChart
+            *ngIf="isCandlestick"
+            [chart]="candlestickChartOptions.chart"
+            [series]="candlestickChartOptions.series"
+            [xaxis]="candlestickChartOptions.xaxis"
+            [noData]="candlestickChartOptions.noData"
+            [dataLabels]="candlestickChartOptions.dataLabels"></apx-chart>
+          <button class="active"
+                  (click)="updateChartType('line')"
+                  [class.active]="!isCandlestick">
             <span class="material-symbols-outlined">show_chart</span>
           </button>
-          <button >
+          <button
+            (click)="updateChartType('candlestick')"
+            [class.active]="isCandlestick">
             <span class="material-symbols-outlined">candlestick_chart</span>
           </button>
         </div>
@@ -72,28 +111,48 @@
         </div>
       </div>
 
-      <div class="main-content mt-5 mb-5 ">
+      <div class="mt-5 mb-5 ">
         <div class="row">
-          <div class="col-lg-3 col-md-6 col-sm-12">
+          <div class="col-lg-3 col-md-6 col-sm-12"
+            *ngIf="+currentPrice.price > 0">
             <div class="card card-chart">
-              <div class="card-header">
+              <div class="card-header" style="height: 100%">
                 <h5 class="card-category text-center">
-                <span class="fa-stack fa-2x">
-                  <i class="fa-solid fa-circle fa-stack-2x" style="color: limegreen"></i>
-                  <i class="fa-solid fa-dollar-sign fa-stack-1x fa-inverse"></i>
-                </span>
+                  <span class="fa-stack fa-2x">
+                    <i class="fa-solid fa-circle fa-stack-2x" style="color: limegreen"></i>
+                    <i class="fa-solid fa-dollar-sign fa-stack-1x fa-inverse"></i>
+                  </span>
                 </h5>
                 <div>
-                  <h2 class="card-title text-center">125.323,42$ <i class="fa fa-arrow-down" style="color: red"></i>
+                  <h2 class="card-title text-center">{{+currentPrice.price ?? 0}} {{selectedPair}}
+                    <i *ngIf="isPriceUp" class="fa fa-arrow-up" style="color: green"></i>
+                    <i *ngIf="!isPriceUp" class="fa fa-arrow-down" style="color: red"></i>
                   </h2>
                 </div>
+                <div
+                class="text-center w-full">
+                  <mat-form-field>
+                    <mat-label>Choose a currency</mat-label>
+                    <mat-select [(value)]="selectedPair"
+                    (selectionChange)="updateExchangePrice()">
+                      <mat-option
+                        *ngFor="let currency of availablePairs"
+                        [value]="currency" >
+                        {{currency}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <h5 class="text-center">Last updated: {{ dateNow | date: 'h:mm:ss a'}} <p-progressSpinner class="ml-2" [style]="{width: '15px', height: '15px'}" styleClass="custom-spinner"
+                                                                                                          strokeWidth="6" fill="var(--surface-ground)" animationDuration="2s"></p-progressSpinner></h5>
               </div>
             </div>
           </div>
 
-          <div class="col-lg-3 col-md-6 col-sm-12">
-            <div class="card">
-              <div class="card-header">
+          <div class="col-lg-3 col-md-6 col-sm-12"
+          *ngIf="cryptocurrency.dateFounded[0]">
+            <div class="card card-chart">
+              <div class="card-body">
                 <h5 class="text-center">
                 <span class="fa-stack fa-2x">
                   <i class="fa-solid fa-circle fa-stack-2x"></i>
@@ -101,7 +160,43 @@
                 </span>
                 </h5>
                 <div>
-                  <h2 class="card-title text-center">Launched in 2019</h2>
+                  <h2 class="card-title text-center">Launched in {{cryptocurrency.dateFounded[0] | date }}</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 col-sm-12 row"
+               style="height: 150px"
+          *ngIf="+cryptocurrency.totalCoins[0]">
+            <div class="card card-chart">
+              <div class="card-body" >
+                <h5 class="text-center">
+                <span class="fa-stack fa-2x">
+                  <i class="fa-solid fa-circle fa-stack-2x" style="color: dodgerblue"></i>
+                  <i class="fa-solid fa-stack-1x fa-hashtag fa-inverse"></i>
+                </span>
+                </h5>
+                <div>
+                  <h2 class="card-title text-center">Total Coins: {{+cryptocurrency.totalCoins[0]}}</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 col-sm-12 row"
+               style="height: 150px"
+               *ngIf="+cryptocurrency.blockReward[0]">
+            <div class="card card-chart">
+              <div class="card-body" >
+                <h5 class="text-center">
+                <span class="fa-stack fa-2x">
+                  <i class="fa-solid fa-circle fa-stack-2x" style="color: greenyellow"></i>
+                  <i class="fa-solid fa-stack-1x fa-money-bill-wave fa-inverse"></i>
+                </span>
+                </h5>
+                <div>
+                  <h2 class="card-title text-center">Block Reward: {{+cryptocurrency.blockReward[0]}}</h2>
                 </div>
               </div>
             </div>
@@ -119,6 +214,153 @@
         </div>
       </div>
 
+      <div class="row">
+        <div class="col-lg-4 col-md-12 card">
+          <div class="card-header">
+            <h2 class="card-title">Details</h2>
+          </div>
+          <div class="card-body align-content-start">
+            <div
+            *ngIf="cryptocurrency.website.length > 0">
+              <h5 matTooltipPosition="above" matTooltip="The website of the cryptocurrency" class="m-0 p-0 card-title"><i class="fa-solid fa-sitemap"></i> Website</h5>
+              <a href="{{cryptocurrency.website}}" target="_blank">{{cryptocurrency.website[0]}}</a>
+              <br/>
+              <br/>
+            </div>
+            <div
+            *ngIf="cryptocurrency.symbol.length > 0">
+              <h5 matTooltipPosition="above" matTooltip="The abbreviated name of a cryptocurrency's coin or token for trading purposes, which is similar to a stock symbol on the stock market." class="m-0 p-0 card-title"><i class="fa-solid fa-hashtag"></i> Symbol</h5>
+              <h5 class="card-text">{{cryptocurrency.symbol}}</h5>
+              <br/>
+            </div>
+            <div
+            *ngIf="cryptocurrency.dateFounded.length > 0">
+              <h5 matTooltipPosition="above" matTooltip="The date when this coin was founded" class="m-0 p-0 card-title"><i class="fa-solid fa-calendar"></i> Date Founded</h5>
+              <h5 class="card-text">{{cryptocurrency.dateFounded[0] | date}}</h5>
+              <br/>
+            </div>
+            <div
+            *ngIf="cryptocurrency.totalCoins.length > 0">
+              <h5 matTooltipPosition="above" matTooltip="This is the total amount of coins or tokens of a specific cryptocurrency that have been created or mined, that are in circulation, including those that are locked or reserved. Coins that have been burned or destroyed should are subtracted from this amount." class="m-0 p-0 card-title"><i class="fa-solid fa-hashtag"></i> Total Coins</h5>
+              <h5 class="card-text">{{cryptocurrency.totalCoins}}</h5>
+              <br/>
+            </div>
+            <div
+            *ngIf="cryptocurrency.blockReward.length > 0">
+              <h5 matTooltipPosition="above" matTooltip="Block reward refers to the cryptocurrency rewarded to a miner when they successfully validate a new block. The block reward is made of two components: the block subsidy and the transaction fees. The block subsidy consists of newly generated coins and represents the biggest part of a block reward." class="m-0 p-0 card-title"><i class="fa-solid fa-money-bill-wave"></i> Block Reward</h5>
+              <h5 class="card-text">{{cryptocurrency.blockReward[0]}}</h5>
+              <br/>
+            </div>
+            <div
+            *ngIf="cryptocurrency.blockTime.length > 0">
+              <h5 matTooltipPosition="above" matTooltip="Block time is the measure of the time it takes the miners or validators within a network to verify transactions within one block and produce a new block in that blockchain." class="m-0 p-0 card-title"><i class="fa-solid fa-clock"></i> Block Time</h5>
+              <h5 class="card-text">{{+cryptocurrency.blockTime[0]}}</h5>
+              <br/>
+            </div>
+            <div
+            *ngIf="cryptocurrency.protocol.length > 0">
+              <h5 matTooltipPosition="above" matTooltip="Protocols are basic sets of rules that allow data to be shared between computers. For cryptocurrencies, they establish the structure of the blockchain — the distributed database that allows digital money to be securely exchanged on the internet.  " class="m-0 p-0 card-title"><i class="fa-solid fa-invision"></i> Protocol</h5>
+              <ul>
+                <li *ngFor="let protocol of cryptocurrency.protocol">
+                  <h5 class="card-text m-0 p-0">{{protocol.prefLabel}}</h5>
+                  <h5 class="card-text">{{protocol.description}}</h5>
+                </li>
+              </ul>
+              <br/>
+            </div>
+            <div
+            *ngIf="cryptocurrency.pow.length > 0">
+              <h5 matTooltipPosition="above" matTooltip="Proof of work (PoW) is a decentralized consensus mechanism that requires members of a network to expend effort solving an arbitrary mathematical puzzle to prevent anybody from gaming the system. It's used to verify transactions and add them to the blockchain." class="m-0 p-0 card-title"><i class="fa-solid fa-hashtag"></i> Proof of Work</h5>
+              <ul>
+                <li *ngFor="let proofOfWork of cryptocurrency.pow">
+                  <h5 class="card-text m-0 p-0">{{proofOfWork.prefLabel}}</h5>
+                  <h5 class="card-text">{{proofOfWork.description}}</h5>
+                </li>
+              </ul>
+              <br/>
+            </div>
+            <div
+            *ngIf="cryptocurrency.pos.length > 0">
+              <h5 matTooltipPosition="above" matTooltip="Proof-of-stake is a cryptocurrency consensus mechanism for processing transactions and creating new blocks in a blockchain. The key difference from PoW is that it uses staking instead of mining." class="m-0 p-0 card-title"><i class="fa-solid fa-hashtag"></i> Proof of Stake</h5>
+              <ul>
+                <li *ngFor="let proofOfStake of cryptocurrency.pos">
+                  <h5 class="card-text m-0 p-0">{{proofOfStake.prefLabel}}</h5>
+                  <h5 class="card-text">{{proofOfStake.description}}</h5>
+                </li>
+              </ul>
+              <br/>
+            </div>
+            <div
+              *ngIf="cryptocurrency.protectionScheme.length > 0">
+              <h5 matTooltipPosition="above" matTooltip="How the chain is protected" class="m-0 p-0 card-title"><i class="fa-solid fa-shield-alt"></i> Protection Scheme</h5>
+              <ul>
+                <li *ngFor="let protectionScheme of cryptocurrency.protectionScheme">
+                  <h5 class="card-text m-0 p-0">{{protectionScheme.prefLabel}}</h5>
+                  <h5 class="card-text">{{protectionScheme.description}}</h5>
+                </li>
+              </ul>
+              <br/>
+            </div>
+            <div
+              *ngIf="cryptocurrency.maturation.length > 0">
+              <h5 matTooltipPosition="above" matTooltip="The Maturity Model defines an iterative path for cryptocurrency product rollout, enabling financial institutions to evaluate market opportunities while in parallel addressing regulatory and compliance requirements" class="m-0 p-0 card-title"><i class="fa-solid fa-clock"></i> Maturation</h5>
+              <h5 class="card-text">{{cryptocurrency.maturation}}</h5>
+              <br/>
+            </div>
+            <div
+              *ngIf="cryptocurrency.premine.length > 0">
+              <h5 matTooltipPosition="above" matTooltip="Premining is the act of mining or the creation of a quantity of blockchain-based tokens or 'coins' before a cryptocurrency is launched to the public. Premining is associated with initial coin offerings (ICOs) as a way to reward founders, developers, or early investors into the project." class="m-0 p-0 card-title"><i class="fa-solid fa-hashtag"></i> Premine</h5>
+              <h5 class="card-text">{{cryptocurrency.premine}}</h5>
+              <br/>
+            </div>
+            <div
+              *ngIf="cryptocurrency.totalCoins.length > 0">
+              <h5 matTooltipPosition="above" matTooltip="The maximum supply of a cryptocurrency refers to the maximum number of coins or tokens that will be ever created. This means that once the maximum supply is reached, there won’t be any new coins mined, minted or produced in any other way." class="m-0 p-0 card-title"><i class="fa-solid fa-hashtag"></i> Max Supply</h5>
+              <h5 class="card-text">{{cryptocurrency.totalCoins}}</h5>
+              <br/>
+            </div>
+            <div
+              *ngIf="cryptocurrency.rewardModifier.length > 0">
+              <h5 matTooltipPosition="above" matTooltip="The reward halving/modification scheme" class="m-0 p-0 card-title"><i class="fa-solid fa-hashtag"></i> Reward Modifier</h5>
+              <h5 class="card-text">{{cryptocurrency.rewardModifier}}</h5>
+              <br/>
+            </div>
+            <div
+              *ngIf="cryptocurrency.confirmations.length > 0">
+              <h5 matTooltipPosition="above" matTooltip="A cryptocurrency transaction that has been permanently added to the blockchain and cannot be disputed." class="m-0 p-0 card-title"><i class="fa-solid"></i> Confirmations</h5>
+              <h5 class="card-text">{{cryptocurrency.confirmations}}</h5>
+              <br/>
+            </div>
+            <div
+              *ngIf="cryptocurrency.source.length > 0">
+              <h5 matTooltipPosition="above" matTooltip="The location of the source code" class="m-0 p-0 card-title"><i class="fa-solid fa-mug-saucer"></i> Source</h5>
+              <h5 class="card-text">{{cryptocurrency.source}}</h5>
+              <br/>
+            </div>
+            <div
+              *ngIf="cryptocurrency.retargetTime.length > 0">
+              <h5 matTooltipPosition="above" matTooltip="Retargeting is an algorithm also known as a complexity adjustment algorithm. Retargeting is created by dividing the hash target of the first block by the hash target of the current block." class="m-0 p-0 card-title"><i class="fa-solid fa-business-time"></i> Retarget Time</h5>
+              <h5 class="card-text">{{cryptocurrency.retargetTime}}</h5>
+              <br/>
+            </div>
+            <div
+              *ngIf="cryptocurrency.comment.length > 0">
+              <h5 class="m-0 p-0 card-title"><i class="fa-solid fa-pen"></i> Comment</h5>
+              <h5 class="card-text">{{cryptocurrency.comment ?? '-'}}</h5>
+              <br/>
+            </div>
+          </div>
+        </div>
+        <div class="col-1"></div>
+
+        <div class="col-lg-7 col-md-12 card"
+        *ngIf="cryptocurrency.description[0]">
+          <div class="card-body">
+            <h5 class="card-title">Description</h5>
+            <p class="card-text">{{cryptocurrency.description[0]}}</p>
+          </div>
+      </div>
     </div>
   </div>
+</div>
 </div>

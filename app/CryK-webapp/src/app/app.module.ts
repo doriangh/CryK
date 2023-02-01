@@ -29,6 +29,8 @@ import { MdbTooltipModule } from 'mdb-angular-ui-kit/tooltip';
 import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {NgApexchartsModule} from "ng-apexcharts";
+import { GraphQLModule } from './graphql.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -60,7 +62,9 @@ import {NgApexchartsModule} from "ng-apexcharts";
     MdbTooltipModule,
     MdbValidationModule,
     FontAwesomeModule,
-    NgApexchartsModule
+    NgApexchartsModule,
+    GraphQLModule,
+    HttpClientModule
   ],
   providers: [
     MessageService,

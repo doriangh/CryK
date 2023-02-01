@@ -1,8 +1,11 @@
 import {AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {animate, state, style, transition, trigger} from "@angular/animations";
-import {ChartConfiguration, ChartOptions} from "chart.js";
-import {CryptoService} from "../crypto.service";
+import {CryptoService} from "../services/crypto.service";
 import {Cryptocurrency} from "../../models/cryptocurrency";
+import {ExchangeDataResponse} from "../../models/exchange-data-response";
+import {FilterInterval} from "../../models/filter-interval";
+import {GlobalConstants} from "../../shared/global-constants";
+
 
 @Component({
   selector: 'app-crypto-dash',
@@ -39,84 +42,101 @@ import {Cryptocurrency} from "../../models/cryptocurrency";
 export class CryptoDashComponent implements OnInit, AfterViewInit {
   @ViewChild('header', {static: false}) header: ElementRef;
   @ViewChild('content', {static: false}) content: ElementRef;
+  exchangeData: ExchangeDataResponse;
 
   headerIsAboveContent: boolean;
 
-  columns = ["expand", "rank", "name", "symbol", "price_usd", "price_btc"];
-
-  public lineChartData: ChartConfiguration<'line'>['data'] = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-    datasets: [
-      {
-        label: 'Price Variation',
-        data: [65, 59, 80, 81, 56, 55, 40],
-        fill: true,
-        tension: 0.5,
-        backgroundColor: 'rgba(75,192,192,0.4)',
-        borderColor: '#4bc0c0',
-      }
-    ]
+  columns = ["expand", "name", "symbol", "price_usdt", "price_other"];
+  selectedPair = 'BTC';
+  coins: Cryptocurrency[] = [];
+  expandedElement: Cryptocurrency | null;
+  constructor(
+    private dashboardService: CryptoService
+  ) {
   }
 
-  public lineChartOptions: ChartOptions<'line'> = {
-    responsive: true,
-    maintainAspectRatio: false
-  };
-
-  isChartVisible = false;
-  chartState = 'hidden';
-
-  coins: Cryptocurrency[] = [];
-  // @ts-ignore
-  expandedElement: Cryptocurrency | null;
-
-  chartData: any;
-  private selectedCoin: any;
-
-  constructor(
-    private dashboardService: CryptoService,
-    private renderer: Renderer2
-  ) { }
-
   ngOnInit(): void {
-    this.dashboardService.getCoins().subscribe({
+    this.dashboardService.getCoinExchangeData(["BTC", "ETH"], "USDT").subscribe({
+      next: value => {
+        console.log(value);
+      }
+    });
+
+    this.dashboardService.getTopCryptoCoins().subscribe({
       next: value => {
         console.log(value);
         this.coins = value;
 
-        value.forEach(coin => {
-          coin.icon = "./assets/cryptocurrency-icons/" + coin.symbol.toLowerCase() + ".svg";
+        this.coins.forEach(coin => {
+          //get coin exchange data and setup chart
+          this.dashboardService.getCoinPriceHistory(coin.symbol[0],FilterInterval.THIRTY_MINUTES).subscribe({
+            next: value => {
+              coin.lineChartOptions = {
+                series: [
+                  {
+                    name: 'Line Price',
+                    data: value.prices,
+                  }
+                ],
+                chart: {
+                  height: 500,
+                  type: 'area',
+                  width: '100%',
+                  zoom: {
+                    autoScaleYaxis: true
+                  }
+                },
+                stroke: {
+                  curve: 'smooth',
+                  width: 2
+                },
+                xaxis: {
+                  type: 'datetime',
+                  categories: value.dates,
+                  tickAmount: 6
+                },
+                tooltip: {
+                  x: {
+                    format: 'dd MMM yyyy'
+                  }
+                },
+                dataLabels: {
+                  enabled: false
+                }
+              }
+            }
+          });
+        });
+
+        this.coins.forEach(coin => {
+          this.dashboardService.getCoinExchangeData([coin.symbol[0]], "USDT").subscribe({
+            next: value => {
+              console.log(value);
+              coin.price_usdt = Number(value.exchangeData[0].price);
+            }
+          });
+        });
+
+        this.coins.forEach(coin => {
+          this.dashboardService.getCoinExchangeData([coin.symbol[0]], this.selectedPair).subscribe({
+            next: value => {
+              console.log(value);
+              coin.price_other = Number(value.exchangeData[0].price);
+            }
+          });
         });
       }
     });
-
-    this.chartData = {
-      datasets:[
-        {
-          label: 'Price Fluctuation',
-          data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-          fill: false,
-          borderColor: '#4bc0c0',
-          tension: 0.1
-        }
-      ]
-    }
   }
 
   ngAfterViewInit() {
-    window.addEventListener("scroll", () => {
-      this.checkPosition();
+    this.coins.forEach(coin => {
+      this.dashboardService.getCoinExchangeData([coin.symbol[0]], this.selectedPair).subscribe({
+        next: value => {
+          console.log(value);
+          coin.price_usdt = Number(value.exchangeData[0].price);
+        }
+      });
     });
-
-    window.addEventListener("resize", () => {
-      this.checkPosition();
-    });
-  }
-
-  checkPosition() {
-    const headerRect = this.header.nativeElement.getBoundingClientRect();
-    const contentRect = this.content.nativeElement.getBoundingClientRect();
-
-    this.headerIsAboveContent = headerRect.bottom > contentRect.top;
   }
 }

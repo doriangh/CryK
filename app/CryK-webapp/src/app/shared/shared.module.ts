@@ -8,8 +8,6 @@ import { FooterComponent } from './footer/footer.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import {MdbCollapseModule} from "mdb-angular-ui-kit/collapse";
 
-
-
 @NgModule({
   declarations: [
     NavbarComponent,

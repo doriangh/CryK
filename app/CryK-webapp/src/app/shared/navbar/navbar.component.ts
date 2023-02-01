@@ -1,9 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MenuItem} from "primeng/api";
 import {FormControl} from "@angular/forms";
-import {Observable} from "rxjs";
 import {Cryptocurrency} from "../../models/cryptocurrency";
-import {CryptoService} from "../../crypto/crypto.service";
+import {CryptoService} from "../../crypto/services/crypto.service";
 import {Router} from "@angular/router";
 
 @Component({
@@ -15,21 +14,18 @@ export class NavbarComponent implements OnInit {
   @Input() title: string = '';
 
   myControl = new FormControl();
-  timeout: any = null;
-  isLoading: boolean;
-
   items: MenuItem[] = [];
   activeItem: MenuItem;
 
   options: string[];
-  filteredOptions: Observable<string[]>;
+  filteredOptions: string[];
   coins: Cryptocurrency[];
 
   constructor(
     private cryptoService: CryptoService,
     private router: Router
   ) {
-
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
   ngOnInit() {
@@ -43,35 +39,30 @@ export class NavbarComponent implements OnInit {
         this.options = [];
     });
 
+    this.cryptoService.getCryptoCoins().subscribe({
+      next: value => {
+        this.coins = value;
+      }
+    });
+
     this.activeItem = this.items[0];
   }
 
   beginTypeSearch(event: any) {
-    this.isLoading = true;
-    clearTimeout(this.timeout);
-    var $this = this;
-    this.timeout = setTimeout(function () {
-      if (event.keyCode != 13) {
-        $this.typeSearch(event.target.value);
+    let filtered: any[] = [];
+    let query = event.query;
+
+    for (let i = 0; i < this.coins.length; i++) {
+      let coin = this.coins[i];
+      if ((coin.symbol[0]?.toLowerCase().indexOf(query.toLowerCase()) == 0)) {
+        filtered.push(coin.symbol[0]);
       }
-    }, 1000);
+    }
+
+    this.filteredOptions = filtered;
+
   }
-
-  typeSearch(value: string) {
-    console.log(value);
-
-    this.isLoading = false;
-  }
-
-  optionSelected(coin: any) {
-    this.router.navigate(['/details', coin.id])
-      .then(r => {
-        this.myControl.setValue('');
-        this.options = [];
-      });
-  }
-
-  activateMenu($event: MouseEvent) {
-
+  optionSelected(event: any) {
+    this.router.navigate(['/details/', event]);
   }
 }

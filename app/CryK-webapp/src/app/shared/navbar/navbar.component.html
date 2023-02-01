@@ -36,8 +36,10 @@
         <p-autoComplete
           type="text"
           emptyMessage="No results found"
-          (onKeyUp)="beginTypeSearch($event)"
+          (completeMethod)="beginTypeSearch($event)"
           [showEmptyMessage]="true"
+          [suggestions]="filteredOptions"
+          (onSelect)="optionSelected($event)"
           [minLength]="1"
           placeholder="Search..."/>
       </div>

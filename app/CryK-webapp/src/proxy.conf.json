@@ -1,0 +1,7 @@
+{
+  "/exchange": {
+    "target": "http://doriangh.go.ro:8081",
+    "secure": false,
+    "logLevel": "debug"
+  }
+}
